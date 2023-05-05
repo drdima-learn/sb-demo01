@@ -22,30 +22,20 @@ public class UserDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
     private Date birthDay;
 
-
     private String gender;
-
-
-
-
-
-
     private String email;
 
-
     public static List<UserDTO> from(List<User> users) {
-        return users.stream().map(u->from(u)).collect(Collectors.toList());
+        return users.stream().map(u -> from(u)).collect(Collectors.toList());
     }
 
-
-    public static UserDTO from(User user){
+    public static UserDTO from(User user) {
         return UserDTO.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .birthDay(user.getBirthDay())
-                .gender(user.getGender()!=null ? user.getGender().toString().toLowerCase() : "")
+                .gender(user.getGender() != null ? user.getGender().toString().toLowerCase() : "")
                 .email(user.getEmail())
                 .build();
     }
-
 }
