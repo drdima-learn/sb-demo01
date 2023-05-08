@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.config.util.h2;
+package com.rubincomputers.sb_demo01.config.h2;
 
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +15,11 @@ public class H2DataSourceFileCreation {
         try {
             // Create a new file object
             File file = new File(fileName);
+            file.getParentFile().mkdirs();
 
             // Create a new BufferedWriter
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+
 
             String jdbcUrl = getJdbcUrlFromDataSource(dataSource);
             String userName = getUserNameFromDataSource(dataSource);
@@ -40,7 +42,7 @@ public class H2DataSourceFileCreation {
             log.debug("H2 properties {} file created successfully.", fileName);
 
         } catch (IOException e) {
-            log.warn("Error creating file: {}" + e.getMessage());
+            log.warn("Error creating file: {}" , e.getMessage());
         }
     }
 

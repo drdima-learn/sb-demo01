@@ -13,13 +13,30 @@ spring:
       enabled: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:./target/h2db/db/myapp23;DB_CLOSE_DELAY=-1;MODE=LEGACY
+    url: jdbc:h2:file:./target/h2db/db/myapp234;DB_CLOSE_DELAY=-1;MODE=LEGACY
     username: myapp
     password:
     hikari:
       poolName: Hikari
       auto-commit: false
+
+
+  jpa:
+    hibernate:
+      ddl-auto: none                         # will create tables based on models(Entity) and how
+    defer-datasource-initialization: true    # Jpa will create tables based on model and data will come from file data.sql
+  sql:
+    init:
+      mode: always                            # will creates tables on schema.sql or models and will insert data from data.sql
+                                              # https://www.baeldung.com/spring-boot-data-sql-and-schema-sql
+      schema-locations: classpath:/config/dev/db/schema-dev.sql
+      data-locations: classpath:/config/dev/db/data-dev.sql
   h2:
     console:
       # disable spring boot built-in h2-console since we start it manually with correct configuration
       enabled: false
+
+
+
+
+

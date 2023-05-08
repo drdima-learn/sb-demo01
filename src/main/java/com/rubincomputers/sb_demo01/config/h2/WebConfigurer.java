@@ -1,7 +1,6 @@
-package com.rubincomputers.sb_demo01.config;
+package com.rubincomputers.sb_demo01.config.h2;
 
-import com.rubincomputers.sb_demo01.config.util.h2.H2ConfigurationHelper;
-import com.rubincomputers.sb_demo01.config.util.h2.H2DataSourceFileCreation;
+import com.rubincomputers.sb_demo01.config.SpringProfiles;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.WebServerFactory;

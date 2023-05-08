@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.config.util.h2;
+package com.rubincomputers.sb_demo01.config.h2;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;

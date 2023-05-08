@@ -14,25 +14,31 @@ import java.util.Date;
 @Data
 @Builder
 @Entity
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
+@Table(name = "rc_user")
+public class User extends AbstractBaseEntity{
 
+    @Column(name = "first_name", length = 50, nullable = false)
     private String firstName;
+
+    @Column(name = "last_name", length = 50, nullable = false)
     private String lastName;
+
+    @Column(name = "birth_day", nullable = false, columnDefinition = "timestamp")
     private Date birthDay;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", nullable = false)
     private Gender gender;
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
     private Role role;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
