@@ -5,7 +5,7 @@ CREATE SEQUENCE global_seq START WITH 100000;
 
 CREATE TABLE rc_user
 (
-    id               INTEGER DEFAULT NEXTVAL('global_seq') PRIMARY KEY,
+    id               LONG DEFAULT NEXTVAL('global_seq') PRIMARY KEY,
     email            VARCHAR(255) NOT NULL,
     password         VARCHAR(255) NOT NULL,
     role             VARCHAR(255) NOT NULL,
