@@ -12,7 +12,7 @@ import java.util.List;
 import static com.rubincomputers.sb_demo01.model.AbstractBaseEntity.START_SEQ;
 
 public class UserTestData {
-    public static final MatcherFactory.Matcher<UserDTO> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(UserDTO.class, "birthDay");
+    public static final MatcherFactory.Matcher<UserDTO> USER_DTO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(UserDTO.class, "birthDay");
 
     public static final long USER_ID = START_SEQ;
 

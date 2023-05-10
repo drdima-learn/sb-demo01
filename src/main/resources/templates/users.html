@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
 <body>
 <h1>Users</h1>
 <td th:text="${users}"/>
 
 <table border="1">
-    <tr th:each="user : ${users}">
-        <!--/*@thymesVar id="user" type="com.rubincomputers.sb_demo01.dto.UserDTO"*/-->
+    <tr th:each="user : ${users.content}">
+
+        <td th:text="${user.id}"/>
         <td th:text="${user.firstName}"/>
         <td th:text="${user.lastName}"/>
         <td th:text="${#dates.format(user.birthDay, 'dd/MM/yyyy')}"></td>
@@ -15,5 +20,21 @@
         <td th:text="${user.email}"/>
     </tr>
 </table>
+<div>
+    <ul class="pagination">
+        <li th:class="${users.first ? 'disabled' : ''}">
+            <a th:href="@{${#httpServletRequest.requestURI}(page=0,size=${users.size},sort=${users.sort})}">&laquo;</a>
+        </li>
+        <li th:class="${users.first ? 'disabled' : ''}">
+            <a th:href="@{${#httpServletRequest.requestURI}(page=${users.number-1},size=${users.size},sort=${users.sort})}">&lsaquo;</a>
+        </li>
+        <li th:class="${users.last ? 'disabled' : ''}">
+            <a th:href="@{${#httpServletRequest.requestURI}(page=${users.number+1},size=${users.size},sort=${users.sort})}">&rsaquo;</a>
+        </li>
+        <li th:class="${users.last ? 'disabled' : ''}">
+            <a th:href="@{${#httpServletRequest.requestURI}(page=${users.totalPages-1},size=${users.size},sort=${users.sort})}">&raquo;</a>
+        </li>
+    </ul>
+</div>
 </body>
 </html>

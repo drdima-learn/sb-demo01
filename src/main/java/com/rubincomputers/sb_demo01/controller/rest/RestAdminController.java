@@ -4,7 +4,8 @@ import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,9 +33,14 @@ public class RestAdminController {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body all users.
      */
     @GetMapping
-    public List<UserDTO> getUsers(SpringDataWebProperties.Pageable pageable) {
-        log.debug("GET REST request to {}", REST_URL);
-        return userService.getAll();
+    public Page<UserDTO> getUsers(Pageable pageable) {
+        log.debug("GET REST request to {} pageable {}", REST_URL, pageable);
+        return userService.getAll(pageable);
+    }
 
+    @GetMapping("/list")
+    public List<UserDTO> getUsersAsList(Pageable pageable) {
+        log.debug("GET REST request to {} pageable {}", REST_URL, pageable);
+        return userService.getAll(pageable).getContent();
     }
 }

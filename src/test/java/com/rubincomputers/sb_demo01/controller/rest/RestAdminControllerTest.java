@@ -1,7 +1,5 @@
 package com.rubincomputers.sb_demo01.controller.rest;
 
-import com.rubincomputers.sb_demo01.controller.data.MatcherFactory;
-import com.rubincomputers.sb_demo01.dto.UserDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -54,18 +52,25 @@ public class RestAdminControllerTest {
 
     @Test
     void getAllUsers() throws Exception {
-
-
-        ResultMatcher resultMatcher = USER_MATCHER.contentJson(user1);
-
-
         mockMvc.perform(get(REST_URL)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 //.andExpect(jsonPath("$.[*].email").value(hasItem("vasya@gmail.com")));
-                .andExpect(USER_MATCHER.contentJson(allUsers));
+                .andExpect(USER_DTO_MATCHER.contentJson(allUsers));
+
+    }
+
+    @Test
+    void getAllUsersSorted() throws Exception {
+        mockMvc.perform(get(REST_URL + "?page=0&size=3&sort=id,asc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                //.andExpect(jsonPath("$.[*].email").value(hasItem("vasya@gmail.com")));
+                .andExpect(USER_DTO_MATCHER.contentJson(user1, user2, user3));
 
     }
 }
