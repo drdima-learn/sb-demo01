@@ -24,7 +24,8 @@ public class ExceptionInfoHandler {
     @ExceptionHandler(BadSortParameters.class)
     public ErrorInfo handleException(BadSortParameters ex, HttpServletRequest req) {
         String fullUrl = getFullUrl(req);
-        ErrorInfo errorInfo = new ErrorInfo(fullUrl, ex.getClass().getName(), ex.getMessage());
+
+        ErrorInfo errorInfo = new ErrorInfo(HttpStatus.BAD_GATEWAY.toString(), fullUrl, ex.getClass().getName(), ex.getMessage());
         log.error("at request {} : cause: {}", fullUrl, ex.getMessage());
 
         return errorInfo;
