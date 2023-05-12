@@ -50,7 +50,7 @@ public class LoggingAspect {
     @Pointcut(
             "within(com.rubincomputers.sb_demo01.repository..*)" +
                     " || within(com.rubincomputers.sb_demo01.service..*)" +
-                    " || within(com.rubincomputers.sb_demo01.controller..*)"
+                    " || within(com.rubincomputers.sb_demo01.web..*)"
     )
     public void applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.

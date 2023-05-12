@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.controller.web.admin;
+package com.rubincomputers.sb_demo01.web.webpage.admin;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.UserService;

@@ -1,11 +1,11 @@
-package com.rubincomputers.sb_demo01.controller.util.json;
+package com.rubincomputers.sb_demo01.web.util.json;
 
 import com.fasterxml.jackson.databind.ObjectReader;
 
 import java.io.IOException;
 import java.util.List;
 
-import static com.rubincomputers.sb_demo01.controller.util.json.JacksonObjectMapper.getMapper;
+import static com.rubincomputers.sb_demo01.web.util.json.JacksonObjectMapper.getMapper;
 
 public class JsonUtil {
 

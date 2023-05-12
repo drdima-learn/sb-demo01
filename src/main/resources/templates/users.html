@@ -23,16 +23,20 @@
 <div>
     <ul class="pagination">
         <li th:class="${users.first ? 'disabled' : ''}">
-            <a th:href="@{${#httpServletRequest.requestURI}(page=0,size=${users.size},sort=${users.sort})}">&laquo;</a>
+            <a th:if="${!users.first}" th:href="@{${#httpServletRequest.requestURI}(page=0,size=${users.size},sort=${param.sort})}">&laquo;</a>
+            <a th:unless="${!users.first}" href="#">&laquo;</a>
         </li>
         <li th:class="${users.first ? 'disabled' : ''}">
-            <a th:href="@{${#httpServletRequest.requestURI}(page=${users.number-1},size=${users.size},sort=${users.sort})}">&lsaquo;</a>
+            <a th:if="${!users.first}" th:href="@{${#httpServletRequest.requestURI}(page=${users.number-1},size=${users.size},sort=${param.sort})}">&lsaquo;</a>
+            <a th:unless="${!users.first}" href="#">&lsaquo;</a>
         </li>
         <li th:class="${users.last ? 'disabled' : ''}">
-            <a th:href="@{${#httpServletRequest.requestURI}(page=${users.number+1},size=${users.size},sort=${users.sort})}">&rsaquo;</a>
+            <a th:if="${!users.last}" th:href="@{${#httpServletRequest.requestURI}(page=${users.number+1},size=${users.size},sort=${param.sort})}">&rsaquo;</a>
+            <a th:unless="${!users.last}" href="#">&rsaquo;</a>
         </li>
         <li th:class="${users.last ? 'disabled' : ''}">
-            <a th:href="@{${#httpServletRequest.requestURI}(page=${users.totalPages-1},size=${users.size},sort=${users.sort})}">&raquo;</a>
+            <a th:if="${!users.last}" th:href="@{${#httpServletRequest.requestURI}(page=${users.totalPages-1},size=${users.size},sort=${param.sort})}">&raquo;</a>
+            <a th:unless="${!users.last}" href="#">&laquo;</a>
         </li>
     </ul>
 </div>

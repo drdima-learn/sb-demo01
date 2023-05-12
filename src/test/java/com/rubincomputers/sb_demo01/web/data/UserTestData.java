@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.controller.data;
+package com.rubincomputers.sb_demo01.web.data;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.model.Gender;

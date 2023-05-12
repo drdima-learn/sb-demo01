@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.controller.util.json;
+package com.rubincomputers.sb_demo01.web.util.json;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;

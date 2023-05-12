@@ -1,7 +1,7 @@
-package com.rubincomputers.sb_demo01.controller.data;
+package com.rubincomputers.sb_demo01.web.data;
 
 
-import com.rubincomputers.sb_demo01.controller.util.json.JsonUtil;
+import com.rubincomputers.sb_demo01.web.util.json.JsonUtil;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 

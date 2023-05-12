@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.controller.rest;
+package com.rubincomputers.sb_demo01.web.rest;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.UserService;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.rubincomputers.sb_demo01.controller.rest.RestAdminController.REST_URL;
+import static com.rubincomputers.sb_demo01.web.rest.RestAdminController.REST_URL;
 
 @Slf4j
 @RestController
