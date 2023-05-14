@@ -19,7 +19,7 @@ public class UserTestData {
     private static final String MALE = Gender.MALE.name().toLowerCase();
 
 
-    public static final UserDTO user1 = new UserDTO(USER_ID, "vasya@gmail.com", "Vasya", "Pupkin", MALE, date("1982-06-11"));
+    public static final UserDTO user1 = new UserDTO(USER_ID, "vasya@gmail.com", "Вася", "Пупкин", MALE, date("1982-06-11"));
     public static final UserDTO user2 = new UserDTO(USER_ID + 1, "vasya2@gmail.com", "Vasya2", "Pupkin2", MALE, date("1982-06-02"));
     public static final UserDTO user3 = new UserDTO(USER_ID + 2, "vasya3@gmail.com", "Vasya3", "Pupkin3", MALE, date("1982-06-03"));
     public static final UserDTO user4 = new UserDTO(USER_ID + 3, "vasya4@gmail.com", "Vasya4", "Pupkin4", MALE, date("1982-06-04"));

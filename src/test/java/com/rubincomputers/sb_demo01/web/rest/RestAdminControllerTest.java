@@ -1,21 +1,26 @@
 package com.rubincomputers.sb_demo01.web.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rubincomputers.sb_demo01.Main;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.annotation.PostConstruct;
 
+import java.util.List;
+
 import static com.rubincomputers.sb_demo01.web.data.UserTestData.*;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -23,11 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 
-@SpringBootTest
-//@AutoConfigureMockMvc
 
-//@RunWith(SpringRunner.class)
-//@SpringJUnitWebConfig
+
+@SpringBootTest(classes = { Main.class})
+//@AutoConfigureMockMvc
 public class RestAdminControllerTest {
 
     private static final String REST_URL = RestAdminController.REST_URL + '/';
@@ -62,24 +66,28 @@ public class RestAdminControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
-                // .andExpect(USER_DTO_MATCHER.contentJson(allUsers));
-                //.andExpect(jsonPath("$.[*].email").value(hasItem("vasya@gmail.com")));
-                //.andExpect(jsonPath("$.content").value(USER_DTO_MATCHER.contentJson(allUsers)));
-                //.andExpect(jsonPath("$.content", is(notNullValue())))
-                .andExpect(USER_DTO_MATCHER.contentJson(allUsers));
-
-
+                .andExpect(USER_DTO_MATCHER.contentJson("content", allUsers));
     }
 
     @Test
-    void getAllUsersSorted() throws Exception {
-        mockMvc.perform(get(REST_URL + "/list/?page=0&size=3&sort=id,asc")
+    void getAllUsersSortedFirstThree() throws Exception {
+        mockMvc.perform(get(REST_URL + "/?page=0&size=3&sort=id,asc")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
-                //.andExpect(jsonPath("$.[*].email").value(hasItem("vasya@gmail.com")));
-                .andExpect(USER_DTO_MATCHER.contentJson(user1, user2, user3));
+                .andExpect(USER_DTO_MATCHER.contentJson("content", user1, user2, user3));
+                //.andExpect(jsonPath("$.content", equalToObject(List.of(user1, user2, user3))));
+    }
 
+    @Test
+    void getAllUsersBadFieldSorted() throws Exception {
+        mockMvc.perform(get(REST_URL + "/?page=0&size=3&sort=id2,asc")
+                        .contentType(MediaType.APPLICATION_JSON))
+
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(jsonPath("$.exception", containsString("BadSortParameter")));
     }
 }

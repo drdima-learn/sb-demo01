@@ -2,14 +2,19 @@ package com.rubincomputers.sb_demo01.web.data;
 
 
 import com.rubincomputers.sb_demo01.web.util.json.JsonUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.data.domain.Page;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.function.BiConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 /**
  * Factory for creating test matchers.
@@ -45,22 +50,44 @@ public class MatcherFactory {
             this.iterableAssertion = iterableAssertion;
         }
 
+
         @SafeVarargs
         public final ResultMatcher contentJson(T... expected) {
-            return contentJson(List.of(expected));
+            return contentJson(null, List.of(expected));
+        }
+
+        @SafeVarargs
+        public final ResultMatcher contentJson(String resultFromField, T... expected) {
+            return contentJson(resultFromField, List.of(expected));
         }
 
         public ResultMatcher contentJson(Iterable<T> expected) {
-            return result -> assertMatch(JsonUtil.readValues(getContent(result), clazz), expected);
+            return contentJson(null, expected);
+        }
+        public ResultMatcher contentJson(String resultFromField, Iterable<T> expected) {
+            return result -> assertMatch(JsonUtil.readValues(getContent(result, resultFromField), clazz), expected);
+            //return result -> assertMatch(JsonUtil.readValues(getContentForPage(result), clazz), expected);
         }
 
         public void assertMatch(Iterable<T> actual, Iterable<T> expected) {
             iterableAssertion.accept(actual, expected);
         }
 
-        private static String getContent(MvcResult result) throws UnsupportedEncodingException {
-            return result.getResponse().getContentAsString();
+        private static String getContent(MvcResult result, String resultFromField) throws UnsupportedEncodingException, JSONException {
+            String contentAsString = result.getResponse().getContentAsString();
+            JSONObject data = new JSONObject(contentAsString);
+            if (!StringUtils.hasText(resultFromField)){
+                return contentAsString;
+            }
+            return data.getString(resultFromField);
         }
+
+//        private static String getContentForPage(MvcResult result) throws UnsupportedEncodingException, JSONException {
+//            String contentPageAsString = result.getResponse().getContentAsString();
+//            JSONObject data = new JSONObject(contentPageAsString);
+//            String content = data.getString("content");
+//            return content;
+//        }
 
 
 

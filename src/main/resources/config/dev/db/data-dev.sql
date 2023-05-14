@@ -3,7 +3,7 @@ DELETE FROM rc_user;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO rc_user (email, password, role, first_name, last_name, gender, birth_day)
-VALUES ('vasya@gmail.com', '{noop}password', 'USER', 'Vasya', 'Pupkin', 'MALE', '1982-06-11'),
+VALUES ('vasya@gmail.com', '{noop}password', 'USER', 'Вася', 'Пупкин', 'MALE', '1982-06-11'),
        ('vasya2@gmail.com', '{noop}password', 'USER', 'Vasya2', 'Pupkin2', 'MALE', '1982-06-02'),
        ('vasya3@gmail.com', '{noop}password', 'USER', 'Vasya3', 'Pupkin3', 'MALE', '1982-06-03'),
        ('vasya4@gmail.com', '{noop}password', 'USER', 'Vasya4', 'Pupkin4', 'MALE', '1984-06-04'),

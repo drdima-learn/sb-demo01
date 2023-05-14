@@ -20,7 +20,7 @@ import static com.rubincomputers.sb_demo01.web.util.Util.getFullUrl;
 public class ExceptionInfoHandler {
 
 
-    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadSortParameters.class)
     public ErrorInfo handleException(BadSortParameters ex, HttpServletRequest req) {
         String fullUrl = getFullUrl(req);
