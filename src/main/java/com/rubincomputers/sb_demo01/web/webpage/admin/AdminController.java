@@ -8,14 +8,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 
 @Controller
-public class UserController {
+@RequestMapping(value = AdminController.WEBPAGE_URL)
+public class AdminController {
 
+    static final String WEBPAGE_URL = "/admin/users";
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/admin/users")
+    @GetMapping(value = {"", "/"})
     public String getUsers(Model model, Pageable pageable) {
         Page<UserDTO> userDTOPage = userService.getAll(pageable);
         model.addAttribute("users", userDTOPage);

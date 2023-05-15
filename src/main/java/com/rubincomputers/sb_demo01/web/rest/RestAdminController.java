@@ -32,7 +32,7 @@ public class RestAdminController {
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body all users.
      */
-    @GetMapping
+    @GetMapping(value = {"", "/"})
     public Page<UserDTO> getUsers(Pageable pageable) {
         log.debug("GET REST request to {} pageable {}", REST_URL, pageable);
         return userService.getAll(pageable);

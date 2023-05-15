@@ -1,63 +1,19 @@
 package com.rubincomputers.sb_demo01.web.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rubincomputers.sb_demo01.Main;
+import com.rubincomputers.sb_demo01.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.StringUtils;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
-
-import javax.annotation.PostConstruct;
-
-import java.util.List;
 
 import static com.rubincomputers.sb_demo01.web.data.UserTestData.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-
-
-
-@SpringBootTest(classes = { Main.class})
-//@AutoConfigureMockMvc
-public class RestAdminControllerTest {
+public class RestAdminControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = RestAdminController.REST_URL + '/';
-
-    //@Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
-
-    static {
-        CHARACTER_ENCODING_FILTER.setEncoding("UTF-8");
-        CHARACTER_ENCODING_FILTER.setForceEncoding(true);
-    }
-
-
-    @PostConstruct
-    private void postConstruct() {
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(webApplicationContext)
-                .addFilter(CHARACTER_ENCODING_FILTER)
-                .build();
-    }
-
 
     @Test
     void getAllUsers() throws Exception {
@@ -77,7 +33,7 @@ public class RestAdminControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(USER_DTO_MATCHER.contentJson("content", user1, user2, user3));
-                //.andExpect(jsonPath("$.content", equalToObject(List.of(user1, user2, user3))));
+        //.andExpect(jsonPath("$.content", equalToObject(List.of(user1, user2, user3))));
     }
 
     @Test
