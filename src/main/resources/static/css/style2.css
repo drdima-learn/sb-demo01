@@ -1,0 +1,39 @@
+/*.myButton-yellow,*/
+/*.myButton-red,*/
+/*.myButton-blue{*/
+/*    border-radius: 10px;*/
+/*    border-color: red;*/
+/*    color: green;*/
+/*}*/
+
+
+.myButton {
+    border-radius: 10px;
+    border-color: red;
+    color: black;
+
+}
+
+.myButton-purple {
+    color: purple;
+}
+
+
+
+.myButton-yellow {
+    color: yellow;
+}
+
+
+.myButton-red {
+    color: red;
+}
+
+.myButton-blue {
+    color: blue;
+}
+
+
+
+
+

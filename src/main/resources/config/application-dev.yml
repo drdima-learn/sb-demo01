@@ -1,3 +1,15 @@
+
+
+#logging:
+#  level:
+#    org.hibernate.orm.jdbc.bind: trace       #For Hibernate 6
+#    org.hibernate.type.descriptor.sql:  trace #For Hibernate 5
+#    org.hibernate.SQL:                  DEBUG
+#    org.springframework.data.jpa:       DEBUG
+
+
+
+
 sb_demo01:
   prop1: app-dev.yml
 
@@ -25,6 +37,12 @@ spring:
     hibernate:
       ddl-auto: none                         # will create tables based on models(Entity) and how
     defer-datasource-initialization: true    # Jpa will create tables based on model and data will come from file data.sql
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+#        use_sql_comments: true
+
   sql:
     init:
       mode: always                            # will creates tables on schema.sql or models and will insert data from data.sql
