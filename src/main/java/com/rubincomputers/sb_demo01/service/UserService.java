@@ -1,11 +1,11 @@
 package com.rubincomputers.sb_demo01.service;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
-import com.rubincomputers.sb_demo01.web.exception2.BadSortParameters;
-import com.rubincomputers.sb_demo01.web.exception2.NotFoundException;
 import com.rubincomputers.sb_demo01.repository.UserRepository;
+import com.rubincomputers.sb_demo01.web.exception2.BadSortParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -20,6 +20,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public Page<UserDTO> getAll() {
+        return getAll(PageRequest.of(0, Integer.MAX_VALUE));
+    }
+
     public Page<UserDTO> getAll(Pageable pageable) {
         if (!onlyContainsAllowedProperties(pageable)) {
             //TODO realize normal thrown
@@ -30,7 +34,6 @@ public class UserService {
     }
 
     private boolean onlyContainsAllowedProperties(Pageable pageable) {
-
         final List<String> ALLOWED_ORDERED_PROPERTIES = Collections.unmodifiableList(
                 Arrays.asList(
                         "id",
