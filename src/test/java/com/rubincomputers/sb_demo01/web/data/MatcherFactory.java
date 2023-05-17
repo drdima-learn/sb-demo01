@@ -80,10 +80,10 @@ public class MatcherFactory {
 
         private static String getContent(MvcResult result, String resultFromField) throws UnsupportedEncodingException, JSONException {
             String contentAsString = result.getResponse().getContentAsString();
-            JSONObject data = new JSONObject(contentAsString);
             if (!StringUtils.hasText(resultFromField)){
                 return contentAsString;
             }
+            JSONObject data = new JSONObject(contentAsString);
             return data.getString(resultFromField);
         }
 

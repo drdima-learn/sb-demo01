@@ -33,7 +33,16 @@ public class RestAdminControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(USER_DTO_MATCHER.contentJson("content", user1, user2, user3));
-        //.andExpect(jsonPath("$.content", equalToObject(List.of(user1, user2, user3))));
+    }
+
+    @Test
+    void getAllUsersAsListSortedFirstThree() throws Exception {
+        mockMvc.perform(get(REST_URL + "/list/?page=0&size=3&sort=id,asc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(USER_DTO_MATCHER.contentJson(user1, user2, user3));
     }
 
     @Test
