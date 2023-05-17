@@ -25,8 +25,14 @@ class AdminControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(WEBPAGE_URL))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("users"))
-        //.andExpect(forwardedUrl("/template/users.html"))
-        ;
+                .andExpect(view().name("users"));
+    }
+
+    @Test
+    void getUsersBadSortParameter() throws Exception {
+        mockMvc.perform(get(WEBPAGE_URL + "/?sort=id2,asc"))
+                .andDo(print())
+                .andExpect(status().isInternalServerError());
+
     }
 }
