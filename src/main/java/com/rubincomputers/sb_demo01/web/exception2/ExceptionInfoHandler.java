@@ -23,11 +23,27 @@ public class ExceptionInfoHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadSortParameters.class)
     public ErrorInfo handleException(BadSortParameters ex, HttpServletRequest req) {
+        return handleException(ex, req, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ErrorInfo handleExceptionNotFound(NotFoundException ex, HttpServletRequest req) {
+        return handleException(ex, req, HttpStatus.NOT_FOUND);
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(Exception.class)
+    public ErrorInfo handleExceptionGlobal(Exception ex, HttpServletRequest req) {
+        return handleException(ex, req, HttpStatus.BAD_REQUEST);
+    }
+
+    private ErrorInfo handleException(Exception ex, HttpServletRequest req, HttpStatus httpStatus){
         String fullUrl = getFullUrl(req);
-
-        ErrorInfo errorInfo = new ErrorInfo(HttpStatus.BAD_GATEWAY.toString(), fullUrl, ex.getClass().getName(), ex.getMessage());
+        ErrorInfo errorInfo = new ErrorInfo(httpStatus.toString(), fullUrl, ex.getClass().getName(), ex.getMessage());
         log.error("at request {} : cause: {}", fullUrl, ex.getMessage());
-
         return errorInfo;
     }
 
