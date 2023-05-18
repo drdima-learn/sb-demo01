@@ -21,8 +21,8 @@ public class ExceptionInfoHandler {
 
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(BadSortParameters.class)
-    public ErrorInfo handleException(BadSortParameters ex, HttpServletRequest req) {
+    @ExceptionHandler(BadSortParameter.class)
+    public ErrorInfo handleException(BadSortParameter ex, HttpServletRequest req) {
         return handleException(ex, req, HttpStatus.BAD_REQUEST);
     }
 
@@ -40,7 +40,7 @@ public class ExceptionInfoHandler {
         return handleException(ex, req, HttpStatus.BAD_REQUEST);
     }
 
-    private ErrorInfo handleException(Exception ex, HttpServletRequest req, HttpStatus httpStatus){
+    private static ErrorInfo handleException(Exception ex, HttpServletRequest req, HttpStatus httpStatus){
         String fullUrl = getFullUrl(req);
         ErrorInfo errorInfo = new ErrorInfo(httpStatus.toString(), fullUrl, ex.getClass().getName(), ex.getMessage());
         log.error("at request {} : cause: {}", fullUrl, ex.getMessage());

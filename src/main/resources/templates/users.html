@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+
+>
 
 <head>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <h1>Users</h1>
+
+<!--/*@thymesVar id="users" type="org.springframework.data.domain.Page"*/-->
 <td th:text="${users}"/>
 
 <table border="1">
+    <!--/*@thymesVar id="user" type="com.rubincomputers.sb_demo01.dto.UserDTO"*/-->
     <tr th:each="user : ${users.content}">
+
 
         <td th:text="${user.id}"/>
         <td th:text="${user.firstName}"/>
@@ -20,22 +26,27 @@
         <td th:text="${user.email}"/>
     </tr>
 </table>
+
+<!--/*@thymesVar id="requestURI" type="java.lang.String"*/-->
+<th:block th:with="requestURI=${#httpServletRequest.requestURI}"/>
+
+
 <div>
     <ul class="pagination">
         <li th:class="${users.first ? 'disabled' : ''}">
-            <a th:if="${!users.first}" th:href="@{${#httpServletRequest.requestURI}(page=0,size=${users.size},sort=${param.sort})}">&laquo;</a>
+            <a th:if="${!users.first}" th:href="@{${requestURI}(page=0,size=${users.size},sort=${param.sort})}">&laquo;</a>
             <a th:unless="${!users.first}" href="#">&laquo;</a>
         </li>
         <li th:class="${users.first ? 'disabled' : ''}">
-            <a th:if="${!users.first}" th:href="@{${#httpServletRequest.requestURI}(page=${users.number-1},size=${users.size},sort=${param.sort})}">&lsaquo;</a>
+            <a th:if="${!users.first}" th:href="@{${requestURI}(page=${users.number - 1},size=${users.size},sort=${param.sort})}">&lsaquo;</a>
             <a th:unless="${!users.first}" href="#">&lsaquo;</a>
         </li>
         <li th:class="${users.last ? 'disabled' : ''}">
-            <a th:if="${!users.last}" th:href="@{${#httpServletRequest.requestURI}(page=${users.number+1},size=${users.size},sort=${param.sort})}">&rsaquo;</a>
+            <a th:if="${!users.last}" th:href="@{${requestURI}(page=${users.number + 1},size=${users.size},sort=${param.sort})}">&rsaquo;</a>
             <a th:unless="${!users.last}" href="#">&rsaquo;</a>
         </li>
         <li th:class="${users.last ? 'disabled' : ''}">
-            <a th:if="${!users.last}" th:href="@{${#httpServletRequest.requestURI}(page=${users.totalPages-1},size=${users.size},sort=${param.sort})}">&raquo;</a>
+            <a th:if="${!users.last}" th:href="@{${requestURI}(page=${users.totalPages - 1},size=${users.size},sort=${param.sort})}">&raquo;</a>
             <a th:unless="${!users.last}" href="#">&laquo;</a>
         </li>
     </ul>

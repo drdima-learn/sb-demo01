@@ -87,15 +87,8 @@ public class MatcherFactory {
             return data.getString(resultFromField);
         }
 
-//        private static String getContentForPage(MvcResult result) throws UnsupportedEncodingException, JSONException {
-//            String contentPageAsString = result.getResponse().getContentAsString();
-//            JSONObject data = new JSONObject(contentPageAsString);
-//            String content = data.getString("content");
-//            return content;
-//        }
-
-
-
-
+        public void assertMatch(T actual, T expected) {
+            assertion.accept(actual, expected);
+        }
     }
 }

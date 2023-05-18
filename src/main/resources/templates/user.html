@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>User</h1>
+<!--/*@thymesVar id="user" type="com.rubincomputers.sb_demo01.dto.UserDTO"*/-->
+<span th:text="${user}"/>
+
+<table border="1">
+    <tr>
+
+        <td th:text="${user.id}"/>
+        <td th:text="${user.firstName}"/>
+        <td th:text="${user.lastName}"/>
+        <td th:text="${#dates.format(user.birthDay, 'dd/MM/yyyy')}"></td>
+        <td th:text="${user.gender}"/>
+        <td th:text="${user.email}"/>
+    </tr>
+</table>
+
+</body>
+</html>

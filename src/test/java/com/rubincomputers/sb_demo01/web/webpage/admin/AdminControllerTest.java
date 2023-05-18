@@ -1,20 +1,13 @@
 package com.rubincomputers.sb_demo01.web.webpage.admin;
 
 import com.rubincomputers.sb_demo01.web.AbstractControllerTest;
+import com.rubincomputers.sb_demo01.web.data.UserTestData;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
 
-import javax.annotation.PostConstruct;
-
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 
 class AdminControllerTest extends AbstractControllerTest {
 
@@ -29,10 +22,30 @@ class AdminControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getUsersBadSortParameter() throws Exception {
+    void getUsersWithBadSortParameter() throws Exception {
         mockMvc.perform(get(WEBPAGE_URL + "/?sort=id2,asc"))
                 .andDo(print())
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isInternalServerError())
+                .andExpect(view().name("exception"))
+                .andExpect(content().string(containsString("BadSortParameter")));
 
+    }
+
+    @Test
+    void getUserById() throws Exception {
+        mockMvc.perform(get(WEBPAGE_URL + "/" + UserTestData.USER_ID))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("user"))
+                .andExpect(content().string(containsString("vasya@gmail.com")));
+    }
+
+    @Test
+    void getUserByIdNotFound() throws Exception {
+        mockMvc.perform(get(WEBPAGE_URL + "/" + UserTestData.USER_ID_NOT_FOUND))
+                .andDo(print())
+                .andExpect(status().isInternalServerError())
+                .andExpect(view().name("exception"))
+                .andExpect(content().string(containsString("NotFound")));
     }
 }

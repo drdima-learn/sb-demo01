@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -24,5 +25,12 @@ public class AdminController {
         Page<UserDTO> userDTOPage = userService.getAll(pageable);
         model.addAttribute("users", userDTOPage);
         return "users";
+    }
+
+    @GetMapping(value = { "/{id}"})
+    public String getUserById(Model model, @PathVariable Long id) {
+        UserDTO userDTO = userService.get(id);
+        model.addAttribute("user", userDTO);
+        return "user";
     }
 }
