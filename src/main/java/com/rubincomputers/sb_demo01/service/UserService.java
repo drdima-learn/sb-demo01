@@ -2,7 +2,8 @@ package com.rubincomputers.sb_demo01.service;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.repository.UserRepository;
-import com.rubincomputers.sb_demo01.web.exception2.BadSortParameters;
+import com.rubincomputers.sb_demo01.web.exception2.BadSortParameter;
+import com.rubincomputers.sb_demo01.web.exception2.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,11 +27,17 @@ public class UserService {
 
     public Page<UserDTO> getAll(Pageable pageable) {
         if (!onlyContainsAllowedProperties(pageable)) {
-            //TODO realize normal thrown
-            throw new BadSortParameters("Bad Parameter: " + pageable.getSort().toString());
+            throw new BadSortParameter("Bad Parameter: " + pageable.getSort().toString());
         }
-
         return userRepository.findAll(pageable).map(UserDTO::from);
+    }
+
+    public UserDTO get(Long id) {
+        return userRepository.findById(id).map(UserDTO::from).orElseThrow(()-> new NotFoundException("user id=" + id));
+    }
+
+    public UserDTO getByEmail(String email) {
+        return userRepository.findByEmail(email).map(UserDTO::from).orElseThrow(()-> new NotFoundException("user email=" + email));
     }
 
     private boolean onlyContainsAllowedProperties(Pageable pageable) {
@@ -46,7 +53,9 @@ public class UserService {
 
 
         Sort sort = pageable.getSort();
-
         return pageable.getSort().stream().map(Sort.Order::getProperty).allMatch(ALLOWED_ORDERED_PROPERTIES::contains);
     }
+
+
+
 }

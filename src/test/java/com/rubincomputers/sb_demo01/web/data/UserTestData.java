@@ -15,6 +15,7 @@ public class UserTestData {
     public static final MatcherFactory.Matcher<UserDTO> USER_DTO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(UserDTO.class, "birthDay");
 
     public static final long USER_ID = START_SEQ;
+    public static final long USER_ID_NOT_FOUND = 123;
 
     private static final String MALE = Gender.MALE.name().toLowerCase();
 
