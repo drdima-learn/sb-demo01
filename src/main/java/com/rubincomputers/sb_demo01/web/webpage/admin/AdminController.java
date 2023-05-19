@@ -33,4 +33,12 @@ public class AdminController {
         model.addAttribute("user", userDTO);
         return "user";
     }
+
+    @GetMapping(value = { "/by-email?email={email}"})
+    //TODO check here @RequestParam
+    public String getUserByEmail(Model model, @PathVariable String email) {
+        UserDTO userDTO = userService.getByEmail(email);
+        model.addAttribute("user", userDTO);
+        return "user";
+    }
 }

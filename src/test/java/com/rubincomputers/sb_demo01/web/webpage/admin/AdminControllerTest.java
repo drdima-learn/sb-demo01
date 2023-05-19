@@ -48,4 +48,35 @@ class AdminControllerTest extends AbstractControllerTest {
                 .andExpect(view().name("exception"))
                 .andExpect(content().string(containsString("NotFound")));
     }
+
+    @Test
+    void getUserByEmail() throws Exception {
+        //TODO
+        mockMvc.perform(get(WEBPAGE_URL + "/" + UserTestData.USER_ID))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("user"))
+                .andExpect(content().string(containsString("vasya@gmail.com")));
+    }
+
+    @Test
+    void getUserByEmailNotFound() throws Exception {
+        //TODO
+        mockMvc.perform(get(WEBPAGE_URL + "/" + UserTestData.USER_ID))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("user"))
+                .andExpect(content().string(containsString("vasya@gmail.com")));
+    }
+
+    void getUserByEmailBadEmail() throws Exception {
+        //TODO
+        mockMvc.perform(get(WEBPAGE_URL + "/" + UserTestData.USER_ID))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("user"))
+                .andExpect(content().string(containsString("vasya@gmail.com")));
+    }
+
+
 }

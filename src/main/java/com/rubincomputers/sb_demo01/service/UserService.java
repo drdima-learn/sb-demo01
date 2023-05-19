@@ -36,6 +36,10 @@ public class UserService {
         return userRepository.findById(id).map(UserDTO::from).orElseThrow(()-> new NotFoundException("user id=" + id));
     }
 
+    public UserDTO getByEmail(String email) {
+        return userRepository.findByEmail(email).map(UserDTO::from).orElseThrow(()-> new NotFoundException("user email=" + email));
+    }
+
     private boolean onlyContainsAllowedProperties(Pageable pageable) {
         final List<String> ALLOWED_ORDERED_PROPERTIES = Collections.unmodifiableList(
                 Arrays.asList(
@@ -51,6 +55,7 @@ public class UserService {
         Sort sort = pageable.getSort();
         return pageable.getSort().stream().map(Sort.Order::getProperty).allMatch(ALLOWED_ORDERED_PROPERTIES::contains);
     }
+
 
 
 }

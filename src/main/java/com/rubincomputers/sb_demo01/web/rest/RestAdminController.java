@@ -12,8 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 import static com.rubincomputers.sb_demo01.web.rest.RestAdminController.REST_URL;
@@ -55,8 +53,8 @@ public class RestAdminController {
     }
 
     @GetMapping("/by-email")
-    public String  getUserByEmail(@RequestParam @Email String email) {
+    public UserDTO getUserByEmail(@RequestParam @Email String email) {
         log.debug("getUserByEmail {}", email);
-        return "Valid email: " + email;
+        return userService.getByEmail(email);
     }
 }
