@@ -7,13 +7,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.constraints.Email;
 
 
 @Controller
 @RequestMapping(value = AdminController.WEBPAGE_URL)
+@Validated //for checking email and other constrains
 public class AdminController {
 
     static final String WEBPAGE_URL = "/admin/users";
@@ -34,9 +39,8 @@ public class AdminController {
         return "user";
     }
 
-    @GetMapping(value = { "/by-email?email={email}"})
-    //TODO check here @RequestParam
-    public String getUserByEmail(Model model, @PathVariable String email) {
+    @GetMapping(value = { "/by-email"})
+    public String getUserByEmail(Model model, @RequestParam @Email String email) {
         UserDTO userDTO = userService.getByEmail(email);
         model.addAttribute("user", userDTO);
         return "user";

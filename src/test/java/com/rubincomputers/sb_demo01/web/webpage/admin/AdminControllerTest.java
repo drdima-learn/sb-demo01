@@ -51,8 +51,7 @@ class AdminControllerTest extends AbstractControllerTest {
 
     @Test
     void getUserByEmail() throws Exception {
-        //TODO
-        mockMvc.perform(get(WEBPAGE_URL + "/" + UserTestData.USER_ID))
+        mockMvc.perform(get(WEBPAGE_URL + "/by-email?email=" + UserTestData.user1.getEmail()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("user"))
@@ -61,21 +60,21 @@ class AdminControllerTest extends AbstractControllerTest {
 
     @Test
     void getUserByEmailNotFound() throws Exception {
-        //TODO
-        mockMvc.perform(get(WEBPAGE_URL + "/" + UserTestData.USER_ID))
+        mockMvc.perform(get(WEBPAGE_URL + "/by-email?email=" + "notfound@gmail.com"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(view().name("user"))
-                .andExpect(content().string(containsString("vasya@gmail.com")));
+                .andExpect(status().isInternalServerError())
+                .andExpect(view().name("exception"))
+                .andExpect(content().string(containsString("NotFoundException")));
     }
 
+    @Test
     void getUserByEmailBadEmail() throws Exception {
-        //TODO
-        mockMvc.perform(get(WEBPAGE_URL + "/" + UserTestData.USER_ID))
+        mockMvc.perform(get(WEBPAGE_URL + "/by-email?email=" + "bademailgmail.com"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(view().name("user"))
-                .andExpect(content().string(containsString("vasya@gmail.com")));
+                .andExpect(status().isInternalServerError())
+                .andExpect(view().name("exception"))
+                .andExpect(content().string(containsString("ConstraintViolationException")));
+
     }
 
 
