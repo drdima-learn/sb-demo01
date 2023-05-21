@@ -1,12 +1,13 @@
 <html>
 <body>
-<h2>Rest</h2>
+<h1><u>Rest</u></h1>
 <br>
 <h3>getUsers</h3>
 <a target="_blank" href="http://localhost:8080/rest/admin/users">http://localhost:8080/rest/admin/users</a><br>
 <a target="_blank" href="http://localhost:8080/rest/admin/users?page=0&size=3&sort=id,asc">http://localhost:8080/rest/admin/users?page=0&size=3&sort=id,asc</a><br>
 <a target="_blank"
    href="http://localhost:8080/rest/admin/users/list">http://localhost:8080/rest/admin/users/list</a><br>
+
 
 <br>
 <h3>getUser</h3>
@@ -19,8 +20,32 @@ FOUND)<br>
 
 <br>
 <br>
+<h3>createUser POST</h3>
+curl -s -i -X POST -d '{"firstName":"New User", "lastName":"new last name", "birthDay":"2020-05-19", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
 <br>
-<h2>Web</h2>
+<br>
+WRONG email<br>
+curl -s -i -X POST -d '{"firstName":"New User", "lastName":"new last name", "birthDay":"2020-05-19", "gender":"female" ,"role":"USER", "email":"testmail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+<br>
+Blank firstName<br>
+curl -s -i -X POST -d '{"firstName":"", "lastName":"new last name", "birthDay":"2020-05-19", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+<br>
+Blank lastName<br>
+curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"  ", "birthDay":"2020-05-19", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+<br>
+blank birthDay<br>
+curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"new lastName", "birthDay":"", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+
+<br>
+<br>
+
+
+
+
+<br>
+<br>
+<br>
+<h1><u>Web</u></h1>
 <h3>getUsers</h3>
 <a target="_blank" href="http://localhost:8080/admin/users">http://localhost:8080/admin/users</a><br>
 <a target="_blank" href="http://localhost:8080/admin/users?page=0&size=3&sort=id,asc">http://localhost:8080/admin/users?page=0&size=3&sort=id,asc</a><br>
@@ -33,6 +58,9 @@ FOUND)<br>
 <a target="_blank" href="http://localhost:8080/admin/users/by-email?email=vasya@gmail.com">http://localhost:8080/admin/users/by-email?email=vasya@gmail.com</a><br>
 <a target="_blank" href="http://localhost:8080/admin/users/by-email?email=notfound@gmail.com">http://localhost:8080/admin/users/by-email?email=notfound@gmail.com</a>(NOT FOUND)<br>
 <a target="_blank" href="http://localhost:8080/admin/users/by-email?email=bademailgmail.com">http://localhost:8080/admin/users/by-email?email=bademailgmail.com</a>(BAD EMAIL)<br>
+
+<h3>Register</h3>
+<a target="_blank" href="http://localhost:8080/admin/users/register">http://localhost:8080/admin/users/register</a><br>
 
 </body>
 </html>

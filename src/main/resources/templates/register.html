@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>Register form</h1>
+<!--/*@thymesVar id="user" type="com.rubincomputers.sb_demo01.dto.UserDTO"*/-->
+<span th:text="${user}"/>
+
+<form action="/admin/users/register" method="post">
+    firstName <input type="text" name="firstName"><br>
+    lastName<input type="text" name="lastName"><br>
+    birthDay<input type="text" name="birthDay"><br>
+    gender<input type="text" name="gender"><br>
+    email<input type="text" name="email"><br>
+    password<input type="text" name="password"><br>
+    role<input type="text" name="role"><br>
+    <input type="submit">
+
+</form>
+
+</body>
+</html>

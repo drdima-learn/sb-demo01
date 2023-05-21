@@ -1,6 +1,7 @@
 package com.rubincomputers.sb_demo01.web.rest;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
+import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.util.List;
 
@@ -56,5 +58,11 @@ public class RestAdminController {
     public UserDTO getUserByEmail(@RequestParam @Email String email) {
         log.debug("getUserByEmail {}", email);
         return userService.getByEmail(email);
+    }
+
+    @PostMapping(value = {"","/"}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
+        log.debug("REST request to save User : {}", user);
+        return null;
     }
 }

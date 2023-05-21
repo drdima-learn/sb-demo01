@@ -1,5 +1,6 @@
 package com.rubincomputers.sb_demo01.web.util;
 
+import com.rubincomputers.sb_demo01.util.WebUtil;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -7,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class UtilTest {
+class WebUtilTest {
 
     @Test
     void getFullUrlWithoutQueryString() {
@@ -19,7 +20,7 @@ class UtilTest {
         // Set the desired URL using a stubbed method invocation
         Mockito.when(request.getRequestURL()).thenReturn(new StringBuffer(originalUrl));
 
-        String fullUrl = Util.getFullUrl(request);
+        String fullUrl = WebUtil.getFullUrl(request);
         assertEquals(originalUrl, fullUrl);
     }
 
@@ -33,7 +34,7 @@ class UtilTest {
         // Set the desired URL using a stubbed method invocation
         Mockito.when(request.getRequestURL()).thenReturn(new StringBuffer(originalUrl));
 
-        String fullUrl = Util.getFullUrl(request);
+        String fullUrl = WebUtil.getFullUrl(request);
         assertEquals(originalUrl, fullUrl);
     }
 }
