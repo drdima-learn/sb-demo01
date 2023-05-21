@@ -1,5 +1,7 @@
-package com.rubincomputers.sb_demo01.web.exception2;
+package com.rubincomputers.sb_demo01.web.exception;
 
+import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
+import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

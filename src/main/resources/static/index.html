@@ -35,6 +35,10 @@ curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"  ", "birthDay"
 <br>
 blank birthDay<br>
 curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"new lastName", "birthDay":"", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+<br>
+has Id<br>
+curl -s -i -X POST -d '{"id":"123", "firstName":"new firstName", "lastName":"new lastName", "birthDay":"2020-05-13", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+
 
 <br>
 <br>

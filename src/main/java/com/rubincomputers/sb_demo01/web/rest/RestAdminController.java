@@ -3,6 +3,7 @@ package com.rubincomputers.sb_demo01.web.rest;
 import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.service.UserService;
+import com.rubincomputers.sb_demo01.util.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -63,6 +64,7 @@ public class RestAdminController {
     @PostMapping(value = {"","/"}, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
         log.debug("REST request to save User : {}", user);
+        ValidationUtil.checkNew(user);
         return null;
     }
 }
