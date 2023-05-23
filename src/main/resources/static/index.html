@@ -21,24 +21,38 @@ FOUND)<br>
 <br>
 <br>
 <h3>createUser POST</h3>
-curl -s -i -X POST -d '{"firstName":"New User", "lastName":"new last name", "birthDay":"2020-05-19", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+curl -s -i -X POST -d '{"firstName":"New User", "lastName":"new last name", "birthDay":"2020/05/19", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
 <br>
 <br>
 WRONG email<br>
-curl -s -i -X POST -d '{"firstName":"New User", "lastName":"new last name", "birthDay":"2020-05-19", "gender":"female" ,"role":"USER", "email":"testmail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+curl -s -i -X POST -d '{"firstName":"New User", "lastName":"new last name", "birthDay":"2020/05/19", "gender":"female" ,"role":"USER", "email":"testmail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+<br>
 <br>
 Blank firstName<br>
-curl -s -i -X POST -d '{"firstName":"", "lastName":"new last name", "birthDay":"2020-05-19", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+curl -s -i -X POST -d '{"firstName":"", "lastName":"new last name", "birthDay":"2020/05/19", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+<br>
 <br>
 Blank lastName<br>
-curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"  ", "birthDay":"2020-05-19", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"  ", "birthDay":"2020/05/19", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+<br>
 <br>
 blank birthDay<br>
 curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"new lastName", "birthDay":"", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
 <br>
-has Id<br>
+<br>
+has Id (id must be null)<br>
 curl -s -i -X POST -d '{"id":"123", "firstName":"new firstName", "lastName":"new lastName", "birthDay":"2020-05-13", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+<br>
+<br>
+duplicate email<br>
+curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"new lastName", "birthDay":"2020-05-13", "gender":"female" ,"role":"USER", "email":"vasya@gmail.com","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
 
+
+<br>
+<br>
+
+normal request (without errors)<br>
+curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"new lastName", "birthDay":"2020-05-13", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
 
 <br>
 <br>

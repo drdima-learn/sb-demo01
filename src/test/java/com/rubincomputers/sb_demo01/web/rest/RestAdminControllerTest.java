@@ -1,15 +1,20 @@
 package com.rubincomputers.sb_demo01.web.rest;
 
+import com.rubincomputers.sb_demo01.dto.UserRegistrationDTO;
+import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.web.AbstractControllerTest;
 import com.rubincomputers.sb_demo01.web.data.UserTestData;
+import com.rubincomputers.sb_demo01.web.json.JsonUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import static com.rubincomputers.sb_demo01.web.data.UserTestData.USER_DTO_MATCHER;
 import static com.rubincomputers.sb_demo01.web.data.UserTestData.user1;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -107,4 +112,15 @@ public class RestAdminControllerTest extends AbstractControllerTest {
 
     }
 
+    @Test
+    void createWithLocation() throws Exception {
+        UserRegistrationDTO newUserRegistrationDTO = UserRegistrationDTO.from(UserTestData.getNew());
+        ResultActions action = mockMvc.perform(post(REST_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.writeValue(newUserRegistrationDTO))
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isCreated()); //201
+
+    }
 }

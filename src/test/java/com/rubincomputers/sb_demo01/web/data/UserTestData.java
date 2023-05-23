@@ -2,6 +2,8 @@ package com.rubincomputers.sb_demo01.web.data;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.model.Gender;
+import com.rubincomputers.sb_demo01.model.Role;
+import com.rubincomputers.sb_demo01.model.User;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -55,4 +57,15 @@ public class UserTestData {
     }
 
 
+    public static User getNew() {
+        return User.builder()
+                .firstName("New FirstName")
+                .lastName("New LastName")
+                .birthDay(new Date("2020/01/01"))
+                .gender(Gender.FEMALE)
+                .role(Role.USER)
+                .email("new@gmail.com")
+                .password("new4321")
+                .build();
+    }
 }
