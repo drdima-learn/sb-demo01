@@ -1,7 +1,7 @@
 package com.rubincomputers.sb_demo01.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.rubincomputers.sb_demo01.model.Role;
+import com.rubincomputers.sb_demo01.model.Gender;
 import com.rubincomputers.sb_demo01.model.User;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -38,11 +38,11 @@ public class UserDTO extends BaseDTO{
         this.email = email;
     }
 
-    public static List<UserDTO> from(List<User> users) {
-        return users.stream().map(u -> from(u)).collect(Collectors.toList());
+    public static List<UserDTO> dto(List<User> users) {
+        return users.stream().map(u -> dto(u)).collect(Collectors.toList());
     }
 
-    public static UserDTO from(User user) {
+    public static UserDTO dto(User user) {
         return UserDTO.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
@@ -52,4 +52,18 @@ public class UserDTO extends BaseDTO{
                 .email(user.getEmail())
                 .build();
     }
+
+    public static User toUser(UserDTO dto) {
+        return new User(
+                 dto.getId()
+                ,dto.getFirstName()
+                ,dto.getLastName()
+                ,dto.getBirthDay()
+                ,Gender.valueOf(dto.getGender())
+                ,dto.getEmail()
+            );
+
+    }
+
+
 }

@@ -6,6 +6,8 @@ import com.rubincomputers.sb_demo01.model.Role;
 import com.rubincomputers.sb_demo01.model.User;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -36,6 +38,7 @@ public class UserRegistrationDTO extends BaseDTO{
 
     private Gender gender;
 
+    @NotBlank
     @Email
     private String email;
 
@@ -48,6 +51,7 @@ public class UserRegistrationDTO extends BaseDTO{
 
     public static User toUser(UserRegistrationDTO ur){
         return User.builder()
+                .id(ur.getId())
                 .firstName(ur.getFirstName())
                 .lastName(ur.getLastName())
                 .birthDay(ur.getBirthDay())
@@ -70,6 +74,19 @@ public class UserRegistrationDTO extends BaseDTO{
                 .password(user.getPassword())
                 .role(user.getRole())
                 .build();
+    }
+
+    public static MultiValueMap<String, String> toMultiValueMap(UserRegistrationDTO dto){
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+
+        formData.add("firstName", dto.getFirstName());
+        formData.add("lastName", dto.getLastName());
+        formData.add("birthDay", dto.getBirthDay().toString());
+        formData.add("gender", dto.getGender().name());
+        formData.add("email", dto.getEmail());
+        formData.add("password", dto.getPassword());
+        formData.add("role", dto.getRole().name());
+        return formData;
     }
 
 

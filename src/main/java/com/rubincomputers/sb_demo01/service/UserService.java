@@ -35,15 +35,15 @@ public class UserService {
         if (!onlyContainsAllowedProperties(pageable)) {
             throw new BadSortParameter("Bad Parameter: " + pageable.getSort().toString());
         }
-        return userRepository.findAll(pageable).map(UserDTO::from);
+        return userRepository.findAll(pageable).map(UserDTO::dto);
     }
 
     public UserDTO get(Long id) {
-        return userRepository.findById(id).map(UserDTO::from).orElseThrow(()-> new NotFoundException("user id=" + id));
+        return userRepository.findById(id).map(UserDTO::dto).orElseThrow(()-> new NotFoundException("user id=" + id));
     }
 
     public UserDTO getByEmail(String email) {
-        return userRepository.findByEmail(email).map(UserDTO::from).orElseThrow(()-> new NotFoundException("user email=" + email));
+        return userRepository.findByEmail(email).map(UserDTO::dto).orElseThrow(()-> new NotFoundException("user email=" + email));
     }
 
     private boolean onlyContainsAllowedProperties(Pageable pageable) {

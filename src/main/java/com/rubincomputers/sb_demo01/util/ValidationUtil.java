@@ -13,4 +13,14 @@ public class ValidationUtil {
             throw new IllegalRequestDataException(entity + " must be new (id=null)");
         }
     }
+
+    public static void checkNotNew(AbstractBaseEntity entity) {
+        if (entity.isNew()) {
+            throw new IllegalRequestDataException(entity + " must be new with id");
+        }
+    }
+
+
+
+
 }

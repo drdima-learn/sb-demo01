@@ -1,9 +1,14 @@
 package com.rubincomputers.sb_demo01.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
+@SuperBuilder
 @MappedSuperclass
 @Data
 // http://stackoverflow.com/questions/594597/hibernate-annotations-which-is-better-field-or-property-access
@@ -18,6 +23,7 @@ public abstract class AbstractBaseEntity {
     //  Proxy initialization when accessing its identifier managed now by JPA_PROXY_COMPLIANCE setting
     protected Long id;
 
+    @JsonIgnore
     public boolean isNew() {
         return this.getId() == null;
     }
