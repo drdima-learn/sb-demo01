@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web.exception2;
+package com.rubincomputers.sb_demo01.web.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-import static com.rubincomputers.sb_demo01.web.util.Util.getFullUrl;
+import static com.rubincomputers.sb_demo01.util.WebUtil.getFullUrl;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

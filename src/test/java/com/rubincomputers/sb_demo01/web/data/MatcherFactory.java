@@ -1,11 +1,11 @@
 package com.rubincomputers.sb_demo01.web.data;
 
 
-import com.rubincomputers.sb_demo01.web.util.json.JsonUtil;
+import com.rubincomputers.sb_demo01.web.json.JsonUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.data.domain.Page;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.util.StringUtils;
 
@@ -78,13 +78,27 @@ public class MatcherFactory {
             iterableAssertion.accept(actual, expected);
         }
 
-        private static String getContent(MvcResult result, String resultFromField) throws UnsupportedEncodingException, JSONException {
+        public T readFromJson(ResultActions action) throws UnsupportedEncodingException {
+            return JsonUtil.readValue(getContent(action.andReturn()), clazz);
+        }
+
+
+        private static String getContent(MvcResult result) throws UnsupportedEncodingException {
+            return getContent(result,"");
+        }
+        private static String getContent(MvcResult result, String resultFromField) throws UnsupportedEncodingException {
             String contentAsString = result.getResponse().getContentAsString();
             if (!StringUtils.hasText(resultFromField)){
                 return contentAsString;
             }
-            JSONObject data = new JSONObject(contentAsString);
-            return data.getString(resultFromField);
+            JSONObject data = null;
+            try {
+                data = new JSONObject(contentAsString);
+                return data.getString(resultFromField);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
         }
 
         public void assertMatch(T actual, T expected) {

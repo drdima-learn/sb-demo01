@@ -1,15 +1,18 @@
 package com.rubincomputers.sb_demo01.service;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
+import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.repository.UserRepository;
-import com.rubincomputers.sb_demo01.web.exception2.BadSortParameter;
-import com.rubincomputers.sb_demo01.web.exception2.NotFoundException;
+import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
+import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
+import com.rubincomputers.sb_demo01.util.passwordencoder.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,6 +24,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public Page<UserDTO> getAll() {
         return getAll(PageRequest.of(0, Integer.MAX_VALUE));
     }
@@ -29,15 +35,15 @@ public class UserService {
         if (!onlyContainsAllowedProperties(pageable)) {
             throw new BadSortParameter("Bad Parameter: " + pageable.getSort().toString());
         }
-        return userRepository.findAll(pageable).map(UserDTO::from);
+        return userRepository.findAll(pageable).map(UserDTO::dto);
     }
 
     public UserDTO get(Long id) {
-        return userRepository.findById(id).map(UserDTO::from).orElseThrow(()-> new NotFoundException("user id=" + id));
+        return userRepository.findById(id).map(UserDTO::dto).orElseThrow(()-> new NotFoundException("user id=" + id));
     }
 
     public UserDTO getByEmail(String email) {
-        return userRepository.findByEmail(email).map(UserDTO::from).orElseThrow(()-> new NotFoundException("user email=" + email));
+        return userRepository.findByEmail(email).map(UserDTO::dto).orElseThrow(()-> new NotFoundException("user email=" + email));
     }
 
     private boolean onlyContainsAllowedProperties(Pageable pageable) {
@@ -57,5 +63,14 @@ public class UserService {
     }
 
 
+    public User create(User user) {
+        Assert.notNull(user, "user must not be null");
+        return userRepository.save(prepareToSave(user));
+    }
 
+    private User prepareToSave(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEmail(user.getEmail().toLowerCase());
+        return user;
+    }
 }

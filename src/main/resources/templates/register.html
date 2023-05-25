@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    const email = urlParams.get('email');
+    if (status=='ok'){
+        alert("User has been registered with email " + email)
+    }
+</script>
+
+
+
+<h1>Register form</h1>
+<!--/*@thymesVar id="user" type="com.rubincomputers.sb_demo01.dto.UserDTO"*/-->
+<span th:text="${userRegistrationDTO}"/>
+
+<h2>status is</h2>
+<!--<span th:text="${status.error}"/>-->
+<!--<th:block th:with="${status.error}"/>-->
+
+
+
+<!--<form action="/admin/users/register" method="post">-->
+<!--    firstName <input type="text" name="firstName"><br>-->
+<!--    lastName<input type="text" name="lastName"><br>-->
+<!--    birthDay<input type="text" name="birthDay"><br>-->
+<!--    gender<input type="text" name="gender"><br>-->
+
+
+<!--    <label for="email">email:</label>-->
+<!--    <input type="text" id="email" name="email" th:email="*{user.email}" />-->
+<!--    <span th:errors="*{user.email}" class="error"></span>-->
+
+<!--&lt;!&ndash;    email<input type="text" name="email"><br>&ndash;&gt;-->
+
+
+
+
+<!--    password<input type="text" name="password"><br>-->
+<!--    role<input type="text" name="role"><br>-->
+<!--    <input type="submit">-->
+
+
+
+<form th:object="${userRegistrationDTO}" th:action="@{/admin/users/register}" method="post">
+    <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" th:field="*{firstName}" class="form-control" />
+        <span th:errors="*{firstName}" class="error"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" th:field="*{lastName}" class="form-control" />
+        <span th:errors="*{lastName}" class="error"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="birthDay">Birth Day:</label>
+        <input type="text" id="birthDay" th:field="*{birthDay}" class="form-control" />
+        <span th:errors="*{birthDay}" class="error"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="gender">Gender:</label>
+        <select id="gender" th:field="*{gender}" class="form-control">
+            <option value="">-- Select Gender --</option>
+            <option th:value="MALE">Male</option>
+            <option th:value="FEMALE">Female</option>
+        </select>
+        <span th:errors="*{gender}" class="error"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="text" id="email" th:field="*{email}" class="form-control" />
+        <span th:errors="*{email}" class="error"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" th:field="*{password}" class="form-control" />
+        <span th:errors="*{password}" class="error"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="role">Role:</label>
+        <select id="role" th:field="*{role}" class="form-control">
+            <option value="">-- Select Role --</option>
+            <option th:value="ADMIN">Admin</option>
+            <option th:value="USER">User</option>
+        </select>
+        <span th:errors="*{role}" class="error"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+
+
+</form>
+
+</body>
+</html>
