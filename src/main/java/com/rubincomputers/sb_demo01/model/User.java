@@ -18,6 +18,7 @@ import static com.rubincomputers.sb_demo01.model.Gender.MALE;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@ToString(callSuper = true)
 @SuperBuilder
 @Entity
 @Table(name = "rc_user")

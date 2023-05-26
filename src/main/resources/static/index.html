@@ -56,8 +56,16 @@ curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"new lastName", 
 
 <br>
 <br>
-
-
+<br>
+<br>
+<br>
+<h3>deleteUser DELETE</h3>
+normal
+curl -s -i -X DELETE http://localhost:8080/rest/admin/users/100000
+<br>
+<br>
+by email
+curl -s -i -X DELETE http://localhost:8080/rest/admin/users/by-email?email=vasya@gmail.com
 
 
 <br>

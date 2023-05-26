@@ -1,8 +1,9 @@
-package com.rubincomputers.sb_demo01.web.webpage.admin;
+package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
 
 import com.rubincomputers.sb_demo01.dto.UserRegistrationDTO;
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.web.AbstractControllerTest;
+import com.rubincomputers.sb_demo01.web.controller.admin.webpage.AdminController;
 import com.rubincomputers.sb_demo01.web.data.UserTestData;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;

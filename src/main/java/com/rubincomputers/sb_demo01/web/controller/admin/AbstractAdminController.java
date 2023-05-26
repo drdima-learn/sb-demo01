@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.service.UserService;

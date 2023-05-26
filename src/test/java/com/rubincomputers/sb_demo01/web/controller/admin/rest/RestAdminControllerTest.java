@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web.rest;
+package com.rubincomputers.sb_demo01.web.controller.admin.rest;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.dto.UserRegistrationDTO;
@@ -191,9 +191,18 @@ public class RestAdminControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void createWithExistingId() throws Exception {
+        User newUser = getNew();
+        newUser.setId(USER_ID);
+        create(newUser, "IllegalRequestDataException");
+    }
+
+    @Test
     void createDuplicateEmail() throws Exception {
         User newUser = getNew();
         newUser.setEmail("vasya@gmail.com");
         create(newUser, "DataIntegrityViolationException");
     }
+
+
 }

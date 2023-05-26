@@ -1,26 +1,20 @@
-package com.rubincomputers.sb_demo01.web.webpage.admin;
+package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.dto.UserRegistrationDTO;
-import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.service.UserService;
-import com.rubincomputers.sb_demo01.web.AbstractAdminController;
+import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
-
 
 
 @Controller
