@@ -74,7 +74,7 @@ public class RestAdminController extends AbstractAdminController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {
         log.info("delete user id={}", id);
-        userService.delete(id);
+        userService.deleteById(id);
     }
 
     @DeleteMapping("/by-email")

@@ -22,9 +22,15 @@ public class ValidationUtil {
     }
 
 
-    public static void checkNotFoundWithId(boolean found, long id) {
-        if (!found){
-            throw new NotFoundException("id="+id);
+    public static void checkNotFound(boolean found, long id) {
+        if (!found) {
+            throw new NotFoundException("id=" + id);
+        }
+    }
+
+    public static void checkNotFound(boolean found, String identifier) {
+        if (!found) {
+            throw new NotFoundException("identifier=" + identifier);
         }
     }
 }

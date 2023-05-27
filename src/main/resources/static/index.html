@@ -64,8 +64,21 @@ normal
 curl -s -i -X DELETE http://localhost:8080/rest/admin/users/100000
 <br>
 <br>
+delete user with not existing id
+curl -s -i -X DELETE http://localhost:8080/rest/admin/users/123
+<br>
+<br>
 by email
 curl -s -i -X DELETE http://localhost:8080/rest/admin/users/by-email?email=vasya@gmail.com
+<br>
+<br>
+by email not exists
+curl -s -i -X DELETE http://localhost:8080/rest/admin/users/by-email?email=notfound@gmail.com
+
+<br>
+<br>
+by email not well formed
+curl -s -i -X DELETE http://localhost:8080/rest/admin/users/by-email?email=badgmail.com
 
 
 <br>

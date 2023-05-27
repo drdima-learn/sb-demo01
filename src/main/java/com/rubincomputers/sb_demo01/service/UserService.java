@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,11 +41,11 @@ public class UserService {
     }
 
     public UserDTO get(Long id) {
-        return userRepository.findById(id).map(UserDTO::dto).orElseThrow(()-> new NotFoundException("user id=" + id));
+        return userRepository.findById(id).map(UserDTO::dto).orElseThrow(() -> new NotFoundException("user id=" + id));
     }
 
     public UserDTO getByEmail(String email) {
-        return userRepository.findByEmail(email).map(UserDTO::dto).orElseThrow(()-> new NotFoundException("user email=" + email));
+        return userRepository.findByEmail(email).map(UserDTO::dto).orElseThrow(() -> new NotFoundException("user email=" + email));
     }
 
     private boolean onlyContainsAllowedProperties(Pageable pageable) {
@@ -71,21 +70,20 @@ public class UserService {
         return userRepository.save(prepareToSave(user));
     }
 
-    private User prepareToSave(User user){
+    private User prepareToSave(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEmail(user.getEmail().toLowerCase());
         return user;
     }
 
 
-
     @Transactional
-    public void delete(long id) {
-        ValidationUtil.checkNotFoundWithId(userRepository.delete(id) != 0, id);
+    public void deleteById(long id) {
+        ValidationUtil.checkNotFound(userRepository.delete(id) != 0, id);
     }
 
     @Transactional
     public void deleteByEmail(String email) {
-        userRepository.deleteByEmail(email);
+        ValidationUtil.checkNotFound(userRepository.deleteByEmail(email) != 0, email);
     }
 }

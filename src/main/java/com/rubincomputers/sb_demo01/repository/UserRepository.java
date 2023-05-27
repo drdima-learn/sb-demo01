@@ -19,6 +19,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Modifying
     @Query("DELETE FROM User u WHERE u.email = ?1")
-    void deleteByEmail(String email);
+    int deleteByEmail(String email);
 
 }

@@ -64,4 +64,10 @@ public class AdminController extends AbstractAdminController {
             return "register";
         }
     }
+
+    @GetMapping(value = {"/delete/{id}"})
+    public String deleteUserById(@PathVariable long id) {
+        userService.deleteById(id);
+        return "redirect:" + WEBPAGE_URL;
+    }
 }
