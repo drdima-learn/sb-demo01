@@ -7,13 +7,41 @@
 <head>
     <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body th:with="uri=${#httpServletRequest.requestURI}, page=${param.page}, size=${param.size}, sort=${param.sort}">
+
+uri before
+<p th:text="${uri}">URI Variable</p>
+
+<th:block th:with="uri=${uri.endsWith('/') ? #strings.substring(uri, 0, #strings.length(uri) - 1) : uri}">
+    uri after
+    <p th:text="${uri}">URI Variable</p>
+</th:block>
+
+
+uri after out of scope
+<p th:text="${uri}">URI Variable</p>
+
+
+<!--/*@thymesVar id="requestURL" type="java.lang.String"*/-->
+<th:block th:with="requestURL=${#httpServletRequest.getRequestURL().toString()}"/>
+
 <h1>Users</h1>
 
 <!--/*@thymesVar id="users" type="org.springframework.data.domain.Page"*/-->
 <td th:text="${users}"/>
+<div th:text="${uri}"/>
+<div th:text="${param.page !=null ? 'pppppp' : '0'}"/>
+
+
+Page=
+<div th:text="${page}"/>
+
+<!-- https://www.baeldung.com/thymeleaf-variables -->
+
 
 <table border="1">
+
+
     <!--/*@thymesVar id="user" type="com.rubincomputers.sb_demo01.dto.UserDTO"*/-->
     <tr th:each="user : ${users.content}">
 
@@ -24,29 +52,76 @@
         <td th:text="${#dates.format(user.birthDay, 'dd/MM/yyyy')}"></td>
         <td th:text="${user.gender}"/>
         <td th:text="${user.email}"/>
+
+
+        <th:block th:with="uri=${uri.endsWith('/') ? #strings.substring(uri, 0, #strings.length(uri) - 1) : uri}">
+        <td><a th:href="
+            ${uri} + '/delete/' + ${user.id} +
+            ${page !=null ? '?' : ''} +
+            ${page !=null ? 'page=' + page : ''} +
+            ${size !=null ? '&size=' + size : ''} +
+            ${sort !=null ? '&sort=' + sort : ''}
+        ">Delete</a></td>
+        </th:block>
+
     </tr>
 </table>
 
-<!--/*@thymesVar id="requestURI" type="java.lang.String"*/-->
-<th:block th:with="requestURI=${#httpServletRequest.requestURI}"/>
+<!--
+
+ <td><a th:href="
+        @{
+
+
+            ${uri!=null ? '0' : '1'}
+
+
+
+        }
+        ">Delete</a></td>
+
+
+
+${uri} + '/delete/' + ${user.id} +
+
+
+-->
+<!--<a th:href="@{'/tutorials?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''}-->
+<!--                + 'page=' + ${currentPage} + '&size=' + ${pageSize}-->
+<!--                + ${sortField!=null ? '&sort=' + field + ',' + (sortField == field ? reverseSortDirection : sortDirection) : ''}}">-->
+<!--    [[${label}]] </a>-->
+
+<!--
+
+${page!='' ? 'page=' + users.number + '&'  : ''} +
+            ${size!='' ? 'size=' + users.size + '&'  : ''} +
+            ${sort!='' ? 'sort=' + sort : ''}
+
+-->
+
+
 
 
 <div>
     <ul class="pagination">
         <li th:class="${users.first ? 'disabled' : ''}">
-            <a th:if="${!users.first}" th:href="@{${requestURI}(page=0,size=${users.size},sort=${param.sort})}">&laquo;</a>
+            <a th:if="${!users.first}"
+               th:href="@{__${uri}__(page=0,size=${users.size},sort=${param.sort})}">&laquo;</a>
             <a th:unless="${!users.first}" href="#">&laquo;</a>
         </li>
         <li th:class="${users.first ? 'disabled' : ''}">
-            <a th:if="${!users.first}" th:href="@{${requestURI}(page=${users.number - 1},size=${users.size},sort=${param.sort})}">&lsaquo;</a>
+            <a th:if="${!users.first}"
+               th:href="@{__${uri}__(page=${users.number - 1},size=${users.size},sort=${param.sort})}">&lsaquo;</a>
             <a th:unless="${!users.first}" href="#">&lsaquo;</a>
         </li>
         <li th:class="${users.last ? 'disabled' : ''}">
-            <a th:if="${!users.last}" th:href="@{${requestURI}(page=${users.number + 1},size=${users.size},sort=${param.sort})}">&rsaquo;</a>
+            <a th:if="${!users.last}"
+               th:href="@{__${uri}__(page=${users.number + 1},size=${users.size},sort=${param.sort})}">&rsaquo;</a>
             <a th:unless="${!users.last}" href="#">&rsaquo;</a>
         </li>
         <li th:class="${users.last ? 'disabled' : ''}">
-            <a th:if="${!users.last}" th:href="@{${requestURI}(page=${users.totalPages - 1},size=${users.size},sort=${param.sort})}">&raquo;</a>
+            <a th:if="${!users.last}"
+               th:href="@{__${uri}__(page=${users.totalPages - 1},size=${users.size},sort=${param.sort})}">&raquo;</a>
             <a th:unless="${!users.last}" href="#">&laquo;</a>
         </li>
     </ul>

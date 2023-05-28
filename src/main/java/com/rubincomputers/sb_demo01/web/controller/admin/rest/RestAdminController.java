@@ -1,15 +1,13 @@
-package com.rubincomputers.sb_demo01.web.rest;
+package com.rubincomputers.sb_demo01.web.controller.admin.rest;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.dto.UserRegistrationDTO;
 import com.rubincomputers.sb_demo01.model.User;
-import com.rubincomputers.sb_demo01.service.UserService;
-import com.rubincomputers.sb_demo01.util.ValidationUtil;
-import com.rubincomputers.sb_demo01.web.AbstractAdminController;
+import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +19,7 @@ import javax.validation.constraints.Email;
 import java.net.URI;
 import java.util.List;
 
-import static com.rubincomputers.sb_demo01.web.rest.RestAdminController.REST_URL;
+import static com.rubincomputers.sb_demo01.web.controller.admin.rest.RestAdminController.REST_URL;
 
 @Slf4j
 @RestController
@@ -30,7 +28,6 @@ import static com.rubincomputers.sb_demo01.web.rest.RestAdminController.REST_URL
 public class RestAdminController extends AbstractAdminController {
 
     static final String REST_URL = "/rest/admin/users";
-
 
 
     /**
@@ -64,12 +61,26 @@ public class RestAdminController extends AbstractAdminController {
         return userService.getByEmail(email);
     }
 
-    @PostMapping(value = {"","/"}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = {"", "/"}, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createWithLocation(@Valid @RequestBody UserRegistrationDTO userRegistrationDTO) {
         User created = super.create(UserRegistrationDTO.toUser(userRegistrationDTO));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable long id) {
+        log.info("delete user id={}", id);
+        userService.deleteById(id);
+    }
+
+    @DeleteMapping("/by-email")
+    @ResponseStatus(HttpStatus.NO_CONTENT) //204
+    public void deleteByEmail(@RequestParam @Email String email) {
+        log.info("delete user email={}", email);
+        userService.deleteByEmail(email);
     }
 }

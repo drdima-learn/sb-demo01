@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web.webpage;
+package com.rubincomputers.sb_demo01.web.controller;
 
 import com.rubincomputers.sb_demo01.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;

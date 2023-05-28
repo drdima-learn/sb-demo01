@@ -2,6 +2,7 @@ package com.rubincomputers.sb_demo01.util;
 
 import com.rubincomputers.sb_demo01.model.AbstractBaseEntity;
 import com.rubincomputers.sb_demo01.util.exception.IllegalRequestDataException;
+import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
 
 public class ValidationUtil {
 
@@ -21,6 +22,15 @@ public class ValidationUtil {
     }
 
 
+    public static void checkNotFound(boolean found, long id) {
+        if (!found) {
+            throw new NotFoundException("id=" + id);
+        }
+    }
 
-
+    public static void checkNotFound(boolean found, String identifier) {
+        if (!found) {
+            throw new NotFoundException("identifier=" + identifier);
+        }
+    }
 }

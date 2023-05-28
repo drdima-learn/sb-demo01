@@ -3,6 +3,7 @@ package com.rubincomputers.sb_demo01.service;
 import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.repository.UserRepository;
+import com.rubincomputers.sb_demo01.util.ValidationUtil;
 import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
 import com.rubincomputers.sb_demo01.util.passwordencoder.PasswordEncoder;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -39,11 +41,11 @@ public class UserService {
     }
 
     public UserDTO get(Long id) {
-        return userRepository.findById(id).map(UserDTO::dto).orElseThrow(()-> new NotFoundException("user id=" + id));
+        return userRepository.findById(id).map(UserDTO::dto).orElseThrow(() -> new NotFoundException("user id=" + id));
     }
 
     public UserDTO getByEmail(String email) {
-        return userRepository.findByEmail(email).map(UserDTO::dto).orElseThrow(()-> new NotFoundException("user email=" + email));
+        return userRepository.findByEmail(email).map(UserDTO::dto).orElseThrow(() -> new NotFoundException("user email=" + email));
     }
 
     private boolean onlyContainsAllowedProperties(Pageable pageable) {
@@ -68,9 +70,20 @@ public class UserService {
         return userRepository.save(prepareToSave(user));
     }
 
-    private User prepareToSave(User user){
+    private User prepareToSave(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEmail(user.getEmail().toLowerCase());
         return user;
+    }
+
+
+    @Transactional
+    public void deleteById(long id) {
+        ValidationUtil.checkNotFound(userRepository.delete(id) != 0, id);
+    }
+
+    @Transactional
+    public void deleteByEmail(String email) {
+        ValidationUtil.checkNotFound(userRepository.deleteByEmail(email) != 0, email);
     }
 }
