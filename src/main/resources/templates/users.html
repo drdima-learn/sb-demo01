@@ -9,6 +9,18 @@
 </head>
 <body th:with="uri=${#httpServletRequest.requestURI}, page=${param.page}, size=${param.size}, sort=${param.sort}">
 
+uri before
+<p th:text="${uri}">URI Variable</p>
+
+<th:block th:with="uri=${uri.endsWith('/') ? #strings.substring(uri, 0, #strings.length(uri) - 1) : uri}">
+    uri after
+    <p th:text="${uri}">URI Variable</p>
+</th:block>
+
+
+uri after out of scope
+<p th:text="${uri}">URI Variable</p>
+
 
 <!--/*@thymesVar id="requestURL" type="java.lang.String"*/-->
 <th:block th:with="requestURL=${#httpServletRequest.getRequestURL().toString()}"/>
@@ -40,24 +52,17 @@ Page=
         <td th:text="${#dates.format(user.birthDay, 'dd/MM/yyyy')}"></td>
         <td th:text="${user.gender}"/>
         <td th:text="${user.email}"/>
-        <td><a th:href="
-        @{__${uri}__/delete/{id}(id=${user.id},
-        page=${users.number},
-        size=${users.size},
-        sort=${param.sort})}">Delete</a></td>
 
+
+        <th:block th:with="uri=${uri.endsWith('/') ? #strings.substring(uri, 0, #strings.length(uri) - 1) : uri}">
         <td><a th:href="
             ${uri} + '/delete/' + ${user.id} +
             ${page !=null ? '?' : ''} +
             ${page !=null ? 'page=' + page : ''} +
             ${size !=null ? '&size=' + size : ''} +
             ${sort !=null ? '&sort=' + sort : ''}
-
-
         ">Delete</a></td>
-
-
-
+        </th:block>
 
     </tr>
 </table>

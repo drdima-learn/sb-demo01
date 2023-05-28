@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 
 @Controller
@@ -34,7 +35,7 @@ public class AdminController extends AbstractAdminController {
         return "users";
     }
 
-    @GetMapping(value = { "/{id}"})
+    @GetMapping(value = {"/{id}"})
     public String getUserById(Model model, @PathVariable Long id) {
         UserDTO userDTO = userService.get(id);
         model.addAttribute("user", userDTO);
@@ -50,7 +51,7 @@ public class AdminController extends AbstractAdminController {
 
 
     @PostMapping(value = {"/register"})
-    public String saveRegister(@Valid UserRegistrationDTO userRegistrationDTO , BindingResult result) {
+    public String saveRegister(@Valid UserRegistrationDTO userRegistrationDTO, BindingResult result) {
 
         if (result.hasErrors()) {
             log.debug("User form has an errors");
@@ -59,15 +60,26 @@ public class AdminController extends AbstractAdminController {
         try {
             super.create(UserRegistrationDTO.toUser(userRegistrationDTO));
             return "redirect:" + WEBPAGE_URL + "/register?status=ok&email=" + userRegistrationDTO.getEmail();
-        } catch (DataIntegrityViolationException ex){
+        } catch (DataIntegrityViolationException ex) {
             result.rejectValue("email", "exception.user.duplicateEmail");
             return "register";
         }
     }
 
     @GetMapping(value = {"/delete/{id}"})
-    public String deleteUserById(@PathVariable long id) {
+    public String deleteUserById(@PathVariable long id, @RequestParam Map<String, String> params) {
         userService.deleteById(id);
-        return "redirect:" + WEBPAGE_URL;
+
+        StringBuilder url = new StringBuilder(WEBPAGE_URL);
+        if (params.get("page") != null) {
+            url.append("?")
+                    .append((params.get("page") != null ? "page=" + params.get("page") : ""))
+                    .append((params.get("size") != null ? "&size=" + params.get("size") : ""))
+                    .append((params.get("sort") != null ? "&sort=" + params.get("sort") : ""));
+
+
+        }
+
+        return "redirect:" + url.toString();
     }
 }
