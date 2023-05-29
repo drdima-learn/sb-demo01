@@ -50,7 +50,7 @@ class AdminControllerTest extends AbstractControllerTest {
 
     @Test
     void getUserByIdNotFound() throws Exception {
-        mockMvc.perform(get(WEBPAGE_URL + "/" + UserTestData.USER_ID_NOT_FOUND))
+        mockMvc.perform(get(WEBPAGE_URL + "/" + UserTestData.USER_ID_NOT_EXISTS))
                 .andDo(print())
                 .andExpect(status().isInternalServerError())
                 .andExpect(view().name("exception"))

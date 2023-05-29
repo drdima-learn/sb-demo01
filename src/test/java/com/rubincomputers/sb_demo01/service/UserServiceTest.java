@@ -54,7 +54,7 @@ class UserServiceTest extends AbstractServiceTest {
 
     @Test
     void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.getById(USER_ID_NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.getById(USER_ID_NOT_EXISTS));
     }
 
     @Test

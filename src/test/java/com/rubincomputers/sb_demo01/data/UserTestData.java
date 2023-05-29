@@ -19,7 +19,11 @@ public class UserTestData {
     public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "birthDay", "password");
 
     public static final long USER_ID = START_SEQ;
-    public static final long USER_ID_NOT_FOUND = 123L;
+    public static final long USER_ID_NOT_EXISTS = 123L;
+
+    public static final String USER_EMAIL = "vasya@gmail.com";
+    public static final String USER_EMAIL_NOT_EXISTS = "notexists@gmail.com";
+    public static final String USER_EMAIL_NOT_WELL_FORMED = "notwellformedgmail.com";
 
 
     public static final User user1 = new User(USER_ID, "Вася", "Пупкин",  date("1982-06-11"), MALE,"vasya@gmail.com", "password", USER);

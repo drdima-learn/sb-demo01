@@ -1,5 +1,6 @@
 package com.rubincomputers.sb_demo01.web;
 
+import com.rubincomputers.sb_demo01.AbstractTest;
 import com.rubincomputers.sb_demo01.web.json.JsonUtil;
 import com.rubincomputers.sb_demo01.web.util.mockmvc.TrueResultMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,11 @@ import static com.rubincomputers.sb_demo01.data.UserTestData.USER_DTO_MATCHER;
 import static com.rubincomputers.sb_demo01.data.UserTestData.user1;
 import static com.rubincomputers.sb_demo01.dto.UserDTO.dto;
 import static com.rubincomputers.sb_demo01.web.util.mockmvc.HttpMethodToMockMvcRequestBuilders.convert;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@Sql(scripts = "classpath:config/dev/db/data-dev.sql", config = @SqlConfig(encoding = "UTF-8"), executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class AbstractControllerTest {
+
+public class AbstractControllerTest extends AbstractTest {
 
     protected MockMvc mockMvc;
 
@@ -81,6 +81,10 @@ public class AbstractControllerTest {
              resultAction.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
          }
          return resultAction;
+    }
+
+    protected ResultMatcher expectRestException(Class<? extends Throwable> ex) {
+        return jsonPath("$.exception", containsString(ex.getSimpleName()));
     }
 
 }
