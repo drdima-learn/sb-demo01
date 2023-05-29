@@ -51,7 +51,7 @@ public class RestAdminController extends AbstractAdminController {
     @GetMapping("/{id}")
     public UserDTO getUserById(@PathVariable Long id) {
         log.debug("getUserById {}", id);
-        return userService.get(id);
+        return userService.getById(id);
 
     }
 
@@ -72,7 +72,7 @@ public class RestAdminController extends AbstractAdminController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable long id) {
+    public void deleteById(@PathVariable long id) {
         log.info("delete user id={}", id);
         userService.deleteById(id);
     }

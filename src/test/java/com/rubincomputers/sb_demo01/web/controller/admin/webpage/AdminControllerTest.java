@@ -3,15 +3,14 @@ package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
 import com.rubincomputers.sb_demo01.dto.UserRegistrationDTO;
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.web.AbstractControllerTest;
-import com.rubincomputers.sb_demo01.web.controller.admin.webpage.AdminController;
-import com.rubincomputers.sb_demo01.web.data.UserTestData;
+import com.rubincomputers.sb_demo01.data.UserTestData;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.util.MultiValueMap;
 
-import static com.rubincomputers.sb_demo01.web.data.UserTestData.getNew;
+import static com.rubincomputers.sb_demo01.data.UserTestData.getNew;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

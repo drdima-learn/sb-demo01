@@ -40,7 +40,7 @@ public class UserService {
         return userRepository.findAll(pageable).map(UserDTO::dto);
     }
 
-    public UserDTO get(Long id) {
+    public UserDTO getById(Long id) {
         return userRepository.findById(id).map(UserDTO::dto).orElseThrow(() -> new NotFoundException("user id=" + id));
     }
 

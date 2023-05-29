@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web.data;
+package com.rubincomputers.sb_demo01.data;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.model.Gender;
@@ -19,7 +19,7 @@ public class UserTestData {
     public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "birthDay", "password");
 
     public static final long USER_ID = START_SEQ;
-    public static final long USER_ID_NOT_FOUND = 123;
+    public static final long USER_ID_NOT_FOUND = 123L;
 
 
     public static final User user1 = new User(USER_ID, "Вася", "Пупкин",  date("1982-06-11"), MALE,"vasya@gmail.com", "password", USER);
