@@ -1,18 +1,15 @@
 package com.rubincomputers.sb_demo01.web;
 
 import com.rubincomputers.sb_demo01.AbstractTest;
-import com.rubincomputers.sb_demo01.web.json.JsonUtil;
 import com.rubincomputers.sb_demo01.web.util.mockmvc.TrueResultMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -20,10 +17,6 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.annotation.PostConstruct;
 
-import static com.rubincomputers.sb_demo01.data.UserTestData.USER_DTO_MATCHER;
-import static com.rubincomputers.sb_demo01.data.UserTestData.user1;
-import static com.rubincomputers.sb_demo01.dto.UserDTO.dto;
-import static com.rubincomputers.sb_demo01.web.util.mockmvc.HttpMethodToMockMvcRequestBuilders.convert;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -68,8 +61,7 @@ public class AbstractControllerTest extends AbstractTest {
     }
 
     protected ResultActions restTest(HttpMethod method, String url, String sendContent, HttpStatus status, ResultMatcher result) throws Exception {
-
-         ResultActions resultAction = mockMvc.perform(convert(method).method(url)
+        ResultActions resultAction = mockMvc.perform(MockMvcRequestBuilders.request(method, url)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sendContent)
                 )
@@ -77,10 +69,10 @@ public class AbstractControllerTest extends AbstractTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(result);
 
-         if (!(result instanceof TrueResultMatcher)) {
-             resultAction.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-         }
-         return resultAction;
+        if (!(result instanceof TrueResultMatcher)) {
+            resultAction.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        }
+        return resultAction;
     }
 
     protected ResultMatcher expectRestException(Class<? extends Throwable> ex) {
