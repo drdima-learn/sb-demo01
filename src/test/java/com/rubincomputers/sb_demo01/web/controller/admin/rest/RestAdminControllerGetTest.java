@@ -11,7 +11,7 @@ import javax.validation.ConstraintViolationException;
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
 import static com.rubincomputers.sb_demo01.dto.UserDTO.dto;
 
-public class RestAdminControllerGet extends AbstractRestAdminController {
+public class RestAdminControllerGetTest extends AbstractRestAdminControllerTest {
     @Test
     void getAllUsers() throws Exception {
         restTest(HttpMethod.GET,

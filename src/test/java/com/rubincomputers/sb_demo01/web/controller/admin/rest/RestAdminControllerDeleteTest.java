@@ -2,7 +2,6 @@ package com.rubincomputers.sb_demo01.web.controller.admin.rest;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
@@ -14,7 +13,7 @@ import static com.rubincomputers.sb_demo01.data.UserTestData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class RestAdminControllerDelete extends AbstractRestAdminController {
+public class RestAdminControllerDeleteTest extends AbstractRestAdminControllerTest {
 
     @Test
     void deleteById() throws Exception {

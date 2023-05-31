@@ -16,7 +16,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
 
 
-public class RestAdminControllerCreate extends AbstractRestAdminController {
+public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTest {
 
     @Test
     void createNewUser() throws Exception {
