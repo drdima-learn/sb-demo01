@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web.data;
+package com.rubincomputers.sb_demo01.data;
 
 
 import com.rubincomputers.sb_demo01.web.json.JsonUtil;

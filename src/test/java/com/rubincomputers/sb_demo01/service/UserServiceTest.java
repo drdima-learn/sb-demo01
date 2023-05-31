@@ -2,7 +2,7 @@ package com.rubincomputers.sb_demo01.service;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
 import com.rubincomputers.sb_demo01.model.User;
-import com.rubincomputers.sb_demo01.web.data.UserTestData;
+import com.rubincomputers.sb_demo01.data.UserTestData;
 import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.TransactionException;
 
 import static com.rubincomputers.sb_demo01.dto.UserDTO.dto;
-import static com.rubincomputers.sb_demo01.web.data.UserTestData.*;
+import static com.rubincomputers.sb_demo01.data.UserTestData.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
@@ -48,13 +48,13 @@ class UserServiceTest extends AbstractServiceTest {
 
     @Test
     void get() {
-        UserDTO userDTOActual = service.get(UserTestData.USER_ID);
+        UserDTO userDTOActual = service.getById(UserTestData.USER_ID);
         USER_DTO_MATCHER.assertMatch(userDTOActual, dto(user1));
     }
 
     @Test
     void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.get(USER_ID_NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.getById(USER_ID_NOT_EXISTS));
     }
 
     @Test
@@ -73,7 +73,7 @@ class UserServiceTest extends AbstractServiceTest {
         UserDTO newUserDTO = UserDTO.dto(newUser);
 
         USER_MATCHER.assertMatch(created, newUser);
-        USER_DTO_MATCHER.assertMatch(service.get(newId), newUserDTO);
+        USER_DTO_MATCHER.assertMatch(service.getById(newId), newUserDTO);
     }
 
     @Test

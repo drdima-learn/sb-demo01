@@ -37,7 +37,7 @@ public class AdminController extends AbstractAdminController {
 
     @GetMapping(value = {"/{id}"})
     public String getUserById(Model model, @PathVariable Long id) {
-        UserDTO userDTO = userService.get(id);
+        UserDTO userDTO = userService.getById(id);
         model.addAttribute("user", userDTO);
         return "user";
     }
