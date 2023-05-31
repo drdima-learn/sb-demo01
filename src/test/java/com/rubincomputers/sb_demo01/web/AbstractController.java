@@ -117,6 +117,16 @@ public abstract class AbstractController extends AbstractTest {
         return requestTest(method, url, "", sendFormData, status, "", combinedMatchers);
     }
 
+    //webpage get and expect response redirection
+    protected ResultActions pageTest(HttpMethod method, String url, HttpStatus status, ResultMatcher... matchers) throws Exception {
+
+        ResultMatcher[] internalMatchers = new ResultMatcher[]{
+                //content().contentTypeCompatibleWith(MediaType.TEXT_HTML)
+        };
+        ResultMatcher[] combinedMatchers = ArrayUtils.addAll(internalMatchers, matchers);
+        return requestTest(method, url, "", null, status, "", combinedMatchers);
+    }
+
 
 
     protected ResultActions cssTest(HttpMethod method, String url, HttpStatus status) throws Exception {
