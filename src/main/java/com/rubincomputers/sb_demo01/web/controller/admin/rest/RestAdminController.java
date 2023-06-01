@@ -90,6 +90,6 @@ public class RestAdminController extends AbstractAdminController {
     public void update(@Valid @RequestBody UserFormDTO userFormDTO, @PathVariable long id){
         log.debug("update userFormDTO: {}", userFormDTO);
         ValidationUtil.assureIdConsistent(userFormDTO, id);
-        userService.update(UserFormDTO.toUser(userFormDTO));
+        userService.update(userFormDTO);
     }
 }

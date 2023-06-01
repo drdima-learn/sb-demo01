@@ -14,9 +14,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.transaction.Transactional;
+import javax.persistence.EntityManager;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +31,7 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     public Page<UserDTO> getAll() {
         return getAll(PageRequest.of(0, Integer.MAX_VALUE));
@@ -88,9 +91,10 @@ public class UserService {
         ValidationUtil.checkNotFound(userRepository.deleteByEmail(email) != 0, email);
     }
 
-    public void update(User user) {
+    @Transactional
+    public void update(UserFormDTO userFormDTO) {
+        User user = UserFormDTO.toUser(userFormDTO);
         Assert.notNull(user, "user must not be null");
-
         userRepository.save(prepareToSave(user));
     }
 }
