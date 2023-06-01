@@ -13,8 +13,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +20,7 @@ import java.util.stream.Collectors;
 @SuperBuilder
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class UserRegistrationDTO extends BaseDTO{
+public class UserFormDTO extends BaseDTO {
 
     @NotBlank
     @Size(min = 2, max = 128)
@@ -34,7 +32,6 @@ public class UserRegistrationDTO extends BaseDTO{
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
     private Date birthDay;
-
 
     private Gender gender;
 
@@ -49,7 +46,7 @@ public class UserRegistrationDTO extends BaseDTO{
 
     private Role role;
 
-    public static User toUser(UserRegistrationDTO ur){
+    public static User toUser(UserFormDTO ur) {
         return User.builder()
                 .id(ur.getId())
                 .firstName(ur.getFirstName())
@@ -60,11 +57,10 @@ public class UserRegistrationDTO extends BaseDTO{
                 .password(ur.getPassword())
                 .role(ur.getRole())
                 .build();
-
     }
 
-    public static UserRegistrationDTO from(User user) {
-        return UserRegistrationDTO.builder()
+    public static UserFormDTO from(User user) {
+        return UserFormDTO.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
@@ -76,7 +72,7 @@ public class UserRegistrationDTO extends BaseDTO{
                 .build();
     }
 
-    public static MultiValueMap<String, String> toMultiValueMap(UserRegistrationDTO dto){
+    public static MultiValueMap<String, String> toMultiValueMap(UserFormDTO dto) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
 
         formData.add("firstName", dto.getFirstName());
@@ -88,8 +84,4 @@ public class UserRegistrationDTO extends BaseDTO{
         formData.add("role", dto.getRole().name());
         return formData;
     }
-
-
-
-
 }

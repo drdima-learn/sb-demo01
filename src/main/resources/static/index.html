@@ -79,8 +79,21 @@ curl -s -i -X DELETE http://localhost:8080/rest/admin/users/by-email?email=notfo
 <br>
 by email not well formed
 curl -s -i -X DELETE http://localhost:8080/rest/admin/users/by-email?email=badgmail.com
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
+
+
+<h3>updateUser PUT</h3>
+normal
+curl -s -i -X PUT -d '{"firstName":"updated firstName", "lastName":"updated lastName", "birthDay":"2020/05/13", "gender":"male" ,"role":"ADMIN", "email":"updated@gmail.com","password":"updated-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users/100000
+
+<p>-------------------------------------------------------------------------------------------------------------------------------------</p>
 <br>
 <br>
 <br>

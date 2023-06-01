@@ -1,7 +1,7 @@
 package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
-import com.rubincomputers.sb_demo01.dto.UserRegistrationDTO;
+import com.rubincomputers.sb_demo01.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.service.UserService;
 import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
 import lombok.extern.slf4j.Slf4j;
@@ -45,21 +45,21 @@ public class AdminController extends AbstractAdminController {
 
     @GetMapping(value = {"/register"})
     public String register(Model model) {
-        model.addAttribute("userRegistrationDTO", new UserRegistrationDTO());
+        model.addAttribute("userFormDTO", new UserFormDTO());
         return "register";
     }
 
 
     @PostMapping(value = {"/register"})
-    public String saveRegister(@Valid UserRegistrationDTO userRegistrationDTO, BindingResult result) {
+    public String saveRegister(@Valid UserFormDTO userFormDTO, BindingResult result) {
 
         if (result.hasErrors()) {
             log.debug("User form has an errors");
             return "register";
         }
         try {
-            super.create(UserRegistrationDTO.toUser(userRegistrationDTO));
-            return "redirect:" + WEBPAGE_URL + "/register?status=ok&email=" + userRegistrationDTO.getEmail();
+            super.create(userFormDTO);
+            return "redirect:" + WEBPAGE_URL + "/register?status=ok&email=" + userFormDTO.getEmail();
         } catch (DataIntegrityViolationException ex) {
             result.rejectValue("email", "exception.user.duplicateEmail");
             return "register";

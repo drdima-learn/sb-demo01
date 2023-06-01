@@ -1,6 +1,6 @@
 package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
 
-import com.rubincomputers.sb_demo01.dto.UserRegistrationDTO;
+import com.rubincomputers.sb_demo01.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
@@ -15,8 +15,8 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
     @Test
     void saveUser() throws Exception {
         User newUser = getNew();
-        UserRegistrationDTO dto = UserRegistrationDTO.from(newUser);
-        MultiValueMap<String, String> formData = UserRegistrationDTO.toMultiValueMap(dto);
+        UserFormDTO dto = UserFormDTO.from(newUser);
+        MultiValueMap<String, String> formData = UserFormDTO.toMultiValueMap(dto);
 
         pageTest(HttpMethod.POST,
                 WEBPAGE_URL + "/register",
@@ -31,8 +31,8 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
         User newUser = getNew();
         newUser.setEmail("wronggmail.com");
 
-        UserRegistrationDTO dto = UserRegistrationDTO.from(newUser);
-        MultiValueMap<String, String> formData = UserRegistrationDTO.toMultiValueMap(dto);
+        UserFormDTO dto = UserFormDTO.from(newUser);
+        MultiValueMap<String, String> formData = UserFormDTO.toMultiValueMap(dto);
 
         pageTest(HttpMethod.POST,
                 WEBPAGE_URL + "/register",
@@ -50,8 +50,8 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
 
         // https://rieckpil.de/test-thymeleaf-controller-endpoints-with-spring-boot-and-mockmvc/
 
-        UserRegistrationDTO dto = UserRegistrationDTO.from(newUser);
-        MultiValueMap<String, String> formData = UserRegistrationDTO.toMultiValueMap(dto);
+        UserFormDTO dto = UserFormDTO.from(newUser);
+        MultiValueMap<String, String> formData = UserFormDTO.toMultiValueMap(dto);
 
         pageTest(HttpMethod.POST,
                 WEBPAGE_URL + "/register",

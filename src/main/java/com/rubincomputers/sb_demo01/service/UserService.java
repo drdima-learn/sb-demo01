@@ -1,6 +1,7 @@
 package com.rubincomputers.sb_demo01.service;
 
 import com.rubincomputers.sb_demo01.dto.UserDTO;
+import com.rubincomputers.sb_demo01.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.repository.UserRepository;
 import com.rubincomputers.sb_demo01.util.ValidationUtil;
@@ -85,5 +86,11 @@ public class UserService {
     @Transactional
     public void deleteByEmail(String email) {
         ValidationUtil.checkNotFound(userRepository.deleteByEmail(email) != 0, email);
+    }
+
+    public void update(User user) {
+        Assert.notNull(user, "user must not be null");
+
+        userRepository.save(prepareToSave(user));
     }
 }
