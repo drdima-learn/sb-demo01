@@ -9,7 +9,8 @@ import org.springframework.http.HttpStatus;
 import javax.validation.ConstraintViolationException;
 
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
-import static com.rubincomputers.sb_demo01.dto.UserDTO.dto;
+import static com.rubincomputers.sb_demo01.service.mapper.UserMapper.dto;
+
 
 public class RestAdminControllerGetTest extends AbstractRestAdminControllerTest {
     @Test

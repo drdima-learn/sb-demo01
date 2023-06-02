@@ -1,7 +1,7 @@
 package com.rubincomputers.sb_demo01.web.controller.admin.rest;
 
-import com.rubincomputers.sb_demo01.dto.UserDTO;
-import com.rubincomputers.sb_demo01.dto.UserFormDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.util.ValidationUtil;
 import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;

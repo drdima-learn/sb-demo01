@@ -1,50 +1,32 @@
-package com.rubincomputers.sb_demo01.dto;
+package com.rubincomputers.sb_demo01.service.mapper;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.rubincomputers.sb_demo01.model.Gender;
-import com.rubincomputers.sb_demo01.model.Role;
 import com.rubincomputers.sb_demo01.model.User;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import com.rubincomputers.sb_demo01.service.dto.UserDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-@SuperBuilder
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-public class UserFormDTO extends BaseDTO {
+public class UserMapper {
+    private UserMapper() {
+    }
 
-    @NotBlank
-    @Size(min = 2, max = 128)
-    private String firstName;
+    public static List<UserDTO> dto(List<User> users) {
+        return users.stream().map(u -> dto(u)).collect(Collectors.toList());
+    }
 
-    @NotBlank
-    @Size(min = 2, max = 128)
-    private String lastName;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
-    private Date birthDay;
-
-    private Gender gender;
-
-    @NotBlank
-    @Email
-    private String email;
-
-    @NotBlank
-    @Size(min = 2, max = 128)
-
-    private String password;
-
-    private Role role;
+    public static UserDTO dto(User user) {
+        return UserDTO.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .birthDay(user.getBirthDay())
+                .gender(user.getGender() != null ? user.getGender().toString().toLowerCase() : "")
+                .email(user.getEmail())
+                .build();
+    }
 
     public static User toUser(UserFormDTO ur) {
         return User.builder()
@@ -83,5 +65,15 @@ public class UserFormDTO extends BaseDTO {
         formData.add("password", dto.getPassword());
         formData.add("role", dto.getRole().name());
         return formData;
+    }
+
+    public static User updateFromTo(User user, UserFormDTO dto) {
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+        user.setBirthDay(dto.getBirthDay());
+        user.setGender(dto.getGender());
+        return user;
     }
 }

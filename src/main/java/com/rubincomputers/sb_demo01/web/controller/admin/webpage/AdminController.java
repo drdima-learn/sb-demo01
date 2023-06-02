@@ -1,7 +1,7 @@
 package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
 
-import com.rubincomputers.sb_demo01.dto.UserDTO;
-import com.rubincomputers.sb_demo01.dto.UserFormDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.service.UserService;
 import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
 import lombok.extern.slf4j.Slf4j;

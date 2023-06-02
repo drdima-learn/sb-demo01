@@ -1,7 +1,8 @@
 package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
 
-import com.rubincomputers.sb_demo01.dto.UserFormDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.model.User;
+import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -15,8 +16,8 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
     @Test
     void saveUser() throws Exception {
         User newUser = getNew();
-        UserFormDTO dto = UserFormDTO.from(newUser);
-        MultiValueMap<String, String> formData = UserFormDTO.toMultiValueMap(dto);
+        UserFormDTO dto = UserMapper.from(newUser);
+        MultiValueMap<String, String> formData = UserMapper.toMultiValueMap(dto);
 
         pageTest(HttpMethod.POST,
                 WEBPAGE_URL + "/register",
@@ -31,8 +32,8 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
         User newUser = getNew();
         newUser.setEmail("wronggmail.com");
 
-        UserFormDTO dto = UserFormDTO.from(newUser);
-        MultiValueMap<String, String> formData = UserFormDTO.toMultiValueMap(dto);
+        UserFormDTO dto = UserMapper.from(newUser);
+        MultiValueMap<String, String> formData = UserMapper.toMultiValueMap(dto);
 
         pageTest(HttpMethod.POST,
                 WEBPAGE_URL + "/register",
@@ -50,8 +51,8 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
 
         // https://rieckpil.de/test-thymeleaf-controller-endpoints-with-spring-boot-and-mockmvc/
 
-        UserFormDTO dto = UserFormDTO.from(newUser);
-        MultiValueMap<String, String> formData = UserFormDTO.toMultiValueMap(dto);
+        UserFormDTO dto = UserMapper.from(newUser);
+        MultiValueMap<String, String> formData = UserMapper.toMultiValueMap(dto);
 
         pageTest(HttpMethod.POST,
                 WEBPAGE_URL + "/register",

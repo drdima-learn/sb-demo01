@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.dto;
+package com.rubincomputers.sb_demo01.service.dto;
 
 
 import com.rubincomputers.sb_demo01.HasId;

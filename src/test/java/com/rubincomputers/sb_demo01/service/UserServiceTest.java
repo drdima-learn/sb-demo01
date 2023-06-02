@@ -1,8 +1,9 @@
 package com.rubincomputers.sb_demo01.service;
 
-import com.rubincomputers.sb_demo01.dto.UserDTO;
-import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.data.UserTestData;
+import com.rubincomputers.sb_demo01.model.User;
+import com.rubincomputers.sb_demo01.service.dto.UserDTO;
+import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
@@ -13,9 +14,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.TransactionException;
 
-import static com.rubincomputers.sb_demo01.dto.UserDTO.dto;
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
+import static com.rubincomputers.sb_demo01.service.mapper.UserMapper.dto;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class UserServiceTest extends AbstractServiceTest {
@@ -70,7 +72,7 @@ class UserServiceTest extends AbstractServiceTest {
         User created = service.create(newUser);
         Long newId = created.getId();
         newUser.setId(newId);
-        UserDTO newUserDTO = UserDTO.dto(newUser);
+        UserDTO newUserDTO = UserMapper.dto(newUser);
 
         USER_MATCHER.assertMatch(created, newUser);
         USER_DTO_MATCHER.assertMatch(service.getById(newId), newUserDTO);
@@ -91,6 +93,19 @@ class UserServiceTest extends AbstractServiceTest {
         newUser.setFirstName("");
 
         assertThrows(TransactionException.class, () -> service.create(newUser));
+
+    }
+
+    @Test
+    void deleteUserById() {
+        long before = service.getAll().getTotalElements();
+
+        service.deleteById(USER_ID);
+        assertThrows(NotFoundException.class, () -> service.getById(USER_ID));
+
+        long after = service.getAll().getTotalElements();
+
+        assertTrue(before - 1 == after);
 
     }
 }

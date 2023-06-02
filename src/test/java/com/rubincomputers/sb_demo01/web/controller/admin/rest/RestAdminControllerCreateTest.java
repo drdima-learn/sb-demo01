@@ -1,8 +1,8 @@
 package com.rubincomputers.sb_demo01.web.controller.admin.rest;
 
-import com.rubincomputers.sb_demo01.dto.UserDTO;
-import com.rubincomputers.sb_demo01.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.model.User;
+import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
+import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.util.ValidationUtil;
 import com.rubincomputers.sb_demo01.util.exception.IllegalRequestDataException;
 import com.rubincomputers.sb_demo01.web.json.JsonUtil;
@@ -22,7 +22,7 @@ public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTe
     void createNewUser() throws Exception {
 
         User newUser = getNew();
-        UserFormDTO newUserFormDTO = UserFormDTO.from(newUser);
+        UserFormDTO newUserFormDTO = UserMapper.from(newUser);
 
         ResultActions action = restTest(
                 HttpMethod.POST,
@@ -37,7 +37,7 @@ public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTe
         newUserFormDTO.setId(newId);
         newUser.setId(newId);
         USER_MATCHER.assertMatch(created, newUser);
-        USER_DTO_MATCHER.assertMatch(userService.getById(newId), UserDTO.dto(newUser));
+        USER_DTO_MATCHER.assertMatch(userService.getById(newId), UserMapper.dto(newUser));
     }
 
 
@@ -98,7 +98,7 @@ public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTe
     }
 
     private void create(User newUser, Class<? extends Throwable> ex) throws Exception {
-        UserFormDTO newUserFormDTO = UserFormDTO.from(newUser);
+        UserFormDTO newUserFormDTO = UserMapper.from(newUser);
         ResultActions action = restTest(
                 HttpMethod.POST,
                 REST_URL,

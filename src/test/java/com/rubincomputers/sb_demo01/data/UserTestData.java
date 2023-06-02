@@ -1,8 +1,9 @@
 package com.rubincomputers.sb_demo01.data;
 
-import com.rubincomputers.sb_demo01.dto.UserDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.model.Gender;
 import com.rubincomputers.sb_demo01.model.User;
+import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -50,7 +51,7 @@ public class UserTestData {
 
     public static final List<User> allUsersEntity = List.of(user1, user2, user3, user4, user5,
             user6, user7, user8, user9, user10, user11, user12, user13, user14, user15, user16, user17, user18, user19, user20);
-    public static final List<UserDTO> allUsersDTO = UserDTO.dto(allUsersEntity);
+    public static final List<UserDTO> allUsersDTO = UserMapper.dto(allUsersEntity);
 
 
     private static Date date(String dateString) {

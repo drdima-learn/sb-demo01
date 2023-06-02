@@ -21,19 +21,19 @@ FOUND)<br>
 <br>
 <br>
 <h3>createUser POST</h3>
-curl -s -i -X POST -d '{"firstName":"New User", "lastName":"new last name", "birthDay":"2020/05/19", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+curl -s -i -X POST -d '{"firstName":"New User", "lastName":"new last name", "birthDay":"05/19/2020", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
 <br>
 <br>
 WRONG email<br>
-curl -s -i -X POST -d '{"firstName":"New User", "lastName":"new last name", "birthDay":"2020/05/19", "gender":"female" ,"role":"USER", "email":"testmail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+curl -s -i -X POST -d '{"firstName":"New User", "lastName":"new last name", "birthDay":"05/19/2020", "gender":"female" ,"role":"USER", "email":"testmail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
 <br>
 <br>
 Blank firstName<br>
-curl -s -i -X POST -d '{"firstName":"", "lastName":"new last name", "birthDay":"2020/05/19", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+curl -s -i -X POST -d '{"firstName":"", "lastName":"new last name", "birthDay":"05/19/2020", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
 <br>
 <br>
 Blank lastName<br>
-curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"  ", "birthDay":"2020/05/19", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"  ", "birthDay":"05/19/2020", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
 <br>
 <br>
 blank birthDay<br>
@@ -41,18 +41,18 @@ curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"new lastName", 
 <br>
 <br>
 has Id (id must be null)<br>
-curl -s -i -X POST -d '{"id":"123", "firstName":"new firstName", "lastName":"new lastName", "birthDay":"2020-05-13", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+curl -s -i -X POST -d '{"id":"123", "firstName":"new firstName", "lastName":"new lastName", "birthDay":"05/13/2020", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
 <br>
 <br>
 duplicate email<br>
-curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"new lastName", "birthDay":"2020-05-13", "gender":"female" ,"role":"USER", "email":"vasya@gmail.com","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"new lastName", "birthDay":"05/13/200", "gender":"female" ,"role":"USER", "email":"vasya@gmail.com","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
 
 
 <br>
 <br>
 
 normal request (without errors)<br>
-curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"new lastName", "birthDay":"2020-05-13", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
+curl -s -i -X POST -d '{"firstName":"new firstName", "lastName":"new lastName", "birthDay":"05/13/2020", "gender":"female" ,"role":"USER", "email":"test@mail.ru","password":"test-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users
 
 <br>
 <br>
@@ -90,8 +90,28 @@ curl -s -i -X DELETE http://localhost:8080/rest/admin/users/by-email?email=badgm
 
 
 <h3>updateUser PUT</h3>
-normal
-curl -s -i -X PUT -d '{"firstName":"updated firstName", "lastName":"updated lastName", "birthDay":"2020/05/13", "gender":"male" ,"role":"ADMIN", "email":"updated@gmail.com","password":"updated-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users/100000
+normal, without id, with right id in url
+curl -s -i -X PUT -d '{"firstName":"updated firstName", "lastName":"updated lastName", "birthDay":"05/13/2020", "gender":"male" ,"role":"ADMIN", "email":"updated@gmail.com","password":"updated-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users/100000
+<br>
+<br>
+normal, with id, and right id in url
+curl -s -i -X PUT -d '{"id":"100000", "firstName":"updated firstName", "lastName":"updated lastName", "birthDay":"05/13/2019", "gender":"male" ,"role":"ADMIN", "email":"updated@gmail.com","password":"updated-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users/100000
+<br>
+<br>
+user with id, but wrong id (exists) in url. should get IllegalRequestDataException
+curl -s -i -X PUT -d '{"id":"100000", "firstName":"updated firstName", "lastName":"updated lastName", "birthDay":"05/13/2019", "gender":"male" ,"role":"ADMIN", "email":"updated@gmail.com","password":"updated-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users/100001
+<br>
+<br>
+??, without id, with WRONG (but exists) id in url. it save it as normal, because cannot determine what was wrong
+curl -s -i -X PUT -d '{"firstName":"updated firstName", "lastName":"updated lastName", "birthDay":"05/13/2020", "gender":"male" ,"role":"ADMIN", "email":"updated@gmail.com","password":"updated-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users/100001
+<br>
+<br>
+without id, with WRONG (not exists) id in url. it should throw exception NotFound
+curl -s -i -X PUT -d '{"firstName":"updated firstName", "lastName":"updated lastName", "birthDay":"05/13/2020", "gender":"male" ,"role":"ADMIN", "email":"updated@gmail.com","password":"updated-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users/123
+<br>
+<br>
+without id, blank firstName, right id in url
+curl -s -i -X PUT -d '{"firstName":"", "lastName":"updated lastName", "birthDay":"05/13/2018", "gender":"male" ,"role":"ADMIN", "email":"updated@gmail.com","password":"updated-password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/users/100000
 
 <p>-------------------------------------------------------------------------------------------------------------------------------------</p>
 <br>
