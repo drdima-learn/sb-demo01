@@ -64,6 +64,16 @@ Page=
         ">Delete</a></td>
         </th:block>
 
+        <th:block th:with="uri=${uri.endsWith('/') ? #strings.substring(uri, 0, #strings.length(uri) - 1) : uri}">
+            <td><a th:href="
+            ${uri} + '/delete/' + ${user.id} +
+            ${page !=null ? '?' : ''} +
+            ${page !=null ? 'page=' + page : ''} +
+            ${size !=null ? '&size=' + size : ''} +
+            ${sort !=null ? '&sort=' + sort : ''}
+        ">Edit</a></td>
+        </th:block>
+
     </tr>
 </table>
 
