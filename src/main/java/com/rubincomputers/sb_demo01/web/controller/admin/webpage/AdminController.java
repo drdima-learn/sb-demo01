@@ -35,7 +35,7 @@ public class AdminController extends AbstractAdminController {
         return "users";
     }
 
-    @GetMapping(value = {"/{id}"})
+    @GetMapping(value = {"/{id}", "/edit/{id}"})
     public String getUserById(Model model, @PathVariable Long id) {
         UserDTO userDTO = userService.getById(id);
         model.addAttribute("user", userDTO);
@@ -82,4 +82,21 @@ public class AdminController extends AbstractAdminController {
 
         return "redirect:" + url.toString();
     }
+
+//    @GetMapping(value = {"/edit/{id}"})
+//    public String editUserById(@PathVariable long id, @RequestParam Map<String, String> params) {
+//        userService.deleteById(id);
+//
+//        StringBuilder url = new StringBuilder(WEBPAGE_URL);
+//        if (params.get("page") != null) {
+//            url.append("?")
+//                    .append((params.get("page") != null ? "page=" + params.get("page") : ""))
+//                    .append((params.get("size") != null ? "&size=" + params.get("size") : ""))
+//                    .append((params.get("sort") != null ? "&sort=" + params.get("sort") : ""));
+//
+//
+//        }
+//
+//        return "redirect:" + url.toString();
+//    }
 }
