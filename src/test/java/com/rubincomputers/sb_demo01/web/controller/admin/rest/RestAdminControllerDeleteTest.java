@@ -25,7 +25,7 @@ public class RestAdminControllerDeleteTest extends AbstractRestAdminControllerTe
                 HttpStatus.NO_CONTENT
         );
 
-        assertThrows(NotFoundException.class, () -> userService.getById(USER_ID));
+        assertThrows(NotFoundException.class, () -> userService.getUserDTOById(USER_ID));
 
         Page<UserDTO> usersAfterDelete = userService.getAll();
 

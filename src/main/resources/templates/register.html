@@ -49,8 +49,9 @@
 <!--    <input type="submit">-->
 
 
-
-<form th:object="${userFormDTO}" th:action="@{/admin/users/register}" method="post">
+<!--<th:block th:with="uri=${uri.endsWith('/') ? #strings.substring(uri, 0, #strings.length(uri) - 1) : uri}">-->
+<!--<form th:object="${userFormDTO}" th:action="@{/admin/users/register}" method="post">-->
+<form th:object="${userFormDTO}" th:action="${isEdit ? '/admin/users/edit/' + userFormDTO.id: '/admin/users/register'}" method="post">
     <div class="form-group">
         <label for="firstName">First Name:</label>
         <input type="text" id="firstName" th:field="*{firstName}" class="form-control" />

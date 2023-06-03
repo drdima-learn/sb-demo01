@@ -6,12 +6,10 @@ import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.util.exception.IllegalRequestDataException;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
 import com.rubincomputers.sb_demo01.web.json.JsonUtil;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
@@ -20,7 +18,7 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
     @Test
     void updateUserWithoutIdWithIdInUrl() throws Exception {
         User updatedWithoutId = getUpdateWoId();
-        UserFormDTO updatedWithoutIdFormDTO = UserMapper.from(updatedWithoutId);
+        UserFormDTO updatedWithoutIdFormDTO = UserMapper.toUserFormDTO(updatedWithoutId);
 
         ResultActions action = restTest(
                 HttpMethod.PUT,
@@ -31,14 +29,14 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
 
         User expectedUpdatedWithId = getUpdateWoId();
         expectedUpdatedWithId.setId(USER_ID);
-        USER_DTO_MATCHER.assertMatch(userService.getById(USER_ID), UserMapper.dto(expectedUpdatedWithId));
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID), UserMapper.dto(expectedUpdatedWithId));
     }
 
     @Test
     void updateUserWithIdAndWithIdInUrl() throws Exception {
         User updatedWoId = getUpdateWoId();
         updatedWoId.setId(USER_ID);
-        UserFormDTO updatedWithIdFormDTO = UserMapper.from(updatedWoId);
+        UserFormDTO updatedWithIdFormDTO = UserMapper.toUserFormDTO(updatedWoId);
 
         ResultActions action = restTest(
                 HttpMethod.PUT,
@@ -47,7 +45,7 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
                 HttpStatus.NO_CONTENT
         );
 
-        USER_DTO_MATCHER.assertMatch(userService.getById(USER_ID), UserMapper.dto(updatedWoId));
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID), UserMapper.dto(updatedWoId));
     }
 
     // user with id, but wrong id (exists) in url. should get IllegalRequestDataException
@@ -55,7 +53,7 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
     void updateUserWithIdButWrongExistsIdInUrl() throws Exception {
         User updatedWithId = getUpdateWoId();
         updatedWithId.setId(USER_ID);
-        UserFormDTO updatedWithIdFormDTO = UserMapper.from(updatedWithId);
+        UserFormDTO updatedWithIdFormDTO = UserMapper.toUserFormDTO(updatedWithId);
 
         ResultActions action = restTest(
                 HttpMethod.PUT,
@@ -71,7 +69,7 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
     void updateUserWithoutIdButWrongExistsIdInUrl() throws Exception {
         User updatedWoId = getUpdateWoId();
 
-        UserFormDTO updatedWoIdFormDTO = UserMapper.from(updatedWoId);
+        UserFormDTO updatedWoIdFormDTO = UserMapper.toUserFormDTO(updatedWoId);
 
         ResultActions action = restTest(
                 HttpMethod.PUT,
@@ -82,7 +80,7 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
 
         User expectedUpdatedWithId = getUpdateWoId();
         expectedUpdatedWithId.setId(USER_ID+1);
-        USER_DTO_MATCHER.assertMatch(userService.getById(USER_ID+1), UserMapper.dto(expectedUpdatedWithId));
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID+1), UserMapper.dto(expectedUpdatedWithId));
     }
 
     // without id, with WRONG (not exists) id in url. it should throw exception NotFound
@@ -90,7 +88,7 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
     void updateUserWithoutIdButWrongNotExistsIdInUrl() throws Exception {
         User updatedWoId = getUpdateWoId();
 
-        UserFormDTO updatedWoIdFormDTO = UserMapper.from(updatedWoId);
+        UserFormDTO updatedWoIdFormDTO = UserMapper.toUserFormDTO(updatedWoId);
 
         ResultActions action = restTest(
                 HttpMethod.PUT,
@@ -107,7 +105,7 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
         User updatedWoId = getUpdateWoId();
         updatedWoId.setFirstName("");
 
-        UserFormDTO updatedWoIdFormDTO = UserMapper.from(updatedWoId);
+        UserFormDTO updatedWoIdFormDTO = UserMapper.toUserFormDTO(updatedWoId);
 
         ResultActions action = restTest(
                 HttpMethod.PUT,
@@ -124,7 +122,7 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
         User updatedWoId = getUpdateWoId();
         updatedWoId.setId(USER_ID);
 
-        UserFormDTO updatedWoIdFormDTO = UserMapper.from(updatedWoId);
+        UserFormDTO updatedWoIdFormDTO = UserMapper.toUserFormDTO(updatedWoId);
 
         ResultActions action = restTest(
                 HttpMethod.PUT,

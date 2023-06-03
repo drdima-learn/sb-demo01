@@ -41,7 +41,7 @@ public class UserMapper {
                 .build();
     }
 
-    public static UserFormDTO from(User user) {
+    public static UserFormDTO toUserFormDTO(User user) {
         return UserFormDTO.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())

@@ -3,6 +3,7 @@ package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
 import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.service.UserService;
+import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,9 @@ public class AdminController extends AbstractAdminController {
         return "users";
     }
 
-    @GetMapping(value = {"/{id}", "/edit/{id}"})
+    @GetMapping(value = {"/{id}"})
     public String getUserById(Model model, @PathVariable Long id) {
-        UserDTO userDTO = userService.getById(id);
+        UserDTO userDTO = userService.getUserDTOById(id);
         model.addAttribute("user", userDTO);
         return "user";
     }
@@ -46,6 +47,7 @@ public class AdminController extends AbstractAdminController {
     @GetMapping(value = {"/register"})
     public String register(Model model) {
         model.addAttribute("userFormDTO", new UserFormDTO());
+        model.addAttribute("isEdit", false);
         return "register";
     }
 
@@ -83,20 +85,11 @@ public class AdminController extends AbstractAdminController {
         return "redirect:" + url.toString();
     }
 
-//    @GetMapping(value = {"/edit/{id}"})
-//    public String editUserById(@PathVariable long id, @RequestParam Map<String, String> params) {
-//        userService.deleteById(id);
-//
-//        StringBuilder url = new StringBuilder(WEBPAGE_URL);
-//        if (params.get("page") != null) {
-//            url.append("?")
-//                    .append((params.get("page") != null ? "page=" + params.get("page") : ""))
-//                    .append((params.get("size") != null ? "&size=" + params.get("size") : ""))
-//                    .append((params.get("sort") != null ? "&sort=" + params.get("sort") : ""));
-//
-//
-//        }
-//
-//        return "redirect:" + url.toString();
-//    }
+    @GetMapping(value = {"/edit/{id}"})
+    public String getEditUserById(@PathVariable long id, Model model) {
+        UserFormDTO userFormDTO = userService.getUserFormDTOById(id);
+        model.addAttribute("userFormDTO", userFormDTO);
+        model.addAttribute("isEdit", true);
+        return "register";
+    }
 }

@@ -52,7 +52,7 @@ public class RestAdminController extends AbstractAdminController {
     @GetMapping("/{id}")
     public UserDTO getUserById(@PathVariable Long id) {
         log.debug("getUserById {}", id);
-        return userService.getById(id);
+        return userService.getUserDTOById(id);
 
     }
 

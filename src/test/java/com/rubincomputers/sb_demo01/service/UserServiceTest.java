@@ -50,13 +50,13 @@ class UserServiceTest extends AbstractServiceTest {
 
     @Test
     void get() {
-        UserDTO userDTOActual = service.getById(UserTestData.USER_ID);
+        UserDTO userDTOActual = service.getUserDTOById(UserTestData.USER_ID);
         USER_DTO_MATCHER.assertMatch(userDTOActual, dto(user1));
     }
 
     @Test
     void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.getById(USER_ID_NOT_EXISTS));
+        assertThrows(NotFoundException.class, () -> service.getUserDTOById(USER_ID_NOT_EXISTS));
     }
 
     @Test
@@ -75,7 +75,7 @@ class UserServiceTest extends AbstractServiceTest {
         UserDTO newUserDTO = UserMapper.dto(newUser);
 
         USER_MATCHER.assertMatch(created, newUser);
-        USER_DTO_MATCHER.assertMatch(service.getById(newId), newUserDTO);
+        USER_DTO_MATCHER.assertMatch(service.getUserDTOById(newId), newUserDTO);
     }
 
     @Test
@@ -101,7 +101,7 @@ class UserServiceTest extends AbstractServiceTest {
         long before = service.getAll().getTotalElements();
 
         service.deleteById(USER_ID);
-        assertThrows(NotFoundException.class, () -> service.getById(USER_ID));
+        assertThrows(NotFoundException.class, () -> service.getUserDTOById(USER_ID));
 
         long after = service.getAll().getTotalElements();
 

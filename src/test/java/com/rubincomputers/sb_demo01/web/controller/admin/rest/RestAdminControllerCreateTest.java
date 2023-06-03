@@ -22,7 +22,7 @@ public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTe
     void createNewUser() throws Exception {
 
         User newUser = getNew();
-        UserFormDTO newUserFormDTO = UserMapper.from(newUser);
+        UserFormDTO newUserFormDTO = UserMapper.toUserFormDTO(newUser);
 
         ResultActions action = restTest(
                 HttpMethod.POST,
@@ -37,7 +37,7 @@ public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTe
         newUserFormDTO.setId(newId);
         newUser.setId(newId);
         USER_MATCHER.assertMatch(created, newUser);
-        USER_DTO_MATCHER.assertMatch(userService.getById(newId), UserMapper.dto(newUser));
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(newId), UserMapper.dto(newUser));
     }
 
 
@@ -98,7 +98,7 @@ public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTe
     }
 
     private void create(User newUser, Class<? extends Throwable> ex) throws Exception {
-        UserFormDTO newUserFormDTO = UserMapper.from(newUser);
+        UserFormDTO newUserFormDTO = UserMapper.toUserFormDTO(newUser);
         ResultActions action = restTest(
                 HttpMethod.POST,
                 REST_URL,

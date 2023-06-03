@@ -16,7 +16,7 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
     @Test
     void saveUser() throws Exception {
         User newUser = getNew();
-        UserFormDTO dto = UserMapper.from(newUser);
+        UserFormDTO dto = UserMapper.toUserFormDTO(newUser);
         MultiValueMap<String, String> formData = UserMapper.toMultiValueMap(dto);
 
         pageTest(HttpMethod.POST,
@@ -32,7 +32,7 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
         User newUser = getNew();
         newUser.setEmail("wronggmail.com");
 
-        UserFormDTO dto = UserMapper.from(newUser);
+        UserFormDTO dto = UserMapper.toUserFormDTO(newUser);
         MultiValueMap<String, String> formData = UserMapper.toMultiValueMap(dto);
 
         pageTest(HttpMethod.POST,
@@ -51,7 +51,7 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
 
         // https://rieckpil.de/test-thymeleaf-controller-endpoints-with-spring-boot-and-mockmvc/
 
-        UserFormDTO dto = UserMapper.from(newUser);
+        UserFormDTO dto = UserMapper.toUserFormDTO(newUser);
         MultiValueMap<String, String> formData = UserMapper.toMultiValueMap(dto);
 
         pageTest(HttpMethod.POST,

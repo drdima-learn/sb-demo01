@@ -43,11 +43,15 @@ public class UserService {
         return userRepository.findAll(pageable).map(UserMapper::dto);
     }
 
-    public UserDTO getById(Long id) {
-        return UserMapper.dto(getByIdEntity(id));
+    public UserDTO getUserDTOById(Long id) {
+        return UserMapper.dto(getEntityById(id));
     }
 
-    private User getByIdEntity(Long id){
+    public UserFormDTO getUserFormDTOById(Long id) {
+        return UserMapper.toUserFormDTO(getEntityById(id));
+    }
+
+    private User getEntityById(Long id){
         return userRepository.findById(id).orElseThrow(() -> new NotFoundException("user id=" + id));
     }
 
@@ -96,7 +100,7 @@ public class UserService {
     @Transactional
     public void update(UserFormDTO userFormDTO) {
         //User user = UserFormDTO.toUser(userFormDTO);
-        User user = this.getByIdEntity(userFormDTO.getId());
+        User user = this.getEntityById(userFormDTO.getId());
         user = UserMapper.updateFromTo(user, userFormDTO);
         prepareToSave(user);
     }
