@@ -9,6 +9,15 @@
 </head>
 <body th:with="uri=${#httpServletRequest.requestURI}, page=${param.page}, size=${param.size}, sort=${param.sort}">
 
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    const email = urlParams.get('email');
+    if (status=='ok'){
+        alert("User has been registered with email " + email)
+    }
+</script>
+
 uri before
 <p th:text="${uri}">URI Variable</p>
 
@@ -38,6 +47,8 @@ Page=
 
 <!-- https://www.baeldung.com/thymeleaf-variables -->
 
+
+<h2><a href="/admin/users/register">Add new User</a></h2>
 
 <table border="1">
 

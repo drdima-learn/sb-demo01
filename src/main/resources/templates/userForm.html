@@ -7,50 +7,18 @@
 </head>
 <body>
 
-<script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const status = urlParams.get('status');
-    const email = urlParams.get('email');
-    if (status=='ok'){
-        alert("User has been registered with email " + email)
-    }
-</script>
 
 
+<h1>
+    <th:block th:text="${isEdit ? 'Edit user' : 'Create new user'}"/>
+</h1>
 
-<h1>Register form</h1>
+
 <!--/*@thymesVar id="user" type="com.rubincomputers.sb_demo01.service.dto.UserDTO"*/-->
 <span th:text="${userFormDTO}"/>
 
 <h2>status is</h2>
-<!--<span th:text="${status.error}"/>-->
-<!--<th:block th:with="${status.error}"/>-->
 
-
-
-<!--<form action="/admin/users/register" method="post">-->
-<!--    firstName <input type="text" name="firstName"><br>-->
-<!--    lastName<input type="text" name="lastName"><br>-->
-<!--    birthDay<input type="text" name="birthDay"><br>-->
-<!--    gender<input type="text" name="gender"><br>-->
-
-
-<!--    <label for="email">email:</label>-->
-<!--    <input type="text" id="email" name="email" th:email="*{user.email}" />-->
-<!--    <span th:errors="*{user.email}" class="error"></span>-->
-
-<!--&lt;!&ndash;    email<input type="text" name="email"><br>&ndash;&gt;-->
-
-
-
-
-<!--    password<input type="text" name="password"><br>-->
-<!--    role<input type="text" name="role"><br>-->
-<!--    <input type="submit">-->
-
-
-<!--<th:block th:with="uri=${uri.endsWith('/') ? #strings.substring(uri, 0, #strings.length(uri) - 1) : uri}">-->
-<!--<form th:object="${userFormDTO}" th:action="@{/admin/users/register}" method="post">-->
 <form th:object="${userFormDTO}" th:action="${isEdit ? '/admin/users/edit/' + userFormDTO.id: '/admin/users/register'}" method="post">
     <div class="form-group">
         <label for="firstName">First Name:</label>
@@ -67,6 +35,7 @@
     <div class="form-group">
         <label for="birthDay">Birth Day:</label>
         <input type="text" id="birthDay" th:field="*{birthDay}" class="form-control" />
+
         <span th:errors="*{birthDay}" class="error"></span>
     </div>
 
@@ -107,7 +76,7 @@
 
 
 
-</form>
+</h1>
 
 </body>
 </html>

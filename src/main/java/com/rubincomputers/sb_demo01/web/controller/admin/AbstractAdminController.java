@@ -22,4 +22,10 @@ public abstract class AbstractAdminController {
 
     }
 
+    public void update(UserFormDTO userFormDTO, long id){
+        log.debug("update userFormDTO: {}", userFormDTO);
+        ValidationUtil.assureIdConsistent(userFormDTO, id);
+        userService.update(userFormDTO);
+    }
+
 }

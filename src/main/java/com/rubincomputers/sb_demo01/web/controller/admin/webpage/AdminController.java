@@ -7,15 +7,19 @@ import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -28,6 +32,11 @@ public class AdminController extends AbstractAdminController {
     static final String WEBPAGE_URL = "/admin/users";
     @Autowired
     private UserService userService;
+
+    @InitBinder
+    public void initBinder (WebDataBinder binder) {
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy/MM/dd"), true));
+    }
 
     @GetMapping(value = {"", "/"})
     public String getUsers(Model model, Pageable pageable) {
@@ -48,7 +57,7 @@ public class AdminController extends AbstractAdminController {
     public String register(Model model) {
         model.addAttribute("userFormDTO", new UserFormDTO());
         model.addAttribute("isEdit", false);
-        return "register";
+        return "userForm";
     }
 
 
@@ -57,14 +66,14 @@ public class AdminController extends AbstractAdminController {
 
         if (result.hasErrors()) {
             log.debug("User form has an errors");
-            return "register";
+            return "userForm";
         }
         try {
             super.create(userFormDTO);
-            return "redirect:" + WEBPAGE_URL + "/register?status=ok&email=" + userFormDTO.getEmail();
+            return "redirect:" + WEBPAGE_URL + "/?status=ok&email=" + userFormDTO.getEmail();
         } catch (DataIntegrityViolationException ex) {
             result.rejectValue("email", "exception.user.duplicateEmail");
-            return "register";
+            return "userForm";
         }
     }
 
@@ -86,10 +95,16 @@ public class AdminController extends AbstractAdminController {
     }
 
     @GetMapping(value = {"/edit/{id}"})
-    public String getEditUserById(@PathVariable long id, Model model) {
+    public String getUpdatePage(@PathVariable long id, Model model) {
         UserFormDTO userFormDTO = userService.getUserFormDTOById(id);
         model.addAttribute("userFormDTO", userFormDTO);
         model.addAttribute("isEdit", true);
-        return "register";
+        return "userForm";
+    }
+
+    @PostMapping(value = {"/edit/{id}"})
+    public String postUpdatePage(@PathVariable long id, @Valid UserFormDTO userFormDTO, BindingResult bindingResult, Model model) {
+        super.update(userFormDTO, id);
+        return "redirect:" + WEBPAGE_URL + "/?status=ok&email=" + userFormDTO.getEmail();
     }
 }

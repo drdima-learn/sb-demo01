@@ -88,8 +88,6 @@ public class RestAdminController extends AbstractAdminController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody UserFormDTO userFormDTO, @PathVariable long id){
-        log.debug("update userFormDTO: {}", userFormDTO);
-        ValidationUtil.assureIdConsistent(userFormDTO, id);
-        userService.update(userFormDTO);
+        super.update(userFormDTO, id);
     }
 }
