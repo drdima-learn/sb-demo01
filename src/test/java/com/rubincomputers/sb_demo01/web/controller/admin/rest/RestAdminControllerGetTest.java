@@ -9,7 +9,8 @@ import org.springframework.http.HttpStatus;
 import javax.validation.ConstraintViolationException;
 
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
-import static com.rubincomputers.sb_demo01.dto.UserDTO.dto;
+import static com.rubincomputers.sb_demo01.service.mapper.UserMapper.dto;
+
 
 public class RestAdminControllerGetTest extends AbstractRestAdminControllerTest {
     @Test
@@ -44,7 +45,7 @@ public class RestAdminControllerGetTest extends AbstractRestAdminControllerTest 
         restTest(HttpMethod.GET,
                 REST_URL + "/?page=0&size=3&sort=id2,asc",
                 HttpStatus.BAD_REQUEST,
-                expectRestException(BadSortParameter.class)
+                BadSortParameter.class
         );
     }
 
@@ -63,7 +64,7 @@ public class RestAdminControllerGetTest extends AbstractRestAdminControllerTest 
         restTest(HttpMethod.GET,
                 REST_URL + "/" + USER_ID_NOT_EXISTS,
                 HttpStatus.NOT_FOUND,
-                expectRestException(NotFoundException.class)
+                NotFoundException.class
         );
     }
 
@@ -81,7 +82,7 @@ public class RestAdminControllerGetTest extends AbstractRestAdminControllerTest 
         restTest(HttpMethod.GET,
                 REST_URL + "/by-email?email=" + USER_EMAIL_NOT_EXISTS,
                 HttpStatus.NOT_FOUND,
-                expectRestException(NotFoundException.class)
+                NotFoundException.class
         );
     }
 
@@ -90,7 +91,7 @@ public class RestAdminControllerGetTest extends AbstractRestAdminControllerTest 
         restTest(HttpMethod.GET,
                 REST_URL + "/by-email?email=" + USER_EMAIL_NOT_WELL_FORMED,
                 HttpStatus.BAD_REQUEST,
-                expectRestException(ConstraintViolationException.class)
+                ConstraintViolationException.class
         );
     }
 }

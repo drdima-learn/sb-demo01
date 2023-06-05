@@ -1,8 +1,10 @@
 package com.rubincomputers.sb_demo01.service;
 
-import com.rubincomputers.sb_demo01.dto.UserDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.repository.UserRepository;
+import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.util.ValidationUtil;
 import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
@@ -13,9 +15,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +31,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
     public Page<UserDTO> getAll() {
         return getAll(PageRequest.of(0, Integer.MAX_VALUE));
     }
@@ -37,15 +40,23 @@ public class UserService {
         if (!onlyContainsAllowedProperties(pageable)) {
             throw new BadSortParameter("Bad Parameter: " + pageable.getSort().toString());
         }
-        return userRepository.findAll(pageable).map(UserDTO::dto);
+        return userRepository.findAll(pageable).map(UserMapper::dto);
     }
 
-    public UserDTO getById(Long id) {
-        return userRepository.findById(id).map(UserDTO::dto).orElseThrow(() -> new NotFoundException("user id=" + id));
+    public UserDTO getUserDTOById(Long id) {
+        return UserMapper.dto(getEntityById(id));
+    }
+
+    public UserFormDTO getUserFormDTOById(Long id) {
+        return UserMapper.toUserFormDTO(getEntityById(id));
+    }
+
+    private User getEntityById(Long id){
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("user id=" + id));
     }
 
     public UserDTO getByEmail(String email) {
-        return userRepository.findByEmail(email).map(UserDTO::dto).orElseThrow(() -> new NotFoundException("user email=" + email));
+        return userRepository.findByEmail(email).map(UserMapper::dto).orElseThrow(() -> new NotFoundException("user email=" + email));
     }
 
     private boolean onlyContainsAllowedProperties(Pageable pageable) {
@@ -59,8 +70,7 @@ public class UserService {
                 )
         );
 
-
-        Sort sort = pageable.getSort();
+        //Sort sort = pageable.getSort();
         return pageable.getSort().stream().map(Sort.Order::getProperty).allMatch(ALLOWED_ORDERED_PROPERTIES::contains);
     }
 
@@ -86,4 +96,15 @@ public class UserService {
     public void deleteByEmail(String email) {
         ValidationUtil.checkNotFound(userRepository.deleteByEmail(email) != 0, email);
     }
+
+    @Transactional
+    public void update(UserFormDTO userFormDTO) {
+        Assert.notNull(userFormDTO, "userFormDTO must not be null");
+        Assert.notNull(userFormDTO.getId(), "userFormDTO.id must not be null");
+        User user = this.getEntityById(userFormDTO.getId());
+        user = UserMapper.updateFromTo(user, userFormDTO);
+        prepareToSave(user);
+    }
+
+
 }

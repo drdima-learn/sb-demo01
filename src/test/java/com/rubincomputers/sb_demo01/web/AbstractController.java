@@ -1,6 +1,7 @@
 package com.rubincomputers.sb_demo01.web;
 
 import com.rubincomputers.sb_demo01.AbstractTest;
+import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
 import com.rubincomputers.sb_demo01.web.util.mockmvc.TrueResultMatcher;
 import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.util.Arrays;
@@ -49,9 +50,18 @@ public abstract class AbstractController extends AbstractTest {
                 .build();
     }
 
+
+    protected ResultMatcher expectRestException(Class<? extends Throwable> ex) {
+        return jsonPath("$.exception", containsString(ex.getSimpleName()));
+    }
+
     //get rest
     protected ResultActions restTest(HttpMethod method, String url, HttpStatus status, ResultMatcher matcher) throws Exception {
         return requestTest(method, url, "", null, status, "", new ResultMatcher[]{matcher});
+    }
+
+    protected ResultActions restTest(HttpMethod method, String url, HttpStatus status, Class<? extends Throwable> ex) throws Exception {
+        return requestTest(method, url, "", null, status, "", new ResultMatcher[]{expectRestException(ex)});
     }
 
     //post rest , expect only status like 201 CREATED
@@ -62,6 +72,10 @@ public abstract class AbstractController extends AbstractTest {
     //post rest , expect status like 400, and matcher like exception
     protected ResultActions restTest(HttpMethod method, String url, String sendContent, HttpStatus status, ResultMatcher matcher) throws Exception {
         return requestTest(method, url, sendContent, null, status, "", new ResultMatcher[]{matcher});
+    }
+
+    protected ResultActions restTest(HttpMethod method, String url, String sendContent, HttpStatus status, Class<? extends Throwable> ex) throws Exception {
+        return requestTest(method, url, sendContent, null, status, "", new ResultMatcher[]{expectRestException(ex)});
     }
 
     //delete rest

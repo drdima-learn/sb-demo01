@@ -1,8 +1,8 @@
 package com.rubincomputers.sb_demo01.web.controller.admin.rest;
 
-import com.rubincomputers.sb_demo01.dto.UserDTO;
-import com.rubincomputers.sb_demo01.dto.UserRegistrationDTO;
 import com.rubincomputers.sb_demo01.model.User;
+import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
+import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.util.ValidationUtil;
 import com.rubincomputers.sb_demo01.util.exception.IllegalRequestDataException;
 import com.rubincomputers.sb_demo01.web.json.JsonUtil;
@@ -22,22 +22,22 @@ public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTe
     void createNewUser() throws Exception {
 
         User newUser = getNew();
-        UserRegistrationDTO newUserRegistrationDTO = UserRegistrationDTO.from(newUser);
+        UserFormDTO newUserFormDTO = UserMapper.toUserFormDTO(newUser);
 
         ResultActions action = restTest(
                 HttpMethod.POST,
                 REST_URL,
-                JsonUtil.writeValue(newUserRegistrationDTO),
+                JsonUtil.writeValue(newUserFormDTO),
                 HttpStatus.CREATED
         );
 
         User created = USER_MATCHER.readFromJson(action);
         ValidationUtil.checkNotNew(created);
         long newId = created.getId();
-        newUserRegistrationDTO.setId(newId);
+        newUserFormDTO.setId(newId);
         newUser.setId(newId);
         USER_MATCHER.assertMatch(created, newUser);
-        USER_DTO_MATCHER.assertMatch(userService.getById(newId), UserDTO.dto(newUser));
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(newId), UserMapper.dto(newUser));
     }
 
 
@@ -98,13 +98,13 @@ public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTe
     }
 
     private void create(User newUser, Class<? extends Throwable> ex) throws Exception {
-        UserRegistrationDTO newUserRegistrationDTO = UserRegistrationDTO.from(newUser);
+        UserFormDTO newUserFormDTO = UserMapper.toUserFormDTO(newUser);
         ResultActions action = restTest(
                 HttpMethod.POST,
                 REST_URL,
-                JsonUtil.writeValue(newUserRegistrationDTO),
+                JsonUtil.writeValue(newUserFormDTO),
                 HttpStatus.BAD_REQUEST,
-                expectRestException(ex)
+                ex
         );
     }
 }

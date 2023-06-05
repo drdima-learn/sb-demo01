@@ -1,6 +1,6 @@
 package com.rubincomputers.sb_demo01.web.controller.admin.rest;
 
-import com.rubincomputers.sb_demo01.dto.UserDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
@@ -25,7 +25,7 @@ public class RestAdminControllerDeleteTest extends AbstractRestAdminControllerTe
                 HttpStatus.NO_CONTENT
         );
 
-        assertThrows(NotFoundException.class, () -> userService.getById(USER_ID));
+        assertThrows(NotFoundException.class, () -> userService.getUserDTOById(USER_ID));
 
         Page<UserDTO> usersAfterDelete = userService.getAll();
 
@@ -40,7 +40,7 @@ public class RestAdminControllerDeleteTest extends AbstractRestAdminControllerTe
         restTest(HttpMethod.DELETE,
                 REST_URL + USER_ID_NOT_EXISTS,
                 HttpStatus.NOT_FOUND,
-                expectRestException(NotFoundException.class)
+                NotFoundException.class
         );
 
         Page<UserDTO> usersAfterDelete = userService.getAll();
@@ -73,7 +73,7 @@ public class RestAdminControllerDeleteTest extends AbstractRestAdminControllerTe
         restTest(HttpMethod.DELETE,
                 REST_URL + "by-email?email=" + USER_EMAIL_NOT_WELL_FORMED,
                 HttpStatus.BAD_REQUEST,
-                expectRestException(ConstraintViolationException.class)
+                ConstraintViolationException.class
         );
 
         Page<UserDTO> usersAfterDelete = userService.getAll();

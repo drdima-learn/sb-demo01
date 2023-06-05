@@ -1,7 +1,8 @@
 package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
 
-import com.rubincomputers.sb_demo01.dto.UserRegistrationDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.model.User;
+import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -15,13 +16,13 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
     @Test
     void saveUser() throws Exception {
         User newUser = getNew();
-        UserRegistrationDTO dto = UserRegistrationDTO.from(newUser);
-        MultiValueMap<String, String> formData = UserRegistrationDTO.toMultiValueMap(dto);
+        UserFormDTO dto = UserMapper.toUserFormDTO(newUser);
+        MultiValueMap<String, String> formData = UserMapper.toMultiValueMap(dto);
 
         pageTest(HttpMethod.POST,
                 WEBPAGE_URL + "/register",
                 formData,
-                HttpStatus.FOUND, //301 redirect
+                HttpStatus.FOUND, //302 redirect
                 header().string("Location", containsString("status=ok"))
         );
     }
@@ -31,14 +32,14 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
         User newUser = getNew();
         newUser.setEmail("wronggmail.com");
 
-        UserRegistrationDTO dto = UserRegistrationDTO.from(newUser);
-        MultiValueMap<String, String> formData = UserRegistrationDTO.toMultiValueMap(dto);
+        UserFormDTO dto = UserMapper.toUserFormDTO(newUser);
+        MultiValueMap<String, String> formData = UserMapper.toMultiValueMap(dto);
 
         pageTest(HttpMethod.POST,
                 WEBPAGE_URL + "/register",
                 formData,
                 HttpStatus.OK,
-                "register",
+                "userForm",
                 "must be a well-formed email address"
         );
     }
@@ -50,14 +51,14 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
 
         // https://rieckpil.de/test-thymeleaf-controller-endpoints-with-spring-boot-and-mockmvc/
 
-        UserRegistrationDTO dto = UserRegistrationDTO.from(newUser);
-        MultiValueMap<String, String> formData = UserRegistrationDTO.toMultiValueMap(dto);
+        UserFormDTO dto = UserMapper.toUserFormDTO(newUser);
+        MultiValueMap<String, String> formData = UserMapper.toMultiValueMap(dto);
 
         pageTest(HttpMethod.POST,
                 WEBPAGE_URL + "/register",
                 formData,
                 HttpStatus.OK,
-                "register",
+                "userForm",
                 "must not be blank"
         );
     }

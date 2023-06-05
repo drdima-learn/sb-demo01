@@ -20,7 +20,5 @@ public abstract class AbstractRestAdminControllerTest extends AbstractController
     protected void emptyTest() {
     }
 
-    protected ResultMatcher expectRestException(Class<? extends Throwable> ex) {
-        return jsonPath("$.exception", containsString(ex.getSimpleName()));
-    }
+
 }

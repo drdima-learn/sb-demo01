@@ -87,7 +87,7 @@ public class AdminControllerGetTest extends AbstractAdminControllerTest {
         pageTest(HttpMethod.GET,
                 WEBPAGE_URL + "/register",
                 HttpStatus.OK,
-                "register"
+                "userForm"
         );
     }
 

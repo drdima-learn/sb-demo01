@@ -1,8 +1,9 @@
 package com.rubincomputers.sb_demo01.web.controller.admin.rest;
 
-import com.rubincomputers.sb_demo01.dto.UserDTO;
-import com.rubincomputers.sb_demo01.dto.UserRegistrationDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.model.User;
+import com.rubincomputers.sb_demo01.util.ValidationUtil;
 import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -51,7 +52,7 @@ public class RestAdminController extends AbstractAdminController {
     @GetMapping("/{id}")
     public UserDTO getUserById(@PathVariable Long id) {
         log.debug("getUserById {}", id);
-        return userService.getById(id);
+        return userService.getUserDTOById(id);
 
     }
 
@@ -62,8 +63,8 @@ public class RestAdminController extends AbstractAdminController {
     }
 
     @PostMapping(value = {"", "/"}, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> createWithLocation(@Valid @RequestBody UserRegistrationDTO userRegistrationDTO) {
-        User created = super.create(UserRegistrationDTO.toUser(userRegistrationDTO));
+    public ResponseEntity<User> createWithLocation(@Valid @RequestBody UserFormDTO userFormDTO) {
+        User created = super.create(userFormDTO);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -82,5 +83,12 @@ public class RestAdminController extends AbstractAdminController {
     public void deleteByEmail(@RequestParam @Email String email) {
         log.info("delete user email={}", email);
         userService.deleteByEmail(email);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Override
+    public void update(@Valid @RequestBody UserFormDTO userFormDTO, @PathVariable long id){
+        super.update(userFormDTO, id);
     }
 }
