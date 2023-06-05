@@ -99,7 +99,8 @@ public class UserService {
 
     @Transactional
     public void update(UserFormDTO userFormDTO) {
-        //User user = UserFormDTO.toUser(userFormDTO);
+        Assert.notNull(userFormDTO, "userFormDTO must not be null");
+        Assert.notNull(userFormDTO.getId(), "userFormDTO.id must not be null");
         User user = this.getEntityById(userFormDTO.getId());
         user = UserMapper.updateFromTo(user, userFormDTO);
         prepareToSave(user);

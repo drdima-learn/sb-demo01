@@ -48,7 +48,8 @@ Page=
 <!-- https://www.baeldung.com/thymeleaf-variables -->
 
 
-<h2><a href="/admin/users/register">Add new User</a></h2>
+<!--<h2><a th:href="${'/admin/users/register'+ ( (param.page != null) ? '?page=' + param.page + '&size=' + param.size + '&sort=' + param.sort : '') }">Add new User</a></h2>-->
+<h2><a th:href="${'/admin/users/register'+ ( (page!=null ) ? '?page=' + page + '&size=' + size + '&sort=' + sort : ''  ) }">Add new User</a></h2>
 
 <table border="1">
 

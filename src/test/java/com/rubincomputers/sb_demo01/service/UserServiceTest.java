@@ -3,6 +3,7 @@ package com.rubincomputers.sb_demo01.service;
 import com.rubincomputers.sb_demo01.data.UserTestData;
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.service.dto.UserDTO;
+import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
@@ -84,7 +85,6 @@ class UserServiceTest extends AbstractServiceTest {
         newUser.setEmail(user1.getEmail()); //set duplicate email
 
         assertThrows(DataAccessException.class, () -> service.create(newUser));
-
     }
 
     @Test
@@ -93,7 +93,6 @@ class UserServiceTest extends AbstractServiceTest {
         newUser.setFirstName("");
 
         assertThrows(TransactionException.class, () -> service.create(newUser));
-
     }
 
     @Test
@@ -106,6 +105,33 @@ class UserServiceTest extends AbstractServiceTest {
         long after = service.getAll().getTotalElements();
 
         assertTrue(before - 1 == after);
+    }
 
+    @Test
+    void updateWithId() {
+        UserFormDTO updatedUser = UserMapper.toUserFormDTO(getUpdatedWithId());
+
+        service.update(updatedUser);
+
+        UserDTO actual = service.getUserDTOById(USER_ID);
+
+        USER_DTO_MATCHER.assertMatch(actual, UserMapper.dto(getUpdatedWithId()));
+    }
+
+    @Test
+    void updateWoId() {
+        UserDTO expected = service.getUserDTOById(USER_ID);
+
+        UserFormDTO updatedUserWoId = UserMapper.toUserFormDTO(getUpdatedWoId());
+        assertThrows(IllegalArgumentException.class, () -> service.update(updatedUserWoId));
+
+        UserDTO actual = service.getUserDTOById(USER_ID);
+
+        USER_DTO_MATCHER.assertMatch(actual, expected);
+    }
+
+    @Test
+    void updateNull() {
+        assertThrows(IllegalArgumentException.class, () -> service.update(null));
     }
 }

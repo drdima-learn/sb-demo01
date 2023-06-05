@@ -19,7 +19,12 @@
 
 <h2>status is</h2>
 
-<form th:object="${userFormDTO}" th:action="${isEdit ? '/admin/users/edit/' + userFormDTO.id: '/admin/users/register'}" method="post">
+<form th:object="${userFormDTO}" th:action="${(isEdit ? '/admin/users/edit/' + userFormDTO.id : '/admin/users/register') + ((param.page != null) ? '?page=' + param.page + '&size=' + param.size + '&sort=' + param.sort : '')}" method="post">
+
+
+    <input type="hidden" th:field="*{id}" />
+
+
     <div class="form-group">
         <label for="firstName">First Name:</label>
         <input type="text" id="firstName" th:field="*{firstName}" class="form-control" />
@@ -71,7 +76,7 @@
         <span th:errors="*{role}" class="error"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Register</button>
+    <button type="submit" class="btn btn-primary">Save</button>
 </form>
 
 

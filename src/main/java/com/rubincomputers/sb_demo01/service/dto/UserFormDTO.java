@@ -41,7 +41,6 @@ public class UserFormDTO extends BaseDTO {
 
     @NotBlank
     @Size(min = 2, max = 128)
-
     private String password;
 
     private Role role;

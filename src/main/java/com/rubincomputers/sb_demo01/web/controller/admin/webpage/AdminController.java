@@ -62,15 +62,15 @@ public class AdminController extends AbstractAdminController {
 
 
     @PostMapping(value = {"/register"})
-    public String saveRegister(@Valid UserFormDTO userFormDTO, BindingResult result) {
+    public String saveRegister(@Valid UserFormDTO userFormDTO, BindingResult result, Model model, @RequestParam Map<String, String> params) {
 
         if (result.hasErrors()) {
-            log.debug("User form has an errors");
-            return "userForm";
+            return logAndReturnUserForm(model, false);
         }
+
         try {
             super.create(userFormDTO);
-            return "redirect:" + WEBPAGE_URL + "/?status=ok&email=" + userFormDTO.getEmail();
+             return "redirect:" + WEBPAGE_URL + getUrlWithSortParams(params) + (getUrlWithSortParams(params).isEmpty() ? "?" : "&") + "status=ok&email=" + userFormDTO.getEmail();
         } catch (DataIntegrityViolationException ex) {
             result.rejectValue("email", "exception.user.duplicateEmail");
             return "userForm";
@@ -80,18 +80,7 @@ public class AdminController extends AbstractAdminController {
     @GetMapping(value = {"/delete/{id}"})
     public String deleteUserById(@PathVariable long id, @RequestParam Map<String, String> params) {
         userService.deleteById(id);
-
-        StringBuilder url = new StringBuilder(WEBPAGE_URL);
-        if (params.get("page") != null) {
-            url.append("?")
-                    .append((params.get("page") != null ? "page=" + params.get("page") : ""))
-                    .append((params.get("size") != null ? "&size=" + params.get("size") : ""))
-                    .append((params.get("sort") != null ? "&sort=" + params.get("sort") : ""));
-
-
-        }
-
-        return "redirect:" + url.toString();
+        return "redirect:" + WEBPAGE_URL + getUrlWithSortParams(params);
     }
 
     @GetMapping(value = {"/edit/{id}"})
@@ -103,8 +92,32 @@ public class AdminController extends AbstractAdminController {
     }
 
     @PostMapping(value = {"/edit/{id}"})
-    public String postUpdatePage(@PathVariable long id, @Valid UserFormDTO userFormDTO, BindingResult bindingResult, Model model) {
+    public String postUpdatePage(@PathVariable long id,
+                                 @Valid UserFormDTO userFormDTO, BindingResult result, Model model,
+                                 @RequestParam Map<String, String> params) {
+
+        if (result.hasErrors()) {
+            return logAndReturnUserForm(model, true);
+        }
+
         super.update(userFormDTO, id);
-        return "redirect:" + WEBPAGE_URL + "/?status=ok&email=" + userFormDTO.getEmail();
+        return "redirect:" + WEBPAGE_URL + getUrlWithSortParams(params) + "&status=ok&email=" + userFormDTO.getEmail();
+    }
+
+    private String getUrlWithSortParams(Map<String, String> params){
+        StringBuilder url = new StringBuilder();
+        if (params.get("page") != null) {
+            url.append("?")
+                    .append((params.get("page") != null ? "page=" + params.get("page") : ""))
+                    .append((params.get("size") != null ? "&size=" + params.get("size") : ""))
+                    .append((params.get("sort") != null ? "&sort=" + params.get("sort") : ""));
+        }
+        return url.toString();
+    }
+
+    private String logAndReturnUserForm(Model model, boolean isEdit){
+        log.debug("User form has an errors");
+        model.addAttribute("isEdit", isEdit);
+        return "userForm";
     }
 }

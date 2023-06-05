@@ -14,10 +14,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
 
-public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
+public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest {
     @Test
     void updateUserWithoutIdWithIdInUrl() throws Exception {
-        User updatedWithoutId = getUpdateWoId();
+        User updatedWithoutId = getUpdatedWoId();
         UserFormDTO updatedWithoutIdFormDTO = UserMapper.toUserFormDTO(updatedWithoutId);
 
         ResultActions action = restTest(
@@ -27,16 +27,14 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
                 HttpStatus.NO_CONTENT
         );
 
-        User expectedUpdatedWithId = getUpdateWoId();
+        User expectedUpdatedWithId = getUpdatedWithId();
         expectedUpdatedWithId.setId(USER_ID);
         USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID), UserMapper.dto(expectedUpdatedWithId));
     }
 
     @Test
     void updateUserWithIdAndWithIdInUrl() throws Exception {
-        User updatedWoId = getUpdateWoId();
-        updatedWoId.setId(USER_ID);
-        UserFormDTO updatedWithIdFormDTO = UserMapper.toUserFormDTO(updatedWoId);
+        UserFormDTO updatedWithIdFormDTO = UserMapper.toUserFormDTO(getUpdatedWithId());
 
         ResultActions action = restTest(
                 HttpMethod.PUT,
@@ -45,19 +43,17 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
                 HttpStatus.NO_CONTENT
         );
 
-        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID), UserMapper.dto(updatedWoId));
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID), UserMapper.dto(getUpdatedWithId()));
     }
 
     // user with id, but wrong id (exists) in url. should get IllegalRequestDataException
     @Test
     void updateUserWithIdButWrongExistsIdInUrl() throws Exception {
-        User updatedWithId = getUpdateWoId();
-        updatedWithId.setId(USER_ID);
-        UserFormDTO updatedWithIdFormDTO = UserMapper.toUserFormDTO(updatedWithId);
+        UserFormDTO updatedWithIdFormDTO = UserMapper.toUserFormDTO(getUpdatedWithId());
 
         ResultActions action = restTest(
                 HttpMethod.PUT,
-                REST_URL + (USER_ID+1), //wrong id
+                REST_URL + (USER_ID + 1), //wrong id
                 JsonUtil.writeValue(updatedWithIdFormDTO),
                 HttpStatus.BAD_REQUEST,
                 expectRestException(IllegalRequestDataException.class) //determine that id in object, and id in url are different
@@ -67,28 +63,24 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
     // ??, without id, with WRONG (but exists) id in url. it save it as normal, because cannot determine to which id data belongs.
     @Test
     void updateUserWithoutIdButWrongExistsIdInUrl() throws Exception {
-        User updatedWoId = getUpdateWoId();
-
-        UserFormDTO updatedWoIdFormDTO = UserMapper.toUserFormDTO(updatedWoId);
+        UserFormDTO updatedWoIdFormDTO = UserMapper.toUserFormDTO(getUpdatedWoId());
 
         ResultActions action = restTest(
                 HttpMethod.PUT,
-                REST_URL + (USER_ID+1),
+                REST_URL + (USER_ID + 1),
                 JsonUtil.writeValue(updatedWoIdFormDTO),
                 HttpStatus.NO_CONTENT
         );
 
-        User expectedUpdatedWithId = getUpdateWoId();
-        expectedUpdatedWithId.setId(USER_ID+1);
-        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID+1), UserMapper.dto(expectedUpdatedWithId));
+        User expectedUpdatedWithId = getUpdatedWoId();
+        expectedUpdatedWithId.setId(USER_ID + 1);
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID + 1), UserMapper.dto(expectedUpdatedWithId));
     }
 
     // without id, with WRONG (not exists) id in url. it should throw exception NotFound
     @Test
     void updateUserWithoutIdButWrongNotExistsIdInUrl() throws Exception {
-        User updatedWoId = getUpdateWoId();
-
-        UserFormDTO updatedWoIdFormDTO = UserMapper.toUserFormDTO(updatedWoId);
+        UserFormDTO updatedWoIdFormDTO = UserMapper.toUserFormDTO(getUpdatedWoId());
 
         ResultActions action = restTest(
                 HttpMethod.PUT,
@@ -102,7 +94,7 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
     // without id, blank firstName, right id in url
     @Test
     void updateUserWithoutIdWithBlankFirstName() throws Exception {
-        User updatedWoId = getUpdateWoId();
+        User updatedWoId = getUpdatedWoId();
         updatedWoId.setFirstName("");
 
         UserFormDTO updatedWoIdFormDTO = UserMapper.toUserFormDTO(updatedWoId);
@@ -119,15 +111,12 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest{
     // with id, but no id in url
     @Test
     void updateUserWithIdButNoIdInUrl() throws Exception {
-        User updatedWoId = getUpdateWoId();
-        updatedWoId.setId(USER_ID);
-
-        UserFormDTO updatedWoIdFormDTO = UserMapper.toUserFormDTO(updatedWoId);
+        UserFormDTO updatedWithIdFormDTO = UserMapper.toUserFormDTO(getUpdatedWithId());
 
         ResultActions action = restTest(
                 HttpMethod.PUT,
                 REST_URL,
-                JsonUtil.writeValue(updatedWoIdFormDTO),
+                JsonUtil.writeValue(updatedWithIdFormDTO),
                 HttpStatus.METHOD_NOT_ALLOWED
         );
     }

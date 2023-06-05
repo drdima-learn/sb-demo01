@@ -40,7 +40,7 @@ public class RestAdminControllerDeleteTest extends AbstractRestAdminControllerTe
         restTest(HttpMethod.DELETE,
                 REST_URL + USER_ID_NOT_EXISTS,
                 HttpStatus.NOT_FOUND,
-                expectRestException(NotFoundException.class)
+                NotFoundException.class
         );
 
         Page<UserDTO> usersAfterDelete = userService.getAll();
@@ -73,7 +73,7 @@ public class RestAdminControllerDeleteTest extends AbstractRestAdminControllerTe
         restTest(HttpMethod.DELETE,
                 REST_URL + "by-email?email=" + USER_EMAIL_NOT_WELL_FORMED,
                 HttpStatus.BAD_REQUEST,
-                expectRestException(ConstraintViolationException.class)
+                ConstraintViolationException.class
         );
 
         Page<UserDTO> usersAfterDelete = userService.getAll();

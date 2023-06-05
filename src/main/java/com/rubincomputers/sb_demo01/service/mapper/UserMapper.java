@@ -3,6 +3,7 @@ package com.rubincomputers.sb_demo01.service.mapper;
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -59,7 +60,7 @@ public class UserMapper {
 
         formData.add("firstName", dto.getFirstName());
         formData.add("lastName", dto.getLastName());
-        formData.add("birthDay", dto.getBirthDay().toString());
+        formData.add("birthDay", DateFormatUtils.format(dto.getBirthDay(), "yyy/MM/dd"));
         formData.add("gender", dto.getGender().name());
         formData.add("email", dto.getEmail());
         formData.add("password", dto.getPassword());
@@ -75,5 +76,11 @@ public class UserMapper {
         user.setBirthDay(dto.getBirthDay());
         user.setGender(dto.getGender());
         return user;
+    }
+
+    public static MultiValueMap<String, String> fromUserToMultiValueMap(User user) {
+        UserFormDTO dto = toUserFormDTO(user);
+        MultiValueMap<String, String> formData = toMultiValueMap(dto);
+        return formData;
     }
 }

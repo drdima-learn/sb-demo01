@@ -22,7 +22,7 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
         pageTest(HttpMethod.POST,
                 WEBPAGE_URL + "/register",
                 formData,
-                HttpStatus.FOUND, //301 redirect
+                HttpStatus.FOUND, //302 redirect
                 header().string("Location", containsString("status=ok"))
         );
     }
@@ -39,7 +39,7 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
                 WEBPAGE_URL + "/register",
                 formData,
                 HttpStatus.OK,
-                "register",
+                "userForm",
                 "must be a well-formed email address"
         );
     }
@@ -58,7 +58,7 @@ public class AdminControllerCreateTest extends AbstractAdminControllerTest {
                 WEBPAGE_URL + "/register",
                 formData,
                 HttpStatus.OK,
-                "register",
+                "userForm",
                 "must not be blank"
         );
     }

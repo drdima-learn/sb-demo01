@@ -74,7 +74,7 @@ public class UserTestData {
                 .build();
     }
 
-    public static User getUpdateWoId() {
+    public static User getUpdatedWoId() {
         return User.builder()
                 .firstName("updated FirstName")
                 .lastName("updated LastName")
@@ -84,5 +84,11 @@ public class UserTestData {
                 .email("updated@gmail.com")
                 .password("updated pass")
                 .build();
+    }
+
+    public static User getUpdatedWithId() {
+        User user = getUpdatedWoId();
+        user.setId(USER_ID);
+        return user;
     }
 }

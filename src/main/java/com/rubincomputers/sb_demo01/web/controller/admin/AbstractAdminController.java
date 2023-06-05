@@ -8,6 +8,8 @@ import com.rubincomputers.sb_demo01.util.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.Valid;
+
 @Slf4j
 public abstract class AbstractAdminController {
 
@@ -22,7 +24,7 @@ public abstract class AbstractAdminController {
 
     }
 
-    public void update(UserFormDTO userFormDTO, long id){
+    public void update(@Valid UserFormDTO userFormDTO, long id){
         log.debug("update userFormDTO: {}", userFormDTO);
         ValidationUtil.assureIdConsistent(userFormDTO, id);
         userService.update(userFormDTO);

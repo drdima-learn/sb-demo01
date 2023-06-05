@@ -104,7 +104,7 @@ public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTe
                 REST_URL,
                 JsonUtil.writeValue(newUserFormDTO),
                 HttpStatus.BAD_REQUEST,
-                expectRestException(ex)
+                ex
         );
     }
 }
