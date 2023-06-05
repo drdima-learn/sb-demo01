@@ -70,7 +70,7 @@ public class AdminController extends AbstractAdminController {
 
         try {
             super.create(userFormDTO);
-             return "redirect:" + WEBPAGE_URL + getUrlWithSortParams(params) + (getUrlWithSortParams(params).isEmpty() ? "?" : "&") + "status=ok&email=" + userFormDTO.getEmail();
+            return getRedirectWithSortParams(params, userFormDTO);
         } catch (DataIntegrityViolationException ex) {
             result.rejectValue("email", "exception.user.duplicateEmail");
             return "userForm";
@@ -101,7 +101,7 @@ public class AdminController extends AbstractAdminController {
         }
 
         super.update(userFormDTO, id);
-        return "redirect:" + WEBPAGE_URL + getUrlWithSortParams(params) + "&status=ok&email=" + userFormDTO.getEmail();
+        return getRedirectWithSortParams(params, userFormDTO);
     }
 
     private String getUrlWithSortParams(Map<String, String> params){
@@ -119,5 +119,9 @@ public class AdminController extends AbstractAdminController {
         log.debug("User form has an errors");
         model.addAttribute("isEdit", isEdit);
         return "userForm";
+    }
+
+    private String getRedirectWithSortParams(Map<String, String> params, UserFormDTO userFormDTO){
+        return "redirect:" + WEBPAGE_URL + getUrlWithSortParams(params) + (getUrlWithSortParams(params).isEmpty() ? "?" : "&") + "status=ok&email=" + userFormDTO.getEmail();
     }
 }
