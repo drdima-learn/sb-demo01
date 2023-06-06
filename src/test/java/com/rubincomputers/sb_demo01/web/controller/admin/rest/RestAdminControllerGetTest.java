@@ -14,7 +14,7 @@ import static com.rubincomputers.sb_demo01.service.mapper.UserMapper.dto;
 
 public class RestAdminControllerGetTest extends AbstractRestAdminControllerTest {
     @Test
-    void getAllUsers() throws Exception {
+    void getAllUsersWoSortParameters() throws Exception {
         restTest(HttpMethod.GET,
                 REST_URL,
                 HttpStatus.OK,
@@ -41,11 +41,19 @@ public class RestAdminControllerGetTest extends AbstractRestAdminControllerTest 
     }
 
     @Test
-    void getAllUsersWithBadSortedField() throws Exception {
+    void getAllUsersWithWrongSortedField() throws Exception {
         restTest(HttpMethod.GET,
                 REST_URL + "/?page=0&size=3&sort=id2,asc",
                 HttpStatus.BAD_REQUEST,
                 BadSortParameter.class
+        );
+    }
+
+    @Test
+    void getAllUsersWithNormalSortedField() throws Exception {
+        restTest(HttpMethod.GET,
+                REST_URL + "/?page=0&size=3&sort=firstName,asc",
+                HttpStatus.OK
         );
     }
 

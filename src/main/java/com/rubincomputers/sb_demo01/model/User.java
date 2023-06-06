@@ -24,12 +24,12 @@ import static com.rubincomputers.sb_demo01.model.Gender.MALE;
 @Table(name = "rc_user")
 public class User extends AbstractBaseEntity{
 
-    @NotBlank
+
     @Size(min = 2, max = 128)
     @Column(name = "first_name", length = 50, nullable = false)
     private String firstName;
 
-    @NotBlank
+
     @Size(min = 2, max = 128)
     @Column(name = "last_name", length = 50, nullable = false)
     private String lastName;
@@ -43,11 +43,12 @@ public class User extends AbstractBaseEntity{
     private Gender gender;
 
 
-    @Column(name = "email", nullable = false, unique = true)
     @Email
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
 
+    @Size(min = 2, max = 128)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private String password;

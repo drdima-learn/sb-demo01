@@ -4,6 +4,7 @@ import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.service.UserService;
 import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
+import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 
 @Controller
@@ -30,6 +30,9 @@ import java.util.Map;
 public class AdminController extends AbstractAdminController {
 
     static final String WEBPAGE_URL = "/admin/users";
+
+
+
     @Autowired
     private UserService userService;
 
@@ -40,6 +43,9 @@ public class AdminController extends AbstractAdminController {
 
     @GetMapping(value = {"", "/"})
     public String getUsers(Model model, Pageable pageable) {
+        if (!onlyContainsAllowedProperties(pageable, ALLOWED_ORDERED_PROPERTIES)) {
+            throw new BadSortParameter("Bad Parameter: " + pageable.getSort().toString());
+        }
         Page<UserDTO> userDTOPage = userService.getAll(pageable);
         model.addAttribute("users", userDTOPage);
         return "users";

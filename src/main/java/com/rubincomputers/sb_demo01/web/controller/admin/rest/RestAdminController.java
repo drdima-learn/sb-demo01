@@ -4,6 +4,7 @@ import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.util.ValidationUtil;
+import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.net.URI;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.rubincomputers.sb_demo01.web.controller.admin.rest.RestAdminController.REST_URL;
@@ -31,6 +34,9 @@ public class RestAdminController extends AbstractAdminController {
     static final String REST_URL = "/rest/admin/users";
 
 
+
+
+
     /**
      * {@code GET /admin/users} : get all users with all the details - calling this are only allowed for the administrators.
      *
@@ -39,9 +45,14 @@ public class RestAdminController extends AbstractAdminController {
      */
     @GetMapping(value = {"", "/"})
     public Page<UserDTO> getUsers(Pageable pageable) {
+        if (!onlyContainsAllowedProperties(pageable, ALLOWED_ORDERED_PROPERTIES)) {
+            throw new BadSortParameter("Bad Parameter: " + pageable.getSort().toString());
+        }
         log.debug("GET REST request to {} pageable {}", REST_URL, pageable);
         return userService.getAll(pageable);
     }
+
+
 
     @GetMapping("/list")
     public List<UserDTO> getUsersAsList(Pageable pageable) {

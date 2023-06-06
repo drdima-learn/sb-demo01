@@ -37,9 +37,7 @@ public class UserService {
     }
 
     public Page<UserDTO> getAll(Pageable pageable) {
-        if (!onlyContainsAllowedProperties(pageable)) {
-            throw new BadSortParameter("Bad Parameter: " + pageable.getSort().toString());
-        }
+
         return userRepository.findAll(pageable).map(UserMapper::dto);
     }
 
@@ -59,20 +57,7 @@ public class UserService {
         return userRepository.findByEmail(email).map(UserMapper::dto).orElseThrow(() -> new NotFoundException("user email=" + email));
     }
 
-    private boolean onlyContainsAllowedProperties(Pageable pageable) {
-        final List<String> ALLOWED_ORDERED_PROPERTIES = Collections.unmodifiableList(
-                Arrays.asList(
-                        "id",
-                        "login",
-                        "firstName",
-                        "lastName",
-                        "email"
-                )
-        );
 
-        //Sort sort = pageable.getSort();
-        return pageable.getSort().stream().map(Sort.Order::getProperty).allMatch(ALLOWED_ORDERED_PROPERTIES::contains);
-    }
 
 
     public User create(User user) {

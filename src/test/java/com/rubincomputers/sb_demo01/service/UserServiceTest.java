@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.transaction.TransactionException;
 
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
@@ -46,7 +47,7 @@ class UserServiceTest extends AbstractServiceTest {
 
     @Test
     void getAllBadSortParameter() {
-        assertThrows(BadSortParameter.class, () -> service.getAll(PageRequest.of(0, 3, Sort.by(Sort.Order.desc("id2")))));
+        assertThrows(PropertyReferenceException.class, () -> service.getAll(PageRequest.of(0, 3, Sort.by(Sort.Order.desc("id2")))));
     }
 
     @Test
