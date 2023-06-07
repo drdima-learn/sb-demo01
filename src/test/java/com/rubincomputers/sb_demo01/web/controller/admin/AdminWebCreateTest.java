@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.model.User;
@@ -12,7 +12,7 @@ import static com.rubincomputers.sb_demo01.data.UserTestData.getNew;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 
-public class AdminControllerCreateTest extends AbstractAdminControllerTest {
+public class AdminWebCreateTest extends AdminWebAbstract {
     @Test
     void saveUser() throws Exception {
         User newUser = getNew();

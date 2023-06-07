@@ -1,11 +1,9 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.service.UserService;
-import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
-import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -25,9 +23,9 @@ import java.util.*;
 
 @Controller
 @Slf4j
-@RequestMapping(value = AdminController.WEBPAGE_URL)
+@RequestMapping(value = AdminWeb.WEBPAGE_URL)
 //@Validated //for checking email and other constrains
-public class AdminController extends AbstractAdminController {
+public class AdminWeb extends AdminAbstract {
 
     static final String WEBPAGE_URL = "/admin/users";
 

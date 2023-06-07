@@ -1,8 +1,7 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.UserService;
-import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,9 +14,9 @@ import javax.validation.constraints.Email;
 
 @Controller
 @Slf4j
-@RequestMapping(value = AdminControllerValidated.WEBPAGE_URL)
+@RequestMapping(value = AdminWebValidated.WEBPAGE_URL)
 @Validated //for checking email and other constrains
-public class AdminControllerValidated extends AbstractAdminController {
+public class AdminWebValidated extends AdminAbstract {
 
     static final String WEBPAGE_URL = "/admin/users";
     @Autowired

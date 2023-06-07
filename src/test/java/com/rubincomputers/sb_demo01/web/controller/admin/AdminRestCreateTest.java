@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.rest;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
 
 
-public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTest {
+public class AdminRestCreateTest extends AdminRestAbstract {
 
     @Test
     void createNewUser() throws Exception {

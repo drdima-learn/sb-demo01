@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.rest;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
 
-public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest {
+public class AdminRestPutTest extends AdminRestAbstract {
     @Test
     void updateUserWithoutIdWithIdInUrl() throws Exception {
         User updatedWithoutId = getUpdatedWoId();

@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Slf4j
-public abstract class AbstractProfileController extends AbstractController {
+public abstract class ProfileAbstract extends AbstractController {
     protected static final List<String> ALLOWED_ORDERED_PROPERTIES = Collections.unmodifiableList(
             Arrays.asList(
                     "id"

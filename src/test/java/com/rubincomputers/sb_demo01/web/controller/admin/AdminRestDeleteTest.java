@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.rest;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
@@ -13,7 +13,7 @@ import static com.rubincomputers.sb_demo01.data.UserTestData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class RestAdminControllerDeleteTest extends AbstractRestAdminControllerTest {
+public class AdminRestDeleteTest extends AdminRestAbstract {
 
     @Test
     void deleteById() throws Exception {

@@ -1,11 +1,9 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.rest;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.model.User;
-import com.rubincomputers.sb_demo01.util.ValidationUtil;
 import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
-import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,17 +17,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-import static com.rubincomputers.sb_demo01.web.controller.admin.rest.RestAdminController.REST_URL;
+import static com.rubincomputers.sb_demo01.web.controller.admin.AdminRest.REST_URL;
 
 @Slf4j
 @RestController
 @RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Validated
-public class RestAdminController extends AbstractAdminController {
+public class AdminRest extends AdminAbstract {
 
     static final String REST_URL = "/rest/admin/users";
 

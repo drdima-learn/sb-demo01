@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.rest;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
@@ -12,7 +12,7 @@ import static com.rubincomputers.sb_demo01.data.UserTestData.*;
 import static com.rubincomputers.sb_demo01.service.mapper.UserMapper.dto;
 
 
-public class RestAdminControllerGetTest extends AbstractRestAdminControllerTest {
+public class AdminRestGetTest extends AdminRestAbstract {
     @Test
     void getAllUsersWoSortParameters() throws Exception {
         restTest(HttpMethod.GET,

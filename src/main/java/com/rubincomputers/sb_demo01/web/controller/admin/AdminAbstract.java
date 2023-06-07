@@ -8,8 +8,6 @@ import com.rubincomputers.sb_demo01.util.ValidationUtil;
 import com.rubincomputers.sb_demo01.web.controller.AbstractController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import javax.validation.Valid;
 import java.util.Arrays;
@@ -17,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Slf4j
-public abstract class AbstractAdminController extends AbstractController {
+public abstract class AdminAbstract extends AbstractController {
 
     @Autowired
     protected UserService userService;

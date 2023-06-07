@@ -1,10 +1,8 @@
-package com.rubincomputers.sb_demo01.web.controller.user.rest;
+package com.rubincomputers.sb_demo01.web.controller.user;
 
 import com.rubincomputers.sb_demo01.service.PostService;
 import com.rubincomputers.sb_demo01.service.dto.PostDTO;
-import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
-import com.rubincomputers.sb_demo01.web.controller.user.AbstractProfileController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,13 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.rubincomputers.sb_demo01.web.controller.user.rest.RestProfileController.REST_URL;
+import static com.rubincomputers.sb_demo01.web.controller.user.ProfileRest.REST_URL;
 
 
 @Slf4j
 @RestController
 @RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class RestProfileController extends AbstractProfileController {
+public class ProfileRest extends ProfileAbstract {
     static final String REST_URL = "/rest/profile";
 
     @Autowired

@@ -1,10 +1,8 @@
-package com.rubincomputers.sb_demo01.web;
+package com.rubincomputers.sb_demo01.web.controller;
 
 import com.rubincomputers.sb_demo01.AbstractTest;
-import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
 import com.rubincomputers.sb_demo01.web.util.mockmvc.TrueResultMatcher;
 import org.apache.commons.lang3.ArrayUtils;
-import org.assertj.core.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -28,7 +26,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-public abstract class AbstractController extends AbstractTest {
+public abstract class AbstractControllerTest extends AbstractTest {
 
     protected MockMvc mockMvc;
 
