@@ -16,7 +16,8 @@ public class CustomRequestInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         long startTime = Instant.now().toEpochMilli();
         //log.info("Request URL :: {} :: Start Time={}" , request.getRequestURL() , Instant.now().toString());
-        log.info("Request URL :: {}" , request.getRequestURL());
+        log.info("Request URL {} :: {}" , request.getMethod(),  request.getRequestURL());
+
         //request.setAttribute("startTime", startTime);
         return true;
     }

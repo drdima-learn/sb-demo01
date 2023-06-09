@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 
@@ -24,12 +23,10 @@ public class ProfileRest extends ProfileAbstract {
     static final String REST_URL = "/rest/profile";
 
 
-
-    @GetMapping(value = { "/posts"})
+    @GetMapping(value = {"/posts"})
     public Page<PostDTO> getUserPosts(Pageable pageable) {
         onlyAllowedSortProperties(pageable, ALLOWED_ORDERED_PROPERTIES);
         long userId = SecurityUtil.authUserId();
-        log.debug("GET REST request to {} pageable {}", REST_URL + "/posts", pageable);
         return postService.getPostsByUserId(userId, pageable);
     }
 
@@ -45,7 +42,6 @@ public class ProfileRest extends ProfileAbstract {
     @GetMapping(value = {"/posts/{postId}"})
     public PostDTO getPost(@PathVariable long postId) {
         long userId = SecurityUtil.authUserId();
-        log.debug("GET REST request to {}", "");
         return postService.getPost(postId, userId);
     }
 

@@ -60,18 +60,11 @@ public class User extends AbstractBaseEntity{
 
 
     public User(Long id, String firstName, String lastName, Date birthDay, Gender gender, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDay = birthDay;
-        this.gender = gender;
-        this.email = email;
-        this.password = "no password";
-        this.role = Role.USER;
+        this(id, firstName, lastName, birthDay, gender, email,"no password",Role.USER );
     }
 
     public User(Long id, String firstName, String lastName, Date birthDay, Gender gender, String email, String password, Role role) {
-        this.id = id;
+        super(id);
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDay = birthDay;
@@ -81,15 +74,7 @@ public class User extends AbstractBaseEntity{
         this.role = role;
     }
 
-    //public static final User user3 = new User(USER_ID + 2, "vasya3@gmail.com", "Vasya3", "Pupkin3", MALE, date("1982-06-03"));
     public User(Long id, String email, String firstName, String lastName, Gender gender, Date birthDay, String password, Role role) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDay = birthDay;
-        this.gender = gender;
-        this.email = email;
-        this.password = password;
-        this.role = role;
+        this(id, firstName, lastName, birthDay, gender, email,"no password",role );
     }
 }

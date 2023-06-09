@@ -22,4 +22,8 @@ public abstract class AbstractBaseEntity implements HasId {
     //  See https://hibernate.atlassian.net/browse/HHH-3718 and https://hibernate.atlassian.net/browse/HHH-12034
     //  Proxy initialization when accessing its identifier managed now by JPA_PROXY_COMPLIANCE setting
     protected Long id;
+
+    public AbstractBaseEntity(Long id) {
+        this.id = id;
+    }
 }
