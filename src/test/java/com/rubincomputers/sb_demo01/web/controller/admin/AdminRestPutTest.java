@@ -29,7 +29,7 @@ public class AdminRestPutTest extends AdminRestAbstract {
 
         User expectedUpdatedWithId = getUpdatedWithId();
         expectedUpdatedWithId.setId(USER_ID);
-        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID), UserMapper.dto(expectedUpdatedWithId));
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID), UserMapper.toDto(expectedUpdatedWithId));
     }
 
     @Test
@@ -43,7 +43,7 @@ public class AdminRestPutTest extends AdminRestAbstract {
                 HttpStatus.NO_CONTENT
         );
 
-        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID), UserMapper.dto(getUpdatedWithId()));
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID), UserMapper.toDto(getUpdatedWithId()));
     }
 
     // user with id, but wrong id (exists) in url. should get IllegalRequestDataException
@@ -74,7 +74,7 @@ public class AdminRestPutTest extends AdminRestAbstract {
 
         User expectedUpdatedWithId = getUpdatedWoId();
         expectedUpdatedWithId.setId(USER_ID + 1);
-        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID + 1), UserMapper.dto(expectedUpdatedWithId));
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID + 1), UserMapper.toDto(expectedUpdatedWithId));
     }
 
     // without id, with WRONG (not exists) id in url. it should throw exception NotFound

@@ -10,14 +10,21 @@ public class PostMapper {
     private PostMapper() {
     }
 
-    public static List<PostDTO> dto(List<Post> posts) {
-        return posts.stream().map(u -> dto(u)).collect(Collectors.toList());
+    public static List<PostDTO> toDto(List<Post> posts) {
+        return posts.stream().map(u -> toDto(u)).collect(Collectors.toList());
     }
 
-    public static PostDTO dto(Post post) {
+    public static PostDTO toDto(Post post) {
         return PostDTO.builder()
                 .id(post.getId())
                 .text(post.getText())
+                .build();
+    }
+
+    public static Post toEntity(PostDTO dto) {
+        return Post.builder()
+                .id(dto.getId())
+                .text(dto.getText())
                 .build();
     }
 }

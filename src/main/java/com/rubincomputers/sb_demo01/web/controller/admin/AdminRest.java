@@ -1,10 +1,13 @@
 package com.rubincomputers.sb_demo01.web.controller.admin;
 
+import com.rubincomputers.sb_demo01.service.PostService;
+import com.rubincomputers.sb_demo01.service.dto.PostDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.model.User;
-import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
+import com.rubincomputers.sb_demo01.web.controller.post.PostAbstract;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -29,9 +32,8 @@ public class AdminRest extends AdminAbstract {
 
     static final String REST_URL = "/rest/admin/users";
 
-
-
-
+    @Autowired
+    protected PostService postService;
 
     /**
      * {@code GET /admin/users} : get all users with all the details - calling this are only allowed for the administrators.
@@ -41,9 +43,7 @@ public class AdminRest extends AdminAbstract {
      */
     @GetMapping(value = {"", "/"})
     public Page<UserDTO> getUsers(Pageable pageable) {
-        if (!onlyContainsAllowedProperties(pageable, ALLOWED_ORDERED_PROPERTIES)) {
-            throw new BadSortParameter("Bad Parameter: " + pageable.getSort().toString());
-        }
+        onlyAllowedSortProperties(pageable, ALLOWED_ORDERED_PROPERTIES);
         log.debug("GET REST request to {} pageable {}", REST_URL, pageable);
         return userService.getAll(pageable);
     }
@@ -70,8 +70,8 @@ public class AdminRest extends AdminAbstract {
     }
 
     @PostMapping(value = {"", "/"}, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> createWithLocation(@Valid @RequestBody UserFormDTO userFormDTO) {
-        User created = super.create(userFormDTO);
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserFormDTO userFormDTO) {
+        UserDTO created = super.create(userFormDTO);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -98,4 +98,12 @@ public class AdminRest extends AdminAbstract {
     public void update(@Valid @RequestBody UserFormDTO userFormDTO, @PathVariable long id){
         super.update(userFormDTO, id);
     }
+
+    @GetMapping("/{userId}/posts")
+    public Page<PostDTO> getPostsByUserId(@PathVariable long userId, Pageable pageable) {
+        onlyAllowedSortProperties(pageable, PostAbstract.ALLOWED_ORDERED_PROPERTIES);
+        log.debug("GET REST request to {} pageable {}", REST_URL, pageable);
+        return postService.getPostsByUserId(userId, pageable);
+    }
+
 }

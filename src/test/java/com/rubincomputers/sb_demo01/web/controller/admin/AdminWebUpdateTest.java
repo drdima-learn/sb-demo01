@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.MultiValueMap;
 
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
-import static com.rubincomputers.sb_demo01.service.mapper.UserMapper.dto;
+import static com.rubincomputers.sb_demo01.service.mapper.UserMapper.toDto;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 
@@ -32,7 +32,7 @@ public class AdminWebUpdateTest extends AdminWebAbstract {
         );
 
         UserDTO actual = userService.getUserDTOById(USER_ID);
-        USER_DTO_MATCHER.assertMatch(actual, dto(getUpdatedWithId()));
+        USER_DTO_MATCHER.assertMatch(actual, UserMapper.toDto(getUpdatedWithId()));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class AdminWebUpdateTest extends AdminWebAbstract {
         );
 
         UserDTO actual = userService.getUserDTOById(USER_ID);
-        USER_DTO_MATCHER.assertMatch(actual, dto(getUpdatedWithId()));
+        USER_DTO_MATCHER.assertMatch(actual, UserMapper.toDto(getUpdatedWithId()));
     }
 
     @Test

@@ -5,7 +5,6 @@ import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
-import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.transaction.TransactionException;
 
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
-import static com.rubincomputers.sb_demo01.service.mapper.UserMapper.dto;
+import static com.rubincomputers.sb_demo01.service.mapper.UserMapper.toDto;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -36,13 +35,13 @@ class UserServiceTest extends AbstractServiceTest {
     @Test
     void getAllFirst3() {
         Page<UserDTO> first3 = service.getAll(PageRequest.of(0, 3));
-        USER_DTO_MATCHER.assertMatch(first3.getContent(), dto(user1), dto(user2), dto(user3));
+        USER_DTO_MATCHER.assertMatch(first3.getContent(), UserMapper.toDto(user1), UserMapper.toDto(user2), UserMapper.toDto(user3));
     }
 
     @Test
     void getAllFirst3SortedByIdDesc() {
         Page<UserDTO> first3Desc = service.getAll(PageRequest.of(0, 3, Sort.by(Sort.Order.desc("id"))));
-        USER_DTO_MATCHER.assertMatch(first3Desc.getContent(), dto(user20), dto(user19), dto(user18));
+        USER_DTO_MATCHER.assertMatch(first3Desc.getContent(), UserMapper.toDto(user20), UserMapper.toDto(user19), UserMapper.toDto(user18));
     }
 
     @Test
@@ -53,7 +52,7 @@ class UserServiceTest extends AbstractServiceTest {
     @Test
     void get() {
         UserDTO userDTOActual = service.getUserDTOById(UserTestData.USER_ID);
-        USER_DTO_MATCHER.assertMatch(userDTOActual, dto(user1));
+        USER_DTO_MATCHER.assertMatch(userDTOActual, UserMapper.toDto(user1));
     }
 
     @Test
@@ -64,7 +63,7 @@ class UserServiceTest extends AbstractServiceTest {
     @Test
     void getByEmail() {
         UserDTO userDTOActual = service.getByEmail(user1.getEmail());
-        USER_DTO_MATCHER.assertMatch(userDTOActual, dto(user1));
+        USER_DTO_MATCHER.assertMatch(userDTOActual, UserMapper.toDto(user1));
     }
 
     @Test
@@ -74,7 +73,7 @@ class UserServiceTest extends AbstractServiceTest {
         User created = service.create(newUser);
         Long newId = created.getId();
         newUser.setId(newId);
-        UserDTO newUserDTO = UserMapper.dto(newUser);
+        UserDTO newUserDTO = UserMapper.toDto(newUser);
 
         USER_MATCHER.assertMatch(created, newUser);
         USER_DTO_MATCHER.assertMatch(service.getUserDTOById(newId), newUserDTO);
@@ -116,7 +115,7 @@ class UserServiceTest extends AbstractServiceTest {
 
         UserDTO actual = service.getUserDTOById(USER_ID);
 
-        USER_DTO_MATCHER.assertMatch(actual, UserMapper.dto(getUpdatedWithId()));
+        USER_DTO_MATCHER.assertMatch(actual, UserMapper.toDto(getUpdatedWithId()));
     }
 
     @Test

@@ -1,7 +1,9 @@
 package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.model.User;
+import com.rubincomputers.sb_demo01.service.PostService;
 import com.rubincomputers.sb_demo01.service.UserService;
+import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.util.ValidationUtil;
@@ -16,12 +18,6 @@ import java.util.List;
 
 @Slf4j
 public abstract class AdminAbstract extends AbstractController {
-
-    @Autowired
-    protected UserService userService;
-
-
-
     protected static final List<String> ALLOWED_ORDERED_PROPERTIES = Collections.unmodifiableList(
             Arrays.asList(
                     "id",
@@ -31,13 +27,15 @@ public abstract class AdminAbstract extends AbstractController {
                     "email"
             ));
 
+    @Autowired
+    protected UserService userService;
 
-    public User create(UserFormDTO userFormDTO) {
-        User user = UserMapper.toUser(userFormDTO);
-        log.debug("request to save entity User : {}", user);
+
+    public UserDTO create(UserFormDTO userFormDTO) {
+        User user = UserMapper.toEntity(userFormDTO);
         ValidationUtil.checkNew(user);
-        return userService.create(user);
-
+        user = userService.create(user);
+        return UserMapper.toDto(user);
     }
 
     public void update(@Valid UserFormDTO userFormDTO, long id) {

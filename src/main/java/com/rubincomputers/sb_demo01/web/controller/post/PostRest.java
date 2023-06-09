@@ -1,7 +1,6 @@
 package com.rubincomputers.sb_demo01.web.controller.post;
 
 import com.rubincomputers.sb_demo01.service.dto.PostDTO;
-import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,9 +22,7 @@ public class PostRest extends PostAbstract {
 
     @GetMapping(value = {"", "/"})
     public Page<PostDTO> getPosts(Pageable pageable) {
-        if (!onlyContainsAllowedProperties(pageable, ALLOWED_ORDERED_PROPERTIES)) {
-            throw new BadSortParameter("Bad Parameter: " + pageable.getSort().toString());
-        }
+        onlyAllowedSortProperties(pageable, ALLOWED_ORDERED_PROPERTIES);
         log.debug("GET REST request to {} pageable {}", REST_URL, pageable);
         return postService.getAll(pageable);
     }

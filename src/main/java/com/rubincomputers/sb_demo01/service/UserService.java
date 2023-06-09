@@ -6,21 +6,15 @@ import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.repository.UserRepository;
 import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.util.ValidationUtil;
-import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
 import com.rubincomputers.sb_demo01.util.passwordencoder.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -37,12 +31,11 @@ public class UserService {
     }
 
     public Page<UserDTO> getAll(Pageable pageable) {
-
-        return userRepository.findAll(pageable).map(UserMapper::dto);
+        return userRepository.findAll(pageable).map(UserMapper::toDto);
     }
 
     public UserDTO getUserDTOById(Long id) {
-        return UserMapper.dto(getEntityById(id));
+        return UserMapper.toDto(getEntityById(id));
     }
 
     public UserFormDTO getUserFormDTOById(Long id) {
@@ -54,11 +47,8 @@ public class UserService {
     }
 
     public UserDTO getByEmail(String email) {
-        return userRepository.findByEmail(email).map(UserMapper::dto).orElseThrow(() -> new NotFoundException("user email=" + email));
+        return userRepository.findByEmail(email).map(UserMapper::toDto).orElseThrow(() -> new NotFoundException("user email=" + email));
     }
-
-
-
 
     public User create(User user) {
         Assert.notNull(user, "user must not be null");
@@ -70,7 +60,6 @@ public class UserService {
         user.setEmail(user.getEmail().toLowerCase());
         return user;
     }
-
 
     @Transactional
     public void deleteById(long id) {

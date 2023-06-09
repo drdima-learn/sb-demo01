@@ -41,9 +41,7 @@ public class AdminWeb extends AdminAbstract {
 
     @GetMapping(value = {"", "/"})
     public String getUsers(Model model, Pageable pageable) {
-        if (!onlyContainsAllowedProperties(pageable, ALLOWED_ORDERED_PROPERTIES)) {
-            throw new BadSortParameter("Bad Parameter: " + pageable.getSort().toString());
-        }
+        onlyAllowedSortProperties(pageable, ALLOWED_ORDERED_PROPERTIES);
         Page<UserDTO> userDTOPage = userService.getAll(pageable);
         model.addAttribute("users", userDTOPage);
         return "users";

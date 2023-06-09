@@ -10,7 +10,7 @@ public class SecurityUtil {
     private SecurityUtil() {
     }
 
-    public static int authUserId() {
+    public static long authUserId() {
         return id;
     }
 

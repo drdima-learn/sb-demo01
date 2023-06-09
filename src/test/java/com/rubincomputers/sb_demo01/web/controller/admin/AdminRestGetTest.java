@@ -1,5 +1,6 @@
 package com.rubincomputers.sb_demo01.web.controller.admin;
 
+import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import javax.validation.ConstraintViolationException;
 
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
-import static com.rubincomputers.sb_demo01.service.mapper.UserMapper.dto;
+import static com.rubincomputers.sb_demo01.service.mapper.UserMapper.toDto;
 
 
 public class AdminRestGetTest extends AdminRestAbstract {
@@ -27,7 +28,7 @@ public class AdminRestGetTest extends AdminRestAbstract {
         restTest(HttpMethod.GET,
                 REST_URL + "/?page=0&size=3&sort=id,asc",
                 HttpStatus.OK,
-                USER_DTO_MATCHER.contentJson("content", dto(user1), dto(user2), dto(user3))
+                USER_DTO_MATCHER.contentJson("content", UserMapper.toDto(user1), UserMapper.toDto(user2), UserMapper.toDto(user3))
         );
     }
 
@@ -36,7 +37,7 @@ public class AdminRestGetTest extends AdminRestAbstract {
         restTest(HttpMethod.GET,
                 REST_URL + "/list/?page=0&size=3&sort=id,asc",
                 HttpStatus.OK,
-                USER_DTO_MATCHER.contentJson(dto(user1), dto(user2), dto(user3))
+                USER_DTO_MATCHER.contentJson(UserMapper.toDto(user1), UserMapper.toDto(user2), UserMapper.toDto(user3))
         );
     }
 
@@ -63,7 +64,7 @@ public class AdminRestGetTest extends AdminRestAbstract {
         restTest(HttpMethod.GET,
                 REST_URL + "/" + USER_ID,
                 HttpStatus.OK,
-                USER_DTO_MATCHER.contentJson(dto(user1))
+                USER_DTO_MATCHER.contentJson(UserMapper.toDto(user1))
         );
     }
 
@@ -81,7 +82,7 @@ public class AdminRestGetTest extends AdminRestAbstract {
         restTest(HttpMethod.GET,
                 REST_URL + "/by-email?email=" + USER_EMAIL,
                 HttpStatus.OK,
-                USER_DTO_MATCHER.contentJson(dto(user1))
+                USER_DTO_MATCHER.contentJson(UserMapper.toDto(user1))
         );
     }
 
