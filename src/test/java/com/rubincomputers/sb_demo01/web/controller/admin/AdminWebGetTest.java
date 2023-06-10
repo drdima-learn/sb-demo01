@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.data.UserTestData;
 import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
@@ -11,7 +11,7 @@ import javax.validation.ConstraintViolationException;
 
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
 
-public class AdminControllerGetTest extends AbstractAdminControllerTest {
+public class AdminWebGetTest extends AdminWebAbstract {
 
     @Test
     void getUsers() throws Exception {

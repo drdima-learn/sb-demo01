@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.data.UserTestData;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
@@ -12,14 +12,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class AdminControllerDeleteTest extends AbstractAdminControllerTest {
+public class AdminWebDeleteTest extends AdminWebAbstract {
 
     @Test
     void deleteUserById() throws Exception {
         pageTest(HttpMethod.GET,
                 WEBPAGE_URL + "/delete/" + UserTestData.USER_ID,
                 HttpStatus.FOUND, //301 redirect
-                header().string("Location", containsString(AdminController.WEBPAGE_URL))
+                header().string("Location", containsString(AdminWeb.WEBPAGE_URL))
         );
     }
 

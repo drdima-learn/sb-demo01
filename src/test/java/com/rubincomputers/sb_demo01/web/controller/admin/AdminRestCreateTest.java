@@ -1,6 +1,7 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.rest;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.model.User;
+import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.util.ValidationUtil;
@@ -16,11 +17,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
 
 
-public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTest {
+public class AdminRestCreateTest extends AdminRestAbstract {
 
     @Test
     void createNewUser() throws Exception {
-
         User newUser = getNew();
         UserFormDTO newUserFormDTO = UserMapper.toUserFormDTO(newUser);
 
@@ -31,13 +31,13 @@ public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTe
                 HttpStatus.CREATED
         );
 
-        User created = USER_MATCHER.readFromJson(action);
+        UserDTO created = USER_DTO_MATCHER.readFromJson(action);
         ValidationUtil.checkNotNew(created);
         long newId = created.getId();
         newUserFormDTO.setId(newId);
         newUser.setId(newId);
-        USER_MATCHER.assertMatch(created, newUser);
-        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(newId), UserMapper.dto(newUser));
+        USER_DTO_MATCHER.assertMatch(created, UserMapper.toDto(newUser));
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(newId), UserMapper.toDto(newUser));
     }
 
 
@@ -46,7 +46,6 @@ public class RestAdminControllerCreateTest extends AbstractRestAdminControllerTe
         User newUser = getNew();
         newUser.setEmail(USER_EMAIL_NOT_WELL_FORMED);
         create(newUser);
-
     }
 
     @Test

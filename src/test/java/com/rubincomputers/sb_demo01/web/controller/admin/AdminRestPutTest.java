@@ -1,4 +1,4 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.rest;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.model.User;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
 
-public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest {
+public class AdminRestPutTest extends AdminRestAbstract {
     @Test
     void updateUserWithoutIdWithIdInUrl() throws Exception {
         User updatedWithoutId = getUpdatedWoId();
@@ -29,7 +29,7 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest 
 
         User expectedUpdatedWithId = getUpdatedWithId();
         expectedUpdatedWithId.setId(USER_ID);
-        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID), UserMapper.dto(expectedUpdatedWithId));
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID), UserMapper.toDto(expectedUpdatedWithId));
     }
 
     @Test
@@ -43,7 +43,7 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest 
                 HttpStatus.NO_CONTENT
         );
 
-        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID), UserMapper.dto(getUpdatedWithId()));
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID), UserMapper.toDto(getUpdatedWithId()));
     }
 
     // user with id, but wrong id (exists) in url. should get IllegalRequestDataException
@@ -74,7 +74,7 @@ public class RestAdminControllerPutTest extends AbstractRestAdminControllerTest 
 
         User expectedUpdatedWithId = getUpdatedWoId();
         expectedUpdatedWithId.setId(USER_ID + 1);
-        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID + 1), UserMapper.dto(expectedUpdatedWithId));
+        USER_DTO_MATCHER.assertMatch(userService.getUserDTOById(USER_ID + 1), UserMapper.toDto(expectedUpdatedWithId));
     }
 
     // without id, with WRONG (not exists) id in url. it should throw exception NotFound

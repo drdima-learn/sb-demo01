@@ -14,11 +14,11 @@ public class UserMapper {
     private UserMapper() {
     }
 
-    public static List<UserDTO> dto(List<User> users) {
-        return users.stream().map(u -> dto(u)).collect(Collectors.toList());
+    public static List<UserDTO> toDto(List<User> users) {
+        return users.stream().map(u -> toDto(u)).collect(Collectors.toList());
     }
 
-    public static UserDTO dto(User user) {
+    public static UserDTO toDto(User user) {
         return UserDTO.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
@@ -29,7 +29,7 @@ public class UserMapper {
                 .build();
     }
 
-    public static User toUser(UserFormDTO ur) {
+    public static User toEntity(UserFormDTO ur) {
         return User.builder()
                 .id(ur.getId())
                 .firstName(ur.getFirstName())

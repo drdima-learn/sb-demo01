@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 /**
  * Factory for creating test matchers.
@@ -29,15 +28,11 @@ public class MatcherFactory {
         return new Matcher<>(clazz, assertion, iterableAssertion);
     }
 
-
-
     public static <T> Matcher<T> usingIgnoringFieldsComparator(Class<T> clazz, String... fieldsToIgnore) {
         return usingAssertions(clazz,
                 (a, e) -> assertThat(a).usingRecursiveComparison().ignoringFields(fieldsToIgnore).isEqualTo(e),
                 (a, e) -> assertThat(a).usingRecursiveFieldByFieldElementComparatorIgnoringFields(fieldsToIgnore).isEqualTo(e));
     }
-
-
 
     public static class Matcher<T> {
         private final Class<T> clazz;
@@ -49,7 +44,6 @@ public class MatcherFactory {
             this.assertion = assertion;
             this.iterableAssertion = iterableAssertion;
         }
-
 
         @SafeVarargs
         public final ResultMatcher contentJson(T... expected) {
@@ -64,16 +58,17 @@ public class MatcherFactory {
         public ResultMatcher contentJson(Iterable<T> expected) {
             return contentJson(null, expected);
         }
+
         public ResultMatcher contentJson(String resultFromField, Iterable<T> expected) {
             return result -> assertMatch(JsonUtil.readValues(getContent(result, resultFromField), clazz), expected);
             //return result -> assertMatch(JsonUtil.readValues(getContentForPage(result), clazz), expected);
         }
 
-
         @SafeVarargs
         public final void assertMatch(Iterable<T> actual, T... expected) {
             assertMatch(actual, List.of(expected));
         }
+
         public void assertMatch(Iterable<T> actual, Iterable<T> expected) {
             iterableAssertion.accept(actual, expected);
         }
@@ -82,13 +77,13 @@ public class MatcherFactory {
             return JsonUtil.readValue(getContent(action.andReturn()), clazz);
         }
 
-
         private static String getContent(MvcResult result) throws UnsupportedEncodingException {
-            return getContent(result,"");
+            return getContent(result, "");
         }
+
         private static String getContent(MvcResult result, String resultFromField) throws UnsupportedEncodingException {
             String contentAsString = result.getResponse().getContentAsString();
-            if (!StringUtils.hasText(resultFromField)){
+            if (!StringUtils.hasText(resultFromField)) {
                 return contentAsString;
             }
             JSONObject data = null;

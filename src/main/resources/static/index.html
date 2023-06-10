@@ -141,6 +141,38 @@ curl -s -i -X PUT -d '{"firstName":"", "lastName":"updated lastName", "birthDay"
 
 <h3>Delete User  GET</h3>
 <a target="_blank" href="http://localhost:8080/admin/users/delete/100000">http://localhost:8080/admin/users/delete/100000</a><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<p>=========================================================</p>
+<h1>Rest POSTS</h1><br>
+Profile posts
+<a target="_blank" href="http://localhost:8080/rest/profile/posts">http://localhost:8080/rest/profile/posts</a><br>
+<br>
+<br>
+<br>
+
+All Posts for everyone
+<a target="_blank" href="http://localhost:8080/rest/posts">http://localhost:8080/rest/posts</a><br>
+<br>
+<br>
+<br>
+
+
+
+
+All posts for user 100000 (for admin only)
+<a target="_blank" href="/rest/admin/users/100000/posts">/rest/admin/users/100000/posts</a><br>
+<br>
+<br>
+<br>
+<br>
+Create new Post
+curl -s -i -X POST -d '{"text":"New Post"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/profile/posts
+
 
 </body>
 </html>

@@ -21,6 +21,8 @@ public class UserTestData {
     public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "birthDay", "password");
 
     public static final long USER_ID = START_SEQ;
+    public static final long USER_ID_1 = USER_ID+1;
+    public static final long USER_ID_2 = USER_ID+2;
     public static final long USER_ID_NOT_EXISTS = 123L;
 
     public static final String USER_EMAIL = "vasya@gmail.com";
@@ -51,7 +53,7 @@ public class UserTestData {
 
     public static final List<User> allUsersEntity = List.of(user1, user2, user3, user4, user5,
             user6, user7, user8, user9, user10, user11, user12, user13, user14, user15, user16, user17, user18, user19, user20);
-    public static final List<UserDTO> allUsersDTO = UserMapper.dto(allUsersEntity);
+    public static final List<UserDTO> allUsersDTO = UserMapper.toDto(allUsersEntity);
 
     private static Date date(String dateString) {
         //String dateString = "2022-05-10"; // Example date string

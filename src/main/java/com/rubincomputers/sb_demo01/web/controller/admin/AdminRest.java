@@ -1,11 +1,13 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.rest;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
+import com.rubincomputers.sb_demo01.service.PostService;
+import com.rubincomputers.sb_demo01.service.dto.PostDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.model.User;
-import com.rubincomputers.sb_demo01.util.ValidationUtil;
-import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
+import com.rubincomputers.sb_demo01.web.controller.post.PostAbstract;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -20,16 +22,18 @@ import javax.validation.constraints.Email;
 import java.net.URI;
 import java.util.List;
 
-import static com.rubincomputers.sb_demo01.web.controller.admin.rest.RestAdminController.REST_URL;
+import static com.rubincomputers.sb_demo01.web.controller.admin.AdminRest.REST_URL;
 
 @Slf4j
 @RestController
 @RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Validated
-public class RestAdminController extends AbstractAdminController {
+public class AdminRest extends AdminAbstract {
 
     static final String REST_URL = "/rest/admin/users";
 
+    @Autowired
+    protected PostService postService;
 
     /**
      * {@code GET /admin/users} : get all users with all the details - calling this are only allowed for the administrators.
@@ -39,9 +43,12 @@ public class RestAdminController extends AbstractAdminController {
      */
     @GetMapping(value = {"", "/"})
     public Page<UserDTO> getUsers(Pageable pageable) {
+        onlyAllowedSortProperties(pageable, ALLOWED_ORDERED_PROPERTIES);
         log.debug("GET REST request to {} pageable {}", REST_URL, pageable);
         return userService.getAll(pageable);
     }
+
+
 
     @GetMapping("/list")
     public List<UserDTO> getUsersAsList(Pageable pageable) {
@@ -63,8 +70,8 @@ public class RestAdminController extends AbstractAdminController {
     }
 
     @PostMapping(value = {"", "/"}, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> createWithLocation(@Valid @RequestBody UserFormDTO userFormDTO) {
-        User created = super.create(userFormDTO);
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserFormDTO userFormDTO) {
+        UserDTO created = super.create(userFormDTO);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -91,4 +98,12 @@ public class RestAdminController extends AbstractAdminController {
     public void update(@Valid @RequestBody UserFormDTO userFormDTO, @PathVariable long id){
         super.update(userFormDTO, id);
     }
+
+    @GetMapping("/{userId}/posts")
+    public Page<PostDTO> getPostsByUserId(@PathVariable long userId, Pageable pageable) {
+        onlyAllowedSortProperties(pageable, PostAbstract.ALLOWED_ORDERED_PROPERTIES);
+        log.debug("GET REST request to {} pageable {}", REST_URL, pageable);
+        return postService.getPostsByUserId(userId, pageable);
+    }
+
 }

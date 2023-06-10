@@ -1,10 +1,9 @@
-package com.rubincomputers.sb_demo01.web.controller.admin.webpage;
+package com.rubincomputers.sb_demo01.web.controller.admin;
 
 import com.rubincomputers.sb_demo01.service.dto.UserDTO;
 import com.rubincomputers.sb_demo01.service.dto.UserFormDTO;
 import com.rubincomputers.sb_demo01.service.UserService;
-import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
-import com.rubincomputers.sb_demo01.web.controller.admin.AbstractAdminController;
+import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -19,17 +18,19 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 
 @Controller
 @Slf4j
-@RequestMapping(value = AdminController.WEBPAGE_URL)
+@RequestMapping(value = AdminWeb.WEBPAGE_URL)
 //@Validated //for checking email and other constrains
-public class AdminController extends AbstractAdminController {
+public class AdminWeb extends AdminAbstract {
 
     static final String WEBPAGE_URL = "/admin/users";
+
+
+
     @Autowired
     private UserService userService;
 
@@ -40,6 +41,7 @@ public class AdminController extends AbstractAdminController {
 
     @GetMapping(value = {"", "/"})
     public String getUsers(Model model, Pageable pageable) {
+        onlyAllowedSortProperties(pageable, ALLOWED_ORDERED_PROPERTIES);
         Page<UserDTO> userDTOPage = userService.getAll(pageable);
         model.addAttribute("users", userDTOPage);
         return "users";
@@ -70,7 +72,7 @@ public class AdminController extends AbstractAdminController {
 
         try {
             super.create(userFormDTO);
-             return "redirect:" + WEBPAGE_URL + getUrlWithSortParams(params) + (getUrlWithSortParams(params).isEmpty() ? "?" : "&") + "status=ok&email=" + userFormDTO.getEmail();
+            return getRedirectWithSortParams(params, userFormDTO);
         } catch (DataIntegrityViolationException ex) {
             result.rejectValue("email", "exception.user.duplicateEmail");
             return "userForm";
@@ -101,7 +103,7 @@ public class AdminController extends AbstractAdminController {
         }
 
         super.update(userFormDTO, id);
-        return "redirect:" + WEBPAGE_URL + getUrlWithSortParams(params) + "&status=ok&email=" + userFormDTO.getEmail();
+        return getRedirectWithSortParams(params, userFormDTO);
     }
 
     private String getUrlWithSortParams(Map<String, String> params){
@@ -119,5 +121,9 @@ public class AdminController extends AbstractAdminController {
         log.debug("User form has an errors");
         model.addAttribute("isEdit", isEdit);
         return "userForm";
+    }
+
+    private String getRedirectWithSortParams(Map<String, String> params, UserFormDTO userFormDTO){
+        return "redirect:" + WEBPAGE_URL + getUrlWithSortParams(params) + (getUrlWithSortParams(params).isEmpty() ? "?" : "&") + "status=ok&email=" + userFormDTO.getEmail();
     }
 }

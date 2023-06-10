@@ -24,12 +24,12 @@ import static com.rubincomputers.sb_demo01.model.Gender.MALE;
 @Table(name = "rc_user")
 public class User extends AbstractBaseEntity{
 
-    @NotBlank
+
     @Size(min = 2, max = 128)
     @Column(name = "first_name", length = 50, nullable = false)
     private String firstName;
 
-    @NotBlank
+
     @Size(min = 2, max = 128)
     @Column(name = "last_name", length = 50, nullable = false)
     private String lastName;
@@ -43,11 +43,12 @@ public class User extends AbstractBaseEntity{
     private Gender gender;
 
 
-    @Column(name = "email", nullable = false, unique = true)
     @Email
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
 
+    @Size(min = 2, max = 128)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private String password;
@@ -59,18 +60,11 @@ public class User extends AbstractBaseEntity{
 
 
     public User(Long id, String firstName, String lastName, Date birthDay, Gender gender, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDay = birthDay;
-        this.gender = gender;
-        this.email = email;
-        this.password = "no password";
-        this.role = Role.USER;
+        this(id, firstName, lastName, birthDay, gender, email,"no password",Role.USER );
     }
 
     public User(Long id, String firstName, String lastName, Date birthDay, Gender gender, String email, String password, Role role) {
-        this.id = id;
+        super(id);
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDay = birthDay;
@@ -80,15 +74,7 @@ public class User extends AbstractBaseEntity{
         this.role = role;
     }
 
-    //public static final User user3 = new User(USER_ID + 2, "vasya3@gmail.com", "Vasya3", "Pupkin3", MALE, date("1982-06-03"));
     public User(Long id, String email, String firstName, String lastName, Gender gender, Date birthDay, String password, Role role) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDay = birthDay;
-        this.gender = gender;
-        this.email = email;
-        this.password = password;
-        this.role = role;
+        this(id, firstName, lastName, birthDay, gender, email,"no password",role );
     }
 }
