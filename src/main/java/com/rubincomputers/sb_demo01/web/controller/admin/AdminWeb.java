@@ -24,7 +24,6 @@ import java.util.*;
 @Controller
 @Slf4j
 @RequestMapping(value = AdminWeb.WEBPAGE_URL)
-//@Validated //for checking email and other constrains
 public class AdminWeb extends AdminAbstract {
 
     static final String WEBPAGE_URL = "/admin/users";
