@@ -1,5 +1,6 @@
 package com.rubincomputers.sb_demo01.web.controller.post;
 
+import com.rubincomputers.sb_demo01.model.Post;
 import com.rubincomputers.sb_demo01.service.dto.PostDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,7 +19,6 @@ import static com.rubincomputers.sb_demo01.web.controller.post.PostRest.REST_URL
 @Validated
 public class PostRest extends PostAbstract {
     static final String REST_URL = "/rest/posts";
-
 
     @GetMapping(value = {"", "/"})
     public Page<PostDTO> getPosts(Pageable pageable) {

@@ -21,6 +21,8 @@ public class UserTestData {
     public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "birthDay", "password");
 
     public static final long USER_ID = START_SEQ;
+    public static final long USER_ID_1 = USER_ID+1;
+    public static final long USER_ID_2 = USER_ID+2;
     public static final long USER_ID_NOT_EXISTS = 123L;
 
     public static final String USER_EMAIL = "vasya@gmail.com";

@@ -5,6 +5,7 @@ import com.rubincomputers.sb_demo01.repository.PostRepository;
 import com.rubincomputers.sb_demo01.repository.UserRepository;
 import com.rubincomputers.sb_demo01.service.dto.PostDTO;
 import com.rubincomputers.sb_demo01.service.mapper.PostMapper;
+import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,11 @@ public class PostService {
         return postRepository.findAll(pageable).map(PostMapper::toDto);
     }
 
+    public Page<Post> getAllWithUser(Pageable pageable) {
+        Page<Post> all = postRepository.findAll(pageable);
+        return all;
+    }
+
     public Page<PostDTO> getPostsByUserId(long userId, Pageable pageable) {
         return postRepository.getByUserId(userId, pageable).map(PostMapper::toDto);
     }
@@ -41,6 +47,9 @@ public class PostService {
 
 
     public PostDTO getPost(long postId, long userId) {
-        return PostMapper.toDto(postRepository.getByIdAndUserId(postId, userId));
+        return postRepository.getByIdAndUserId(postId, userId).map(PostMapper::toDto)
+                .orElseThrow(() -> new NotFoundException("postId=" + postId + " , userId=" + userId));
     }
+
+
 }

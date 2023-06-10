@@ -1,5 +1,6 @@
 package com.rubincomputers.sb_demo01.web.controller.admin;
 
+import com.rubincomputers.sb_demo01.service.mapper.PostMapper;
 import com.rubincomputers.sb_demo01.service.mapper.UserMapper;
 import com.rubincomputers.sb_demo01.util.exception.BadSortParameter;
 import com.rubincomputers.sb_demo01.util.exception.NotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 
 import javax.validation.ConstraintViolationException;
 
+import static com.rubincomputers.sb_demo01.data.PostTestData.*;
 import static com.rubincomputers.sb_demo01.data.UserTestData.*;
 import static com.rubincomputers.sb_demo01.service.mapper.UserMapper.toDto;
 
@@ -101,6 +103,24 @@ public class AdminRestGetTest extends AdminRestAbstract {
                 REST_URL + "/by-email?email=" + USER_EMAIL_NOT_WELL_FORMED,
                 HttpStatus.BAD_REQUEST,
                 ConstraintViolationException.class
+        );
+    }
+
+    @Test
+    void getPostsByUserId() throws Exception {
+        restTest(HttpMethod.GET,
+                REST_URL + USER_ID + "/posts",
+                HttpStatus.OK,
+                POST_DTO_MATCHER.contentJson("content", PostMapper.toDto(post1), PostMapper.toDto(post2), PostMapper.toDto(post3))
+        );
+    }
+
+    @Test
+    void getPostsEmptyByUserId() throws Exception {
+        restTest(HttpMethod.GET,
+                REST_URL + USER_ID_2 + "/posts",
+                HttpStatus.OK,
+                POST_DTO_MATCHER.contentJson("content") //expect empty array
         );
     }
 }

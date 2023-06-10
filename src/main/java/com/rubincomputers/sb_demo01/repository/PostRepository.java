@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> getByUserId(long userId, Pageable pageable);
 
-    Post getByIdAndUserId(long postId, long userId);
+    Optional<Post> getByIdAndUserId(long postId, long userId);
 
 }

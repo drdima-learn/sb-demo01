@@ -22,12 +22,17 @@ import static com.rubincomputers.sb_demo01.web.controller.profile.ProfileRest.RE
 public class ProfileRest extends ProfileAbstract {
     static final String REST_URL = "/rest/profile";
 
-
     @GetMapping(value = {"/posts"})
     public Page<PostDTO> getUserPosts(Pageable pageable) {
         onlyAllowedSortProperties(pageable, ALLOWED_ORDERED_PROPERTIES);
         long userId = SecurityUtil.authUserId();
         return postService.getPostsByUserId(userId, pageable);
+    }
+
+    @GetMapping(value = {"/posts/{postId}"})
+    public PostDTO getPost(@PathVariable long postId) {
+        long userId = SecurityUtil.authUserId();
+        return postService.getPost(postId, userId);
     }
 
     @PostMapping(value = {"/posts"}, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -37,12 +42,6 @@ public class ProfileRest extends ProfileAbstract {
                 .path(REST_URL + "/posts/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
-    }
-
-    @GetMapping(value = {"/posts/{postId}"})
-    public PostDTO getPost(@PathVariable long postId) {
-        long userId = SecurityUtil.authUserId();
-        return postService.getPost(postId, userId);
     }
 
 }

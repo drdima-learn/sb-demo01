@@ -24,6 +24,7 @@ public class PostTestData {
     public static final MatcherFactory.Matcher<Post> POST_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Post.class);
 
     public static final long POST_ID = START_SEQ+20;
+    public static final long POST_ID_NOT_EXISTS = 4323;
 
     public static final Post post1 = new Post(POST_ID, "post1 100000", user1);
     public static final Post post2 = new Post(POST_ID+1, "post2 100000", user1);
